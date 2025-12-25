@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>रोगी सूचना फॉर्म</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            padding: 15px;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.3) 50%,
+                rgba(255,255,255,0) 100%
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-content {
+            padding: 25px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .section:hover::before {
+            opacity: 1;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Section 1: Wellness Coach - Purple Gradient */
+        .section:nth-child(1) {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-left-color: #667eea;
+        }
+
+        .section:nth-child(1) .section-title {
+            color: white;
+        }
+
+        .section:nth-child(1) label {
+            color: rgba(255,255,255,0.95);
+        }
+
+        .section:nth-child(1) .helper-text {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Section 2: Basic Information - Blue Gradient */
+        .section:nth-child(2) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            border-left-color: #4facfe;
+        }
+
+        .section:nth-child(2) .section-title {
+            color: white;
+        }
+
+        .section:nth-child(2) label {
+            color: rgba(255,255,255,0.95);
+        }
+
+        .section:nth-child(2) .helper-text {
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* Section 3: Chief Complaint - Pink Gradient */
+        .section:nth-child(3) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-left-color: #f093fb;
+        }
+
+        .section:nth-child(3) .section-title {
+            color: white;
+        }
+
+        .section:nth-child(3) label {
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* Section 4: Addiction & Surgery - Orange Gradient */
+        .section:nth-child(4) {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-left-color: #fa709a;
+        }
+
+        .section:nth-child(4) .section-title {
+            color: white;
+        }
+
+        .section:nth-child(4) label {
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* Section 5: Medical History - Green Gradient */
+        .section:nth-child(5) {
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+            border-left-color: #30cfd0;
+        }
+
+        .section:nth-child(5) .section-title {
+            color: white;
+        }
+
+        .section:nth-child(5) label {
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* Section 6: Gynecology - Teal Gradient */
+        .section:nth-child(6) {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-left-color: #a8edea;
+        }
+
+        .section:nth-child(6) .section-title {
+            color: #333;
+        }
+
+        .section:nth-child(6) label {
+            color: #555;
+        }
+
+        .section:nth-child(6) .helper-text {
+            color: #666;
+        }
+
+        /* Section 7: Current Medications - Red Gradient */
+        .section:nth-child(7) {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            border-left-color: #ff6b6b;
+        }
+
+        .section:nth-child(7) .section-title {
+            color: white;
+        }
+
+        .section:nth-child(7) label {
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* Section 8: Investigation - Indigo Gradient */
+        .section:nth-child(8) {
+            background: linear-gradient(135deg, #5f72bd 0%, #9b23ea 100%);
+            border-left-color: #5f72bd;
+        }
+
+        .section:nth-child(8) .section-title {
+            color: white;
+        }
+
+        .section:nth-child(8) label {
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* Section 9: Vital Signs - Lime Gradient */
+        .section:nth-child(9) {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+            border-left-color: #56ab2f;
+        }
+
+        .section:nth-child(9) .section-title {
+            color: white;
+        }
+
+        .section:nth-child(9) label {
+            color: rgba(255,255,255,0.95);
+        }
+
+        .section:nth-child(9) .helper-text {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section-title::before {
+            font-size: 24px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .section:hover .section-title::before {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        /* Section Icons */
+        .section:nth-child(1) .section-title::before { content: "🎯"; }
+        .section:nth-child(2) .section-title::before { content: "👤"; }
+        .section:nth-child(3) .section-title::before { content: "🩺"; }
+        .section:nth-child(4) .section-title::before { content: "🚭"; }
+        .section:nth-child(5) .section-title::before { content: "📋"; }
+        .section:nth-child(6) .section-title::before { content: "👩"; }
+        .section:nth-child(7) .section-title::before { content: "💊"; }
+        .section:nth-child(8) .section-title::before { content: "🔬"; }
+        .section:nth-child(9) .section-title::before { content: "❤️"; }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #666;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #FFFFFF;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            color: #000;
+            font-weight: 500;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #000;
+            background: #FFFFFF;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .button-select-group {
+                flex-direction: column;
+            }
+
+            .button-select-label {
+                padding: 12px 16px;
+            }
+
+            .submit-btn {
+                font-size: 15px;
+                padding: 12px 20px;
+                gap: 8px;
+            }
+
+            .btn-icon {
+                font-size: 20px;
+                margin-right: 3px;
+            }
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .button-select-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .button-select-group input[type="radio"] {
+            display: none;
+        }
+
+        .button-select-label {
+            display: inline-block;
+            padding: 12px 24px;
+            background: #FFFFFF;
+            border: 3px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            flex: 1;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            color: #000000 !important;
+        }
+
+        .button-select-group input[type="radio"]:checked + .button-select-label {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: #FFFFFF !important;
+            border-color: #4CAF50;
+            transform: scale(1.08);
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.5);
+            font-weight: 800;
+        }
+
+        .button-select-label:hover {
+            border-color: #4CAF50;
+            background: #f9f9f9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            color: #000000 !important;
+        }
+
+        .button-select-group input[type="radio"]:checked + .button-select-label:hover {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: #FFFFFF !important;
+        }
+
+        .checkbox-label {
+            display: inline-block;
+            padding: 10px 18px;
+            background: #FFFFFF;
+            border: 3px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            color: #000000 !important;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"]:checked + .checkbox-label {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: #FFFFFF !important;
+            border-color: #4CAF50;
+            font-weight: 800;
+            transform: scale(1.08);
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.5);
+        }
+
+        .checkbox-label:hover {
+            background: #f9f9f9;
+            border-color: #4CAF50;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            color: #000000 !important;
+        }
+
+        #gynecoSection {
+            display: none;
+        }
+
+        #gynecoSection.visible {
+            display: block;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        @media (min-width: 768px) {
+            .button-group {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .submit-btn {
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 700;
+            border: 3px solid;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #000000;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-icon {
+            font-size: 22px;
+            display: inline-block;
+            transition: transform 0.3s ease;
+            margin-right: 5px;
+            filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+        }
+
+        .submit-btn:hover .btn-icon {
+            transform: scale(1.3) rotate(5deg);
+        }
+
+        .submit-btn:active .btn-icon {
+            transform: scale(1.1);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            z-index: 0;
+        }
+
+        .submit-btn:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .submit-btn span,
+        .submit-btn .btn-icon {
+            position: relative;
+            z-index: 1;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+            border-color: #667eea;
+        }
+
+        .btn-pdf:hover {
+            background: linear-gradient(135deg, #c5cae9 0%, #9fa8da 100%);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border-color: #25D366;
+        }
+
+        .btn-whatsapp:hover {
+            background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+        }
+
+        .btn-arattai {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-color: #FF6B6B;
+        }
+
+        .btn-arattai:hover {
+            background: linear-gradient(135deg, #ffcdd2 0%, #ef9a9a 100%);
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            flex-direction: column;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .loading-text {
+            color: white;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: #00b894;
+            color: white;
+            padding: 25px 40px;
+            border-radius: 15px;
+            z-index: 1000;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .success-message.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* 
+        COLOR SCHEME - HIGH CONTRAST & MODERN:
+        - All Buttons/Checkboxes: White bg + Pure Black text (#000) → Green bg + White text (Selected)
+        - Green Gradient: #4CAF50 → #45a049 (Material Design Green)
+        - Border: Light grey (default) → Green (selected/hover)
+        - Font: Bold (700) → Extra Bold (800) when selected
+        - Icons: PDF (📄), WhatsApp (📱), Arattai (💬)
+        */
+
+        .bmi-display {
+            background: linear-gradient(135deg, #FF6B6B 0%, #C44569 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+                transform: scale(1);
+            }
+            50% {
+                box-shadow: 0 6px 25px rgba(255, 107, 107, 0.6);
+                transform: scale(1.02);
+            }
+        }
+
+        .bmi-value {
+            font-size: 28px;
+            margin: 8px 0;
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #000;
+            margin-top: 4px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 रोगी सूचना फॉर्म</h1>
+            <p>Patient Information Form</p>
+        </div>
+
+        <div class="form-content">
+            <form id="patientForm">
+                <!-- Wellness Coach -->
+                <div class="section">
+                    <div class="section-title">Wellness Coach Details</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>DNW ID <span class="required">*</span></label>
+                            <input type="text" id="dnwId" inputmode="numeric" placeholder="Enter ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Name <span class="required">*</span></label>
+                            <input type="text" id="referralName" placeholder="Enter name" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Mobile <span class="required">*</span></label>
+                        <input type="tel" id="referralMobile" inputmode="numeric" placeholder="10 digit mobile" maxlength="10" required>
+                    </div>
+                </div>
+
+                <!-- Basic Information -->
+                <div class="section">
+                    <div class="section-title">Basic Information</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Patient Name <span class="required">*</span></label>
+                            <input type="text" id="name" placeholder="Enter full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>DOB (DD-MM-YYYY) <span class="required">*</span></label>
+                            <input type="text" id="dob" inputmode="numeric" placeholder="15-03-1990" maxlength="10" required>
+                            <div class="helper-text">📅 Format: Day-Month-Year</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Age <span class="required">*</span></label>
+                            <input type="text" id="age" inputmode="numeric" placeholder="Age" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Gender <span class="required">*</span></label>
+                            <div class="button-select-group">
+                                <input type="radio" id="genderMale" name="gender" value="Male" required>
+                                <label for="genderMale" class="button-select-label">👨 Male | पुरुष</label>
+                                
+                                <input type="radio" id="genderFemale" name="gender" value="Female" required>
+                                <label for="genderFemale" class="button-select-label">👩 Female | महिला</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mobile <span class="required">*</span></label>
+                            <input type="tel" id="mobile" inputmode="numeric" placeholder="10 digit mobile" maxlength="10" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Father's/Husband's Name</label>
+                            <input type="text" id="fatherHusband" placeholder="Enter name">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Address <span class="required">*</span></label>
+                            <input type="text" id="address" placeholder="Complete address" required>
+                        </div>
+                        <div class="form-group">
+                            <label>PIN Code <span class="required">*</span></label>
+                            <input type="text" id="pin" inputmode="numeric" placeholder="6 digit PIN" maxlength="6" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chief Complaint -->
+                <div class="section">
+                    <div class="section-title">Chief Complaint</div>
+                    <div class="form-group">
+                        <label>Main Complaint <span class="required">*</span></label>
+                        <textarea id="complaint" placeholder="Describe main complaint" required></textarea>
+                    </div>
+                </div>
+
+                <!-- Addiction & Surgery -->
+                <div class="section">
+                    <div class="section-title">Addiction & Surgery History</div>
+                    <div class="form-group">
+                        <label>Addiction</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="smoking" name="addiction" value="Smoking">
+                            <label for="smoking" class="checkbox-label">🚬 Smoking</label>
+                            
+                            <input type="checkbox" id="alcohol" name="addiction" value="Alcohol">
+                            <label for="alcohol" class="checkbox-label">🍺 Alcohol</label>
+                            
+                            <input type="checkbox" id="tobacco" name="addiction" value="Tobacco">
+                            <label for="tobacco" class="checkbox-label">🌿 Tobacco</label>
+                            
+                            <input type="checkbox" id="noAddiction" name="addiction" value="None">
+                            <label for="noAddiction" class="checkbox-label">✅ None</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Past Surgery History</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="appendicectomy" name="surgery" value="Appendicectomy">
+                            <label for="appendicectomy" class="checkbox-label">🏥 Appendicectomy</label>
+                            
+                            <input type="checkbox" id="cholecystectomy" name="surgery" value="Cholecystectomy">
+                            <label for="cholecystectomy" class="checkbox-label">🏥 Cholecystectomy</label>
+                            
+                            <input type="checkbox" id="hernia" name="surgery" value="Hernia">
+                            <label for="hernia" class="checkbox-label">🏥 Hernia</label>
+                            
+                            <input type="checkbox" id="cesarean" name="surgery" value="C-Section">
+                            <label for="cesarean" class="checkbox-label">👶 C-Section</label>
+                            
+                            <input type="checkbox" id="hysterectomy" name="surgery" value="Hysterectomy">
+                            <label for="hysterectomy" class="checkbox-label">🏥 Hysterectomy</label>
+                            
+                            <input type="checkbox" id="fracture" name="surgery" value="Fracture">
+                            <label for="fracture" class="checkbox-label">🦴 Fracture</label>
+                            
+                            <input type="checkbox" id="noSurgery" name="surgery" value="None">
+                            <label for="noSurgery" class="checkbox-label">✅ None</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Other Surgery Details (Optional)</label>
+                        <textarea id="surgeryOther" placeholder="अन्य सर्जरी का विवरण | Other surgery details"></textarea>
+                    </div>
+                </div>
+
+                <!-- Medical History -->
+                <div class="section">
+                    <div class="section-title">Medical History</div>
+                    <div class="form-group">
+                        <label>Medical History</label>
+                        <textarea id="medicalHistory" placeholder="Diabetes, BP, Heart disease, etc."></textarea>
+                    </div>
+                </div>
+
+                <!-- Gynecology Section -->
+                <div class="section" id="gynecoSection">
+                    <div class="section-title">Gynecology Information</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Menopause</label>
+                            <div class="button-select-group">
+                                <input type="radio" id="menopauseYes" name="menopause" value="Yes">
+                                <label for="menopauseYes" class="button-select-label">✅ Yes</label>
+                                
+                                <input type="radio" id="menopauseNo" name="menopause" value="No">
+                                <label for="menopauseNo" class="button-select-label">❌ No</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>LMP</label>
+                            <input type="text" id="lmp" inputmode="numeric" placeholder="DD-MM-YYYY" maxlength="10">
+                            <div class="helper-text">📅 Last Menstrual Period</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Cycle (days)</label>
+                            <input type="text" id="cycle" inputmode="numeric" placeholder="e.g., 28">
+                        </div>
+                        <div class="form-group">
+                            <label>Duration (days)</label>
+                            <input type="text" id="duration" inputmode="numeric" placeholder="e.g., 5">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Total Children</label>
+                            <input type="text" id="totalChild" inputmode="numeric" placeholder="Number">
+                        </div>
+                        <div class="form-group">
+                            <label>Last Child Age (years)</label>
+                            <input type="text" id="lastChildAge" inputmode="numeric" placeholder="Age">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Medications -->
+                <div class="section">
+                    <div class="section-title">Current Medications</div>
+                    <div class="form-group">
+                        <label>Current Medicines</label>
+                        <textarea id="onMedicines" placeholder="List current medications"></textarea>
+                    </div>
+                </div>
+
+                <!-- Investigation -->
+                <div class="section">
+                    <div class="section-title">Recent Investigation</div>
+                    <div class="form-group">
+                        <label>Recent Tests/Reports</label>
+                        <textarea id="investigation" placeholder="Blood tests, X-rays, scans, etc."></textarea>
+                    </div>
+                </div>
+
+                <!-- Vitals -->
+                <div class="section">
+                    <div class="section-title">Vital Signs</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>BP (mmHg) <span class="required">*</span></label>
+                            <input type="text" id="bp" placeholder="e.g., 120/80" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Pulse (bpm) <span class="required">*</span></label>
+                            <input type="text" id="pulse" inputmode="numeric" placeholder="e.g., 72" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Temp (°F) <span class="required">*</span></label>
+                            <input type="text" id="temp" inputmode="decimal" placeholder="e.g., 98.6" required>
+                        </div>
+                        <div class="form-group">
+                            <label>RR (breaths/min) <span class="required">*</span></label>
+                            <input type="text" id="rr" inputmode="numeric" placeholder="e.g., 18" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>SpO2 (%) <span class="required">*</span></label>
+                            <input type="text" id="spo2" inputmode="numeric" placeholder="e.g., 98" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Weight (kg) <span class="required">*</span></label>
+                            <input type="text" id="weight" inputmode="decimal" placeholder="e.g., 70" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Height (cm) <span class="required">*</span></label>
+                            <input type="text" id="height" inputmode="decimal" placeholder="e.g., 170" required>
+                        </div>
+                        <div class="form-group">
+                            <div id="bmiDisplay" class="bmi-display">
+                                <div>BMI</div>
+                                <div class="bmi-value" id="bmiValue">--</div>
+                                <div id="bmiCategory">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="button-group">
+                    <button type="button" class="submit-btn btn-pdf" onclick="handleDownloadPDF()">
+                        <span class="btn-icon">📄</span> Download PDF
+                    </button>
+                    <button type="button" class="submit-btn btn-whatsapp" onclick="handleWhatsAppShare()">
+                        <span class="btn-icon whatsapp-icon">📱</span> Send via WhatsApp
+                    </button>
+                    <button type="button" class="submit-btn btn-arattai" onclick="handleArattaiShare()">
+                        <span class="btn-icon">💬</span> Send via Arattai
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loadingText">Creating PDF...</div>
+    </div>
+
+    <div id="successMessage" class="success-message">
+        ✅ Success!
+    </div>
+
+    <script>
+        // Gender change handler
+        const genderRadios = document.querySelectorAll('input[name="gender"]');
+        genderRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                const gynecoSection = document.getElementById('gynecoSection');
+                setTimeout(function() {
+                    const selectedGender = document.querySelector('input[name="gender"]:checked');
+                    if (selectedGender && selectedGender.value === 'Female') {
+                        gynecoSection.classList.add('visible');
+                    } else {
+                        gynecoSection.classList.remove('visible');
+                    }
+                }, 50);
+            });
+        });
+
+        // DOB formatting
+        document.getElementById('dob').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) value = value.substring(0, 2) + '-' + value.substring(2);
+            if (value.length >= 5) value = value.substring(0, 5) + '-' + value.substring(5);
+            if (value.length > 10) value = value.substring(0, 10);
+            e.target.value = value;
+            
+            if (value.length === 10) {
+                const parts = value.split('-');
+                const dob = new Date(parts[2], parts[1] - 1, parts[0]);
+                const today = new Date();
+                let age = today.getFullYear() - dob.getFullYear();
+                const m = today.getMonth() - dob.getMonth();
+                if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+                if (age >= 0 && age <= 150) document.getElementById('age').value = age;
+            }
+        });
+
+        // LMP formatting
+        document.getElementById('lmp').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) value = value.substring(0, 2) + '-' + value.substring(2);
+            if (value.length >= 5) value = value.substring(0, 5) + '-' + value.substring(5);
+            if (value.length > 10) value = value.substring(0, 10);
+            e.target.value = value;
+        });
+
+        // BMI calculation
+        function calculateBMI() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            
+            if (weight > 0 && height > 0) {
+                const bmi = (weight / ((height/100) * (height/100))).toFixed(1);
+                let category = '';
+                if (bmi < 18.5) category = 'Underweight';
+                else if (bmi < 25) category = 'Normal';
+                else if (bmi < 30) category = 'Overweight';
+                else category = 'Obese';
+                
+                document.getElementById('bmiValue').textContent = bmi;
+                document.getElementById('bmiCategory').textContent = category;
+                document.getElementById('bmiDisplay').style.display = 'block';
+            }
+        }
+
+        document.getElementById('weight').addEventListener('change', calculateBMI);
+        document.getElementById('height').addEventListener('change', calculateBMI);
+
+        // Get checkbox values
+        function getCheckboxValues(name) {
+            const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+            return Array.from(checkboxes).map(cb => cb.value).join(', ') || 'None';
+        }
+
+        // Collect form data
+        function collectFormData() {
+            const genderRadio = document.querySelector('input[name="gender"]:checked');
+            const menopauseRadio = document.querySelector('input[name="menopause"]:checked');
+            
+            return {
+                dnwId: document.getElementById('dnwId').value,
+                referralName: document.getElementById('referralName').value,
+                referralMobile: document.getElementById('referralMobile').value,
+                name: document.getElementById('name').value,
+                dob: document.getElementById('dob').value,
+                age: document.getElementById('age').value,
+                gender: genderRadio ? genderRadio.value : '',
+                mobile: document.getElementById('mobile').value,
+                fatherHusband: document.getElementById('fatherHusband').value,
+                address: document.getElementById('address').value,
+                pin: document.getElementById('pin').value,
+                complaint: document.getElementById('complaint').value,
+                addiction: getCheckboxValues('addiction'),
+                surgery: getCheckboxValues('surgery'),
+                surgeryOther: document.getElementById('surgeryOther').value,
+                medicalHistory: document.getElementById('medicalHistory').value,
+                menopause: menopauseRadio ? menopauseRadio.value : '',
+                lmp: document.getElementById('lmp').value,
+                cycle: document.getElementById('cycle').value,
+                duration: document.getElementById('duration').value,
+                totalChild: document.getElementById('totalChild').value,
+                lastChildAge: document.getElementById('lastChildAge').value,
+                onMedicines: document.getElementById('onMedicines').value,
+                investigation: document.getElementById('investigation').value,
+                bp: document.getElementById('bp').value,
+                pulse: document.getElementById('pulse').value,
+                temp: document.getElementById('temp').value,
+                rr: document.getElementById('rr').value,
+                spo2: document.getElementById('spo2').value,
+                weight: document.getElementById('weight').value,
+                height: document.getElementById('height').value,
+                bmi: document.getElementById('bmiValue').textContent,
+                bmiCategory: document.getElementById('bmiCategory').textContent
+            };
+        }
+
+        // Handle PDF Download
+        async function handleDownloadPDF() {
+            if (!document.getElementById('patientForm').checkValidity()) {
+                alert('कृपया सभी आवश्यक फ़ील्ड भरें | Please fill all required fields');
+                return;
+            }
+
+            const data = collectFormData();
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('loadingText').textContent = 'Creating PDF...';
+
+            try {
+                await generatePDF(data);
+                document.getElementById('successMessage').textContent = '✅ PDF Created Successfully!';
+                document.getElementById('successMessage').classList.add('active');
+                setTimeout(() => {
+                    document.getElementById('successMessage').classList.remove('active');
+                }, 2000);
+            } catch (error) {
+                alert('Error generating PDF');
+            } finally {
+                document.getElementById('loading').classList.remove('active');
+            }
+        }
+
+        // Handle WhatsApp Share with PDF
+        async function handleWhatsAppShare() {
+            if (!document.getElementById('patientForm').checkValidity()) {
+                alert('कृपया सभी आवश्यक फ़ील्ड भरें | Please fill all required fields');
+                return;
+            }
+
+            const data = collectFormData();
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('loadingText').textContent = 'Preparing PDF for WhatsApp...';
+
+            try {
+                // Generate PDF and get blob
+                const pdfBlob = await generatePDFBlob(data);
+                
+                // Create filename: ID_Name_Mobile.pdf
+                const filename = `${data.dnwId}_${data.name}_${data.mobile}.pdf`;
+                
+                // Create file from blob
+                const file = new File([pdfBlob], filename, { type: 'application/pdf' });
+                
+                // Check if Web Share API is available (for mobile)
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        title: `Patient Information - ${data.name}`,
+                        text: `Patient: ${data.name}, Age: ${data.age}, Gender: ${data.gender}`,
+                        files: [file]
+                    });
+                    
+                    document.getElementById('successMessage').textContent = '✅ Shared Successfully!';
+                    document.getElementById('successMessage').classList.add('active');
+                    setTimeout(() => {
+                        document.getElementById('successMessage').classList.remove('active');
+                    }, 2000);
+                } else {
+                    // Fallback: Download PDF and show WhatsApp message
+                    const url = URL.createObjectURL(pdfBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    
+                    // Open WhatsApp with text message
+                    setTimeout(() => {
+                        const message = `🏥 *Patient Information*\n\n*Name:* ${data.name}\n*Age:* ${data.age}\n*Gender:* ${data.gender}\n*Mobile:* ${data.mobile}\n\n📄 PDF: ${filename}\n\nPDF has been downloaded. Please attach and send it.`;
+                        window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+                    }, 500);
+                    
+                    alert(`📱 PDF downloaded as: ${filename}\n\nPlease attach it manually in WhatsApp.`);
+                }
+            } catch (error) {
+                console.error('Share error:', error);
+                alert('Could not share via WhatsApp. PDF will be downloaded instead.');
+                await handleDownloadPDF();
+            } finally {
+                document.getElementById('loading').classList.remove('active');
+            }
+        }
+
+        // Handle Arattai Share with PDF
+        async function handleArattaiShare() {
+            if (!document.getElementById('patientForm').checkValidity()) {
+                alert('कृपया सभी आवश्यक फ़ील्ड भरें | Please fill all required fields');
+                return;
+            }
+
+            const data = collectFormData();
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('loadingText').textContent = 'Preparing PDF for Arattai...';
+
+            try {
+                // Generate PDF and get blob
+                const pdfBlob = await generatePDFBlob(data);
+                
+                // Create filename: ID_Name_Mobile.pdf
+                const filename = `${data.dnwId}_${data.name}_${data.mobile}.pdf`;
+                
+                // Create file from blob
+                const file = new File([pdfBlob], filename, { type: 'application/pdf' });
+                
+                // Check if Web Share API is available (for mobile)
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        title: `Patient Information - ${data.name}`,
+                        text: `Patient: ${data.name}, Age: ${data.age}, Gender: ${data.gender}`,
+                        files: [file]
+                    });
+                    
+                    document.getElementById('successMessage').textContent = '✅ Shared Successfully!';
+                    document.getElementById('successMessage').classList.add('active');
+                    setTimeout(() => {
+                        document.getElementById('successMessage').classList.remove('active');
+                    }, 2000);
+                } else {
+                    // Fallback: Download PDF and show Arattai message
+                    const url = URL.createObjectURL(pdfBlob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    
+                    // Open Arattai with text message (if Arattai has share URL)
+                    setTimeout(() => {
+                        const message = `🏥 *Patient Information*\n\n*Name:* ${data.name}\n*Age:* ${data.age}\n*Gender:* ${data.gender}\n*Mobile:* ${data.mobile}\n\n📄 PDF: ${filename}\n\nPDF has been downloaded. Please attach and send it.`;
+                        // Arattai share URL (adjust if needed)
+                        window.open(`https://arattai.com/share?text=${encodeURIComponent(message)}`, '_blank');
+                    }, 500);
+                    
+                    alert(`💬 PDF downloaded as: ${filename}\n\nPlease attach it manually in Arattai.`);
+                }
+            } catch (error) {
+                console.error('Share error:', error);
+                alert('Could not share via Arattai. PDF will be downloaded instead.');
+                await handleDownloadPDF();
+            } finally {
+                document.getElementById('loading').classList.remove('active');
+            }
+        }
+
+        // Generate PDF (for download)
+        async function generatePDF(data) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const leftMargin = 15;
+            const rightMargin = pageWidth - 15;
+            let yPos = 20;
+            const lineHeight = 5;
+            
+            // Header
+            doc.setFillColor(102, 126, 234);
+            doc.rect(0, 0, pageWidth, 30, 'F');
+            doc.setFillColor(255, 255, 255);
+            doc.circle(pageWidth / 2, 15, 8, 'F');
+            doc.setFontSize(20);
+            doc.setTextColor(102, 126, 234);
+            doc.text('🏥', pageWidth / 2 - 3, 18);
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(255, 255, 255);
+            doc.text('Patient Information Form', pageWidth/2, 22, { align: 'center' });
+            
+            doc.setTextColor(0, 0, 0);
+            yPos = 38;
+            
+            // Helper function for section header
+            function addSection(title) {
+                if (yPos > pageHeight - 40) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'bold');
+                doc.setFillColor(102, 126, 234);
+                doc.rect(leftMargin, yPos - 3, 180, 5, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.text(title, leftMargin + 2, yPos);
+                doc.setTextColor(0, 0, 0);
+                yPos += 7;
+            }
+            
+            // Helper function for wrapped text (max 70 characters per line)
+            function addWrappedText(label, value, maxChars = 70) {
+                if (yPos > pageHeight - 30) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                doc.setFontSize(8);
+                doc.setFont(undefined, 'bold');
+                doc.text(label + ':', leftMargin + 2, yPos);
+                doc.setFont(undefined, 'normal');
+                
+                if (!value || value === 'None' || value.trim() === '') {
+                    doc.text('-', leftMargin + 40, yPos);
+                    yPos += lineHeight;
+                } else {
+                    const lines = doc.splitTextToSize(value, maxChars);
+                    doc.text(lines, leftMargin + 40, yPos);
+                    yPos += lineHeight * lines.length;
+                }
+            }
+            
+            // 1. Wellness Coach Details - 1 line: ID, Name, Mobile
+            addSection('Wellness Coach Details');
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            doc.text(`ID: DNW${data.dnwId} | Name: ${data.referralName} | Mobile: ${data.referralMobile}`, leftMargin + 2, yPos);
+            yPos += 7;
+            
+            // 2. Basic Information - 4 lines
+            addSection('Basic Information');
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            // Line 1: Name, DOB, Age
+            doc.text(`Name: ${data.name} | DOB: ${data.dob} | Age: ${data.age} years`, leftMargin + 2, yPos);
+            yPos += lineHeight;
+            // Line 2: Gender, Father/Husband Name
+            doc.text(`Gender: ${data.gender} | Father/Husband: ${data.fatherHusband || '-'}`, leftMargin + 2, yPos);
+            yPos += lineHeight;
+            // Line 3: Address
+            const addressLines = doc.splitTextToSize(`Address: ${data.address}`, 170);
+            doc.text(addressLines, leftMargin + 2, yPos);
+            yPos += lineHeight * addressLines.length;
+            // Line 4: Mobile, PIN
+            doc.text(`Mobile: ${data.mobile} | PIN: ${data.pin}`, leftMargin + 2, yPos);
+            yPos += 7;
+            
+            // 3. Chief Complaint - Max 70 chars per line
+            addSection('Chief Complaint');
+            addWrappedText('Complaint', data.complaint, 70);
+            yPos += 2;
+            
+            // 4. Addiction & Surgery History - 1 line
+            addSection('Addiction & Surgery History');
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            let surgeryText = `Addiction: ${data.addiction} | Surgery: ${data.surgery}`;
+            if (data.surgeryOther && data.surgeryOther.trim()) {
+                surgeryText += ` | Other: ${data.surgeryOther}`;
+            }
+            const surgeryLines = doc.splitTextToSize(surgeryText, 170);
+            doc.text(surgeryLines, leftMargin + 2, yPos);
+            yPos += lineHeight * surgeryLines.length + 2;
+            
+            // 5. Medical History - Max 70 chars per line
+            addSection('Medical History');
+            addWrappedText('History', data.medicalHistory || 'None', 70);
+            yPos += 2;
+            
+            // 6. Gynecology Information - 2 lines (Female only)
+            if (data.gender === 'Female') {
+                addSection('Gynecology Information');
+                doc.setFontSize(8);
+                doc.setFont(undefined, 'normal');
+                // Line 1: Menopause, LMP, Cycle, Duration
+                doc.text(`Menopause: ${data.menopause || '-'} | LMP: ${data.lmp || '-'} | Cycle: ${data.cycle || '-'} days | Duration: ${data.duration || '-'} days`, leftMargin + 2, yPos);
+                yPos += lineHeight;
+                // Line 2: Total Children, Last Child Age
+                doc.text(`Total Children: ${data.totalChild || '-'} | Last Child Age: ${data.lastChildAge || '-'} years`, leftMargin + 2, yPos);
+                yPos += 7;
+            }
+            
+            // 7. Current Medications - Max 70 chars per line
+            addSection('Current Medications');
+            addWrappedText('Medicines', data.onMedicines || 'None', 70);
+            yPos += 2;
+            
+            // 8. Recent Investigation - Max 70 chars per line
+            addSection('Recent Investigation');
+            addWrappedText('Tests/Reports', data.investigation || 'None', 70);
+            yPos += 2;
+            
+            // 9. Vital Signs
+            addSection('Vital Signs');
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
+            yPos += lineHeight;
+            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi} (${data.bmiCategory})`, leftMargin + 2, yPos);
+            
+            // Footer
+            yPos = pageHeight - 10;
+            doc.setFontSize(7);
+            doc.setTextColor(100);
+            doc.text('Generated on: ' + new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}), pageWidth/2, yPos, { align: 'center' });
+            
+            // Save with custom filename: ID_Name_Mobile.pdf
+            const filename = `${data.dnwId}_${data.name}_${data.mobile}.pdf`;
+            doc.save(filename);
+        }
+
+        // Generate PDF as Blob (for sharing)
+        async function generatePDFBlob(data) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const leftMargin = 15;
+            let yPos = 20;
+            const lineHeight = 5;
+            
+            // Header
+            doc.setFillColor(102, 126, 234);
+            doc.rect(0, 0, pageWidth, 30, 'F');
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.setTextColor(255, 255, 255);
+            doc.text('Patient Information Form', pageWidth/2, 22, { align: 'center' });
+            
+            doc.setTextColor(0, 0, 0);
+            yPos = 38;
+            
+            // Helper functions
+            function addSection(title) {
+                if (yPos > pageHeight - 40) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'bold');
+                doc.setFillColor(102, 126, 234);
+                doc.rect(leftMargin, yPos - 3, 180, 5, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.text(title, leftMargin + 2, yPos);
+                doc.setTextColor(0, 0, 0);
+                yPos += 7;
+            }
+            
+            function addWrappedText(label, value, maxChars = 70) {
+                if (yPos > pageHeight - 30) {
+                    doc.addPage();
+                    yPos = 20;
+                }
+                doc.setFontSize(8);
+                doc.setFont(undefined, 'bold');
+                doc.text(label + ':', leftMargin + 2, yPos);
+                doc.setFont(undefined, 'normal');
+                
+                if (!value || value === 'None' || value.trim() === '') {
+                    doc.text('-', leftMargin + 40, yPos);
+                    yPos += lineHeight;
+                } else {
+                    const lines = doc.splitTextToSize(value, maxChars);
+                    doc.text(lines, leftMargin + 40, yPos);
+                    yPos += lineHeight * lines.length;
+                }
+            }
+            
+            // 1. Wellness Coach Details - 1 line
+            addSection('Wellness Coach Details');
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            doc.text(`ID: DNW${data.dnwId} | Name: ${data.referralName} | Mobile: ${data.referralMobile}`, leftMargin + 2, yPos);
+            yPos += 7;
+            
+            // 2. Basic Information - 4 lines
+            addSection('Basic Information');
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            doc.text(`Name: ${data.name} | DOB: ${data.dob} | Age: ${data.age} years`, leftMargin + 2, yPos);
+            yPos += lineHeight;
+            doc.text(`Gender: ${data.gender} | Father/Husband: ${data.fatherHusband || '-'}`, leftMargin + 2, yPos);
+            yPos += lineHeight;
+            const addressLines = doc.splitTextToSize(`Address: ${data.address}`, 170);
+            doc.text(addressLines, leftMargin + 2, yPos);
+            yPos += lineHeight * addressLines.length;
+            doc.text(`Mobile: ${data.mobile} | PIN: ${data.pin}`, leftMargin + 2, yPos);
+            yPos += 7;
+            
+            // 3. Chief Complaint
+            addSection('Chief Complaint');
+            addWrappedText('Complaint', data.complaint, 70);
+            yPos += 2;
+            
+            // 4. Addiction & Surgery History - 1 line
+            addSection('Addiction & Surgery History');
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            let surgeryText = `Addiction: ${data.addiction} | Surgery: ${data.surgery}`;
+            if (data.surgeryOther && data.surgeryOther.trim()) {
+                surgeryText += ` | Other: ${data.surgeryOther}`;
+            }
+            const surgeryLines = doc.splitTextToSize(surgeryText, 170);
+            doc.text(surgeryLines, leftMargin + 2, yPos);
+            yPos += lineHeight * surgeryLines.length + 2;
+            
+            // 5. Medical History
+            addSection('Medical History');
+            addWrappedText('History', data.medicalHistory || 'None', 70);
+            yPos += 2;
+            
+            // 6. Gynecology Information - 2 lines (Female only)
+            if (data.gender === 'Female') {
+                addSection('Gynecology Information');
+                doc.setFontSize(8);
+                doc.setFont(undefined, 'normal');
+                doc.text(`Menopause: ${data.menopause || '-'} | LMP: ${data.lmp || '-'} | Cycle: ${data.cycle || '-'} days | Duration: ${data.duration || '-'} days`, leftMargin + 2, yPos);
+                yPos += lineHeight;
+                doc.text(`Total Children: ${data.totalChild || '-'} | Last Child Age: ${data.lastChildAge || '-'} years`, leftMargin + 2, yPos);
+                yPos += 7;
+            }
+            
+            // 7. Current Medications
+            addSection('Current Medications');
+            addWrappedText('Medicines', data.onMedicines || 'None', 70);
+            yPos += 2;
+            
+            // 8. Recent Investigation
+            addSection('Recent Investigation');
+            addWrappedText('Tests/Reports', data.investigation || 'None', 70);
+            yPos += 2;
+            
+            // 9. Vital Signs
+            addSection('Vital Signs');
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
+            yPos += lineHeight;
+            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi} (${data.bmiCategory})`, leftMargin + 2, yPos);
+            
+            yPos = pageHeight - 10;
+            doc.setFontSize(7);
+            doc.setTextColor(100);
+            doc.text('Generated on: ' + new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}), pageWidth/2, yPos, { align: 'center' });
+            
+            return doc.output('blob');
+        }
+    </script>
+</body>
+</html>
