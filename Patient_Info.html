@@ -161,10 +161,10 @@
             color: rgba(255,255,255,0.8);
         }
 
-        /* Section 3: Chief Complaint - Pink Gradient */
+        /* Section 3: Vital Signs - Green Gradient */
         .section:nth-child(3) {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-left-color: #f093fb;
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+            border-left-color: #56ab2f;
         }
 
         .section:nth-child(3) .section-title {
@@ -175,10 +175,10 @@
             color: rgba(255,255,255,0.95);
         }
 
-        /* Section 4: Addiction & Surgery - Orange Gradient */
+        /* Section 4: Chief Complaint - Pink Gradient */
         .section:nth-child(4) {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            border-left-color: #fa709a;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-left-color: #f093fb;
         }
 
         .section:nth-child(4) .section-title {
@@ -189,10 +189,10 @@
             color: rgba(255,255,255,0.95);
         }
 
-        /* Section 5: Medical History - Green Gradient */
+        /* Section 5: Addiction & Surgery History - Orange-Yellow Gradient */
         .section:nth-child(5) {
-            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
-            border-left-color: #30cfd0;
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-left-color: #fa709a;
         }
 
         .section:nth-child(5) .section-title {
@@ -221,10 +221,10 @@
             color: #666;
         }
 
-        /* Section 7: Current Medications - Red Gradient */
+        /* Section 7: Medical History - Teal-Purple Gradient */
         .section:nth-child(7) {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-            border-left-color: #ff6b6b;
+            background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+            border-left-color: #30cfd0;
         }
 
         .section:nth-child(7) .section-title {
@@ -249,10 +249,10 @@
             color: rgba(255,255,255,0.95);
         }
 
-        /* Section 9: Vital Signs - Lime Gradient */
+        /* Section 9: Current Medications - Red Gradient */
         .section:nth-child(9) {
-            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
-            border-left-color: #56ab2f;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            border-left-color: #ff6b6b;
         }
 
         .section:nth-child(9) .section-title {
@@ -365,7 +365,7 @@
             }
 
             .button-select-label {
-                padding: 12px 16px;
+                padding: 10px 14px;
             }
 
             .submit-btn {
@@ -399,17 +399,17 @@
 
         .button-select-label {
             display: inline-block;
-            padding: 12px 24px;
+            padding: 8px 16px;
             background: #FFFFFF;
-            border: 3px solid #ddd;
-            border-radius: 8px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             transition: all 0.3s ease;
             flex: 1;
             text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
             color: #000000 !important;
         }
 
@@ -417,16 +417,16 @@
             background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
             color: #FFFFFF !important;
             border-color: #4CAF50;
-            transform: scale(1.08);
-            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.5);
-            font-weight: 800;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+            font-weight: 700;
         }
 
         .button-select-label:hover {
             border-color: #4CAF50;
             background: #f9f9f9;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
             color: #000000 !important;
         }
 
@@ -475,6 +475,14 @@
         }
 
         #gynecoSection.visible {
+            display: block;
+        }
+
+        #menopauseField {
+            display: none;
+        }
+
+        #menopauseField.visible {
             display: block;
         }
 
@@ -681,13 +689,14 @@
 
         .helper-text {
             font-size: 12px;
-            color: #000;
+            color: #666 !important;
             margin-top: 4px;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 3px 8px;
-            border-radius: 4px;
+            font-weight: 400;
+            background: rgba(255, 255, 255, 0.95) !important;
+            padding: 4px 10px;
+            border-radius: 6px;
             display: inline-block;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -706,7 +715,13 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>DNW ID <span class="required">*</span></label>
-                            <input type="text" id="dnwId" inputmode="numeric" placeholder="Enter ID" required>
+                            <div style="display: flex; align-items: center; gap: 0;">
+                                <span style="font-weight: bold; font-size: 16px; color: #667eea; padding: 12px 10px; background: #f0f0f0; border-radius: 8px 0 0 8px; border: 2px solid #ddd; border-right: none;">DNW</span>
+                                <input type="text" id="dnwId" inputmode="numeric" placeholder="12345" required 
+                                       style="border-radius: 0 8px 8px 0; flex: 1;"
+                                       oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                            </div>
+                            <div class="helper-text">केवल नंबर दर्ज करें</div>
                         </div>
                         <div class="form-group">
                             <label>Name <span class="required">*</span></label>
@@ -729,8 +744,9 @@
                         </div>
                         <div class="form-group">
                             <label>DOB (DD-MM-YYYY) <span class="required">*</span></label>
-                            <input type="text" id="dob" inputmode="numeric" placeholder="15-03-1990" maxlength="10" required>
-                            <div class="helper-text">📅 Format: Day-Month-Year</div>
+                            <input type="text" id="dob" inputmode="numeric" placeholder="15-03-1990 or just 25" maxlength="10" required 
+                                   onblur="handleDOBInput()">
+                            <div class="helper-text">📅 पूरी तारीख या सिर्फ उम्र (25)</div>
                         </div>
                     </div>
                     <div class="form-row">
@@ -772,6 +788,53 @@
                 </div>
 
                 <!-- Chief Complaint -->
+                <div class="section">
+                    <div class="section-title">Vital Signs</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>BP (mmHg) <span class="required">*</span></label>
+                            <input type="text" id="bp" placeholder="e.g., 120/80" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Pulse (bpm) <span class="required">*</span></label>
+                            <input type="text" id="pulse" inputmode="numeric" placeholder="e.g., 72" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Temp (°F) <span class="required">*</span></label>
+                            <input type="text" id="temp" inputmode="decimal" placeholder="e.g., 98.6" required>
+                        </div>
+                        <div class="form-group">
+                            <label>RR (breaths/min) <span class="required">*</span></label>
+                            <input type="text" id="rr" inputmode="numeric" placeholder="e.g., 18" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>SpO2 (%) <span class="required">*</span></label>
+                            <input type="text" id="spo2" inputmode="numeric" placeholder="e.g., 98" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Weight (kg) <span class="required">*</span></label>
+                            <input type="text" id="weight" inputmode="decimal" placeholder="e.g., 70" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Height (cm) <span class="required">*</span></label>
+                            <input type="text" id="height" inputmode="decimal" placeholder="e.g., 170" required>
+                        </div>
+                        <div class="form-group">
+                            <div id="bmiDisplay" class="bmi-display">
+                                <div>BMI</div>
+                                <div class="bmi-value" id="bmiValue">--</div>
+                                <div id="bmiCategory">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="section">
                     <div class="section-title">Chief Complaint</div>
                     <div class="form-group">
@@ -831,20 +894,11 @@
                 </div>
 
                 <!-- Medical History -->
-                <div class="section">
-                    <div class="section-title">Medical History</div>
-                    <div class="form-group">
-                        <label>Medical History</label>
-                        <textarea id="medicalHistory" placeholder="Diabetes, BP, Heart disease, etc."></textarea>
-                    </div>
-                </div>
-
-                <!-- Gynecology Section -->
                 <div class="section" id="gynecoSection">
-                    <div class="section-title">Gynecology Information</div>
+                    <div class="section-title">Gynecology Information (Female > 8 years)</div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>Menopause</label>
+                        <div class="form-group" id="menopauseField">
+                            <label>Menopause (Age ≥ 40)</label>
                             <div class="button-select-group">
                                 <input type="radio" id="menopauseYes" name="menopause" value="Yes">
                                 <label for="menopauseYes" class="button-select-label">✅ Yes</label>
@@ -883,14 +937,14 @@
 
                 <!-- Current Medications -->
                 <div class="section">
-                    <div class="section-title">Current Medications</div>
+                    <div class="section-title">Medical History</div>
                     <div class="form-group">
-                        <label>Current Medicines</label>
-                        <textarea id="onMedicines" placeholder="List current medications"></textarea>
+                        <label>Medical History</label>
+                        <textarea id="medicalHistory" placeholder="Diabetes, BP, Heart disease, etc."></textarea>
                     </div>
                 </div>
 
-                <!-- Investigation -->
+                <!-- Gynecology Section -->
                 <div class="section">
                     <div class="section-title">Recent Investigation</div>
                     <div class="form-group">
@@ -901,52 +955,14 @@
 
                 <!-- Vitals -->
                 <div class="section">
-                    <div class="section-title">Vital Signs</div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>BP (mmHg) <span class="required">*</span></label>
-                            <input type="text" id="bp" placeholder="e.g., 120/80" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Pulse (bpm) <span class="required">*</span></label>
-                            <input type="text" id="pulse" inputmode="numeric" placeholder="e.g., 72" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Temp (°F) <span class="required">*</span></label>
-                            <input type="text" id="temp" inputmode="decimal" placeholder="e.g., 98.6" required>
-                        </div>
-                        <div class="form-group">
-                            <label>RR (breaths/min) <span class="required">*</span></label>
-                            <input type="text" id="rr" inputmode="numeric" placeholder="e.g., 18" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>SpO2 (%) <span class="required">*</span></label>
-                            <input type="text" id="spo2" inputmode="numeric" placeholder="e.g., 98" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Weight (kg) <span class="required">*</span></label>
-                            <input type="text" id="weight" inputmode="decimal" placeholder="e.g., 70" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Height (cm) <span class="required">*</span></label>
-                            <input type="text" id="height" inputmode="decimal" placeholder="e.g., 170" required>
-                        </div>
-                        <div class="form-group">
-                            <div id="bmiDisplay" class="bmi-display">
-                                <div>BMI</div>
-                                <div class="bmi-value" id="bmiValue">--</div>
-                                <div id="bmiCategory">--</div>
-                            </div>
-                        </div>
+                    <div class="section-title">Current Medications</div>
+                    <div class="form-group">
+                        <label>Current Medicines</label>
+                        <textarea id="onMedicines" placeholder="List current medications"></textarea>
                     </div>
                 </div>
 
+                <!-- Investigation -->
                 <!-- Buttons -->
                 <div class="button-group">
                     <button type="button" class="submit-btn btn-pdf" onclick="handleDownloadPDF()">
@@ -973,25 +989,87 @@
     </div>
 
     <script>
-        // Gender change handler
+        // Scroll background image for PDF (base64 encoded)
+        const scrollBackgroundImage = '/mnt/user-data/uploads/Gemini_Generated_Image_w04lzw04lzw04lzw.png';
+        
+        // Smart DOB/Age Handler
+        function handleDOBInput() {
+            const dobInput = document.getElementById('dob');
+            const ageInput = document.getElementById('age');
+            const value = dobInput.value.trim();
+            
+            // Check if user entered only 2 digits (age)
+            if (/^\d{1,2}$/.test(value)) {
+                const age = parseInt(value);
+                
+                if (age >= 1 && age <= 120) {
+                    // Set age field
+                    ageInput.value = age;
+                    
+                    // Calculate DOB as 01-01-(current year - age)
+                    const currentYear = new Date().getFullYear();
+                    const birthYear = currentYear - age;
+                    const defaultDOB = `01-01-${birthYear}`;
+                    
+                    // Set DOB field
+                    dobInput.value = defaultDOB;
+                    
+                    // Check gynecology section visibility
+                    checkGynecoVisibility();
+                    
+                    // Show confirmation
+                    console.log(`Age ${age} converted to DOB: ${defaultDOB}`);
+                }
+            }
+        }
+        
+        // Function to check gynecology section visibility
+        function checkGynecoVisibility() {
+            const selectedGender = document.querySelector('input[name="gender"]:checked');
+            const ageInput = document.getElementById('age');
+            const gynecoSection = document.getElementById('gynecoSection');
+            const menopauseField = document.getElementById('menopauseField');
+            
+            const age = parseInt(ageInput.value) || 0;
+            const isFemale = selectedGender && selectedGender.value === 'Female';
+            
+            // Show gynecology section only if Female AND age > 8
+            if (isFemale && age > 8) {
+                gynecoSection.classList.add('visible');
+                
+                // Show menopause field only if age >= 40
+                if (age >= 40) {
+                    menopauseField.classList.add('visible');
+                } else {
+                    menopauseField.classList.remove('visible');
+                }
+            } else {
+                gynecoSection.classList.remove('visible');
+                menopauseField.classList.remove('visible');
+            }
+        }
+        
+        // Gender change handler (with age check)
         const genderRadios = document.querySelectorAll('input[name="gender"]');
         genderRadios.forEach(radio => {
             radio.addEventListener('change', function() {
-                const gynecoSection = document.getElementById('gynecoSection');
                 setTimeout(function() {
-                    const selectedGender = document.querySelector('input[name="gender"]:checked');
-                    if (selectedGender && selectedGender.value === 'Female') {
-                        gynecoSection.classList.add('visible');
-                    } else {
-                        gynecoSection.classList.remove('visible');
-                    }
+                    checkGynecoVisibility();
                 }, 50);
             });
         });
 
-        // DOB formatting
+        // DOB formatting (allows age shortcut)
         document.getElementById('dob').addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
+            
+            // Don't format if user is entering age shortcut (1-2 digits only)
+            if (value.length <= 2) {
+                e.target.value = value;
+                return;
+            }
+            
+            // Format as DD-MM-YYYY for full dates
             if (value.length >= 2) value = value.substring(0, 2) + '-' + value.substring(2);
             if (value.length >= 5) value = value.substring(0, 5) + '-' + value.substring(5);
             if (value.length > 10) value = value.substring(0, 10);
@@ -1004,8 +1082,16 @@
                 let age = today.getFullYear() - dob.getFullYear();
                 const m = today.getMonth() - dob.getMonth();
                 if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
-                if (age >= 0 && age <= 150) document.getElementById('age').value = age;
+                if (age >= 0 && age <= 150) {
+                    document.getElementById('age').value = age;
+                    checkGynecoVisibility(); // Check gynecology visibility
+                }
             }
+        });
+
+        // Age field change listener
+        document.getElementById('age').addEventListener('input', function() {
+            checkGynecoVisibility();
         });
 
         // LMP formatting
@@ -1245,26 +1331,93 @@
             let yPos = 20;
             const lineHeight = 5;
             
-            // Header
+            // ============= DECORATIVE BORDER FUNCTION =============
+            function addDecorativeBorder() {
+                // Outer Border - Golden Color (thinner)
+                doc.setDrawColor(184, 134, 11); // Dark golden
+                doc.setLineWidth(1.5);
+                doc.rect(3, 3, pageWidth - 6, pageHeight - 6);
+                
+                // Inner Border - Light Golden (thinner)
+                doc.setDrawColor(218, 165, 32); // Goldenrod
+                doc.setLineWidth(0.8);
+                doc.rect(5, 5, pageWidth - 10, pageHeight - 10);
+                
+                // Compact Corner Elements
+                function drawCornerDecoration(x, y, rotation) {
+                    doc.setFillColor(184, 134, 11);
+                    
+                    // Smaller corner ornament
+                    for (let i = 0; i < 8; i++) {
+                        const angle = (rotation + i * 45) * Math.PI / 180;
+                        const petalX = x + Math.cos(angle) * 1.5;
+                        const petalY = y + Math.sin(angle) * 1.5;
+                        doc.circle(petalX, petalY, 0.8, 'F');
+                    }
+                    
+                    // Center circle
+                    doc.setFillColor(218, 165, 32);
+                    doc.circle(x, y, 1, 'F');
+                }
+                
+                // Draw corner decorations (smaller)
+                drawCornerDecoration(7, 7, 0);      // Top-left
+                drawCornerDecoration(pageWidth - 7, 7, 90);    // Top-right
+                drawCornerDecoration(7, pageHeight - 7, 270);  // Bottom-left
+                drawCornerDecoration(pageWidth - 7, pageHeight - 7, 180); // Bottom-right
+                
+                // Thin top decorative bar
+                doc.setFillColor(184, 134, 11);
+                doc.rect(10, 8, pageWidth - 20, 1.5, 'F');
+                
+                // Top pattern (fewer circles)
+                doc.setFillColor(218, 165, 32);
+                for (let i = 15; i < pageWidth - 15; i += 10) {
+                    doc.circle(i, 8.75, 0.5, 'F');
+                }
+                
+                // Thin bottom decorative bar
+                doc.setFillColor(184, 134, 11);
+                doc.rect(10, pageHeight - 9.5, pageWidth - 20, 1.5, 'F');
+                
+                // Bottom pattern
+                doc.setFillColor(218, 165, 32);
+                for (let i = 15; i < pageWidth - 15; i += 10) {
+                    doc.circle(i, pageHeight - 8.75, 0.5, 'F');
+                }
+                
+                // Minimal side decorations
+                doc.setFillColor(218, 165, 32);
+                for (let i = 25; i < pageHeight - 25; i += 20) {
+                    doc.circle(7, i, 0.6, 'F');
+                    doc.circle(pageWidth - 7, i, 0.6, 'F');
+                }
+                
+                // Light background
+                doc.setFillColor(255, 253, 245);
+                doc.rect(8, 11, pageWidth - 16, pageHeight - 22, 'F');
+            }
+            // ============= END OF DECORATIVE BORDER FUNCTION =============
+            
+            // Add decorative border to first page
+            addDecorativeBorder();
+            
+            // Header with decorative background
             doc.setFillColor(102, 126, 234);
-            doc.rect(0, 0, pageWidth, 30, 'F');
-            doc.setFillColor(255, 255, 255);
-            doc.circle(pageWidth / 2, 15, 8, 'F');
-            doc.setFontSize(20);
-            doc.setTextColor(102, 126, 234);
-            doc.text('🏥', pageWidth / 2 - 3, 18);
+            doc.rect(12, 13, pageWidth - 24, 10, 'F');
             doc.setFontSize(16);
             doc.setFont(undefined, 'bold');
             doc.setTextColor(255, 255, 255);
-            doc.text('Patient Information Form', pageWidth/2, 22, { align: 'center' });
+            doc.text('Patient Information Form', pageWidth/2, 20, { align: 'center' });
             
             doc.setTextColor(0, 0, 0);
-            yPos = 38;
+            yPos = 28;
             
             // Helper function for section header
             function addSection(title) {
                 if (yPos > pageHeight - 40) {
                     doc.addPage();
+                    addDecorativeBorder(); // Add border to new page too
                     yPos = 20;
                 }
                 doc.setFontSize(10);
@@ -1277,10 +1430,11 @@
                 yPos += 7;
             }
             
-            // Helper function for wrapped text (max 70 characters per line)
-            function addWrappedText(label, value, maxChars = 70) {
+            // Helper function for wrapped text with justify alignment (100 characters per line)
+            function addWrappedText(label, value, maxChars = 100) {
                 if (yPos > pageHeight - 30) {
                     doc.addPage();
+                    addDecorativeBorder();
                     yPos = 20;
                 }
                 doc.setFontSize(8);
@@ -1292,9 +1446,77 @@
                     doc.text('-', leftMargin + 40, yPos);
                     yPos += lineHeight;
                 } else {
-                    const lines = doc.splitTextToSize(value, maxChars);
-                    doc.text(lines, leftMargin + 40, yPos);
-                    yPos += lineHeight * lines.length;
+                    // Word wrapping with proper long word handling
+                    const words = value.split(' ');
+                    const lines = [];
+                    let currentLine = '';
+                    
+                    for (let i = 0; i < words.length; i++) {
+                        let word = words[i];
+                        
+                        // Handle very long words (>100 chars) by breaking them
+                        while (word.length > maxChars) {
+                            if (currentLine) {
+                                lines.push(currentLine);
+                                currentLine = '';
+                            }
+                            lines.push(word.substring(0, maxChars));
+                            word = word.substring(maxChars);
+                        }
+                        
+                        const testLine = currentLine + (currentLine ? ' ' : '') + word;
+                        
+                        if (testLine.length <= maxChars) {
+                            currentLine = testLine;
+                        } else {
+                            if (currentLine) {
+                                lines.push(currentLine);
+                            }
+                            currentLine = word;
+                        }
+                    }
+                    
+                    if (currentLine) {
+                        lines.push(currentLine);
+                    }
+                    
+                    // Render lines with proper spacing
+                    const startX = leftMargin + 40;
+                    const endX = leftMargin + 178;
+                    const availableWidth = endX - startX;
+                    
+                    lines.forEach((line, index) => {
+                        // Check if we need a new page
+                        if (yPos > pageHeight - 30) {
+                            doc.addPage();
+                            addDecorativeBorder();
+                            yPos = 20;
+                        }
+                        
+                        if (index === lines.length - 1) {
+                            // Last line - left aligned only
+                            doc.text(line, startX, yPos);
+                        } else {
+                            // Justify the line
+                            const lineWords = line.split(' ');
+                            if (lineWords.length === 1) {
+                                doc.text(line, startX, yPos);
+                            } else {
+                                const totalTextWidth = lineWords.reduce((sum, word) => sum + doc.getTextWidth(word), 0);
+                                const totalSpaceWidth = availableWidth - totalTextWidth;
+                                const spaceWidth = totalSpaceWidth / (lineWords.length - 1);
+                                
+                                let xPos = startX;
+                                lineWords.forEach((word, wordIndex) => {
+                                    doc.text(word, xPos, yPos);
+                                    if (wordIndex < lineWords.length - 1) {
+                                        xPos += doc.getTextWidth(word) + spaceWidth;
+                                    }
+                                });
+                            }
+                        }
+                        yPos += lineHeight;
+                    });
                 }
             }
             
@@ -1323,12 +1545,21 @@
             doc.text(`Mobile: ${data.mobile} | PIN: ${data.pin}`, leftMargin + 2, yPos);
             yPos += 7;
             
-            // 3. Chief Complaint - Max 70 chars per line
+            // 3. Vital Signs - 2 lines
+            addSection('Vital Signs');
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
+            yPos += lineHeight;
+            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi} (${data.bmiCategory})`, leftMargin + 2, yPos);
+            yPos += 7;
+            
+            // 4. Chief Complaint - Max 100 chars per line
             addSection('Chief Complaint');
-            addWrappedText('Complaint', data.complaint, 70);
+            addWrappedText('Complaint', data.complaint, 100);
             yPos += 2;
             
-            // 4. Addiction & Surgery History - 1 line
+            // 5. Addiction & Surgery History - 1 line
             addSection('Addiction & Surgery History');
             doc.setFontSize(8);
             doc.setFont(undefined, 'normal');
@@ -1340,13 +1571,8 @@
             doc.text(surgeryLines, leftMargin + 2, yPos);
             yPos += lineHeight * surgeryLines.length + 2;
             
-            // 5. Medical History - Max 70 chars per line
-            addSection('Medical History');
-            addWrappedText('History', data.medicalHistory || 'None', 70);
-            yPos += 2;
-            
-            // 6. Gynecology Information - 2 lines (Female only)
-            if (data.gender === 'Female') {
+            // 6. Gynecology Information - 2 lines (Female > 8 years only)
+            if (data.gender === 'Female' && parseInt(data.age) > 8) {
                 addSection('Gynecology Information');
                 doc.setFontSize(8);
                 doc.setFont(undefined, 'normal');
@@ -1358,23 +1584,20 @@
                 yPos += 7;
             }
             
-            // 7. Current Medications - Max 70 chars per line
-            addSection('Current Medications');
-            addWrappedText('Medicines', data.onMedicines || 'None', 70);
+            // 7. Medical History - Max 100 chars per line
+            addSection('Medical History');
+            addWrappedText('History', data.medicalHistory || 'None', 100);
             yPos += 2;
             
-            // 8. Recent Investigation - Max 70 chars per line
+            // 8. Recent Investigation - Max 100 chars per line
             addSection('Recent Investigation');
-            addWrappedText('Tests/Reports', data.investigation || 'None', 70);
+            addWrappedText('Tests/Reports', data.investigation || 'None', 100);
             yPos += 2;
             
-            // 9. Vital Signs
-            addSection('Vital Signs');
-            doc.setFontSize(8);
-            doc.setFont(undefined, 'normal');
-            doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
-            yPos += lineHeight;
-            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi} (${data.bmiCategory})`, leftMargin + 2, yPos);
+            // 9. Current Medications - Max 100 chars per line
+            addSection('Current Medications');
+            addWrappedText('Medicines', data.onMedicines || 'None', 100);
+            yPos += 2;
             
             // Footer
             yPos = pageHeight - 10;
@@ -1398,21 +1621,93 @@
             let yPos = 20;
             const lineHeight = 5;
             
-            // Header
+            // ============= DECORATIVE BORDER FUNCTION =============
+            function addDecorativeBorder() {
+                // Outer Border - Golden Color (thinner)
+                doc.setDrawColor(184, 134, 11); // Dark golden
+                doc.setLineWidth(1.5);
+                doc.rect(3, 3, pageWidth - 6, pageHeight - 6);
+                
+                // Inner Border - Light Golden (thinner)
+                doc.setDrawColor(218, 165, 32); // Goldenrod
+                doc.setLineWidth(0.8);
+                doc.rect(5, 5, pageWidth - 10, pageHeight - 10);
+                
+                // Compact Corner Elements
+                function drawCornerDecoration(x, y, rotation) {
+                    doc.setFillColor(184, 134, 11);
+                    
+                    // Smaller corner ornament
+                    for (let i = 0; i < 8; i++) {
+                        const angle = (rotation + i * 45) * Math.PI / 180;
+                        const petalX = x + Math.cos(angle) * 1.5;
+                        const petalY = y + Math.sin(angle) * 1.5;
+                        doc.circle(petalX, petalY, 0.8, 'F');
+                    }
+                    
+                    // Center circle
+                    doc.setFillColor(218, 165, 32);
+                    doc.circle(x, y, 1, 'F');
+                }
+                
+                // Draw corner decorations (smaller)
+                drawCornerDecoration(7, 7, 0);      // Top-left
+                drawCornerDecoration(pageWidth - 7, 7, 90);    // Top-right
+                drawCornerDecoration(7, pageHeight - 7, 270);  // Bottom-left
+                drawCornerDecoration(pageWidth - 7, pageHeight - 7, 180); // Bottom-right
+                
+                // Thin top decorative bar
+                doc.setFillColor(184, 134, 11);
+                doc.rect(10, 8, pageWidth - 20, 1.5, 'F');
+                
+                // Top pattern (fewer circles)
+                doc.setFillColor(218, 165, 32);
+                for (let i = 15; i < pageWidth - 15; i += 10) {
+                    doc.circle(i, 8.75, 0.5, 'F');
+                }
+                
+                // Thin bottom decorative bar
+                doc.setFillColor(184, 134, 11);
+                doc.rect(10, pageHeight - 9.5, pageWidth - 20, 1.5, 'F');
+                
+                // Bottom pattern
+                doc.setFillColor(218, 165, 32);
+                for (let i = 15; i < pageWidth - 15; i += 10) {
+                    doc.circle(i, pageHeight - 8.75, 0.5, 'F');
+                }
+                
+                // Minimal side decorations
+                doc.setFillColor(218, 165, 32);
+                for (let i = 25; i < pageHeight - 25; i += 20) {
+                    doc.circle(7, i, 0.6, 'F');
+                    doc.circle(pageWidth - 7, i, 0.6, 'F');
+                }
+                
+                // Light background
+                doc.setFillColor(255, 253, 245);
+                doc.rect(8, 11, pageWidth - 16, pageHeight - 22, 'F');
+            }
+            // ============= END OF DECORATIVE BORDER FUNCTION =============
+            
+            // Add decorative border to first page
+            addDecorativeBorder();
+            
+            // Header with decorative background
             doc.setFillColor(102, 126, 234);
-            doc.rect(0, 0, pageWidth, 30, 'F');
+            doc.rect(12, 13, pageWidth - 24, 10, 'F');
             doc.setFontSize(16);
             doc.setFont(undefined, 'bold');
             doc.setTextColor(255, 255, 255);
-            doc.text('Patient Information Form', pageWidth/2, 22, { align: 'center' });
+            doc.text('Patient Information Form', pageWidth/2, 20, { align: 'center' });
             
             doc.setTextColor(0, 0, 0);
-            yPos = 38;
+            yPos = 28;
             
             // Helper functions
             function addSection(title) {
                 if (yPos > pageHeight - 40) {
                     doc.addPage();
+                    addDecorativeBorder(); // Add border to new page too
                     yPos = 20;
                 }
                 doc.setFontSize(10);
@@ -1425,9 +1720,10 @@
                 yPos += 7;
             }
             
-            function addWrappedText(label, value, maxChars = 70) {
+            function addWrappedText(label, value, maxChars = 100) {
                 if (yPos > pageHeight - 30) {
                     doc.addPage();
+                    addDecorativeBorder();
                     yPos = 20;
                 }
                 doc.setFontSize(8);
@@ -1439,9 +1735,77 @@
                     doc.text('-', leftMargin + 40, yPos);
                     yPos += lineHeight;
                 } else {
-                    const lines = doc.splitTextToSize(value, maxChars);
-                    doc.text(lines, leftMargin + 40, yPos);
-                    yPos += lineHeight * lines.length;
+                    // Word wrapping with proper long word handling
+                    const words = value.split(' ');
+                    const lines = [];
+                    let currentLine = '';
+                    
+                    for (let i = 0; i < words.length; i++) {
+                        let word = words[i];
+                        
+                        // Handle very long words (>100 chars) by breaking them
+                        while (word.length > maxChars) {
+                            if (currentLine) {
+                                lines.push(currentLine);
+                                currentLine = '';
+                            }
+                            lines.push(word.substring(0, maxChars));
+                            word = word.substring(maxChars);
+                        }
+                        
+                        const testLine = currentLine + (currentLine ? ' ' : '') + word;
+                        
+                        if (testLine.length <= maxChars) {
+                            currentLine = testLine;
+                        } else {
+                            if (currentLine) {
+                                lines.push(currentLine);
+                            }
+                            currentLine = word;
+                        }
+                    }
+                    
+                    if (currentLine) {
+                        lines.push(currentLine);
+                    }
+                    
+                    // Render lines with proper spacing
+                    const startX = leftMargin + 40;
+                    const endX = leftMargin + 178;
+                    const availableWidth = endX - startX;
+                    
+                    lines.forEach((line, index) => {
+                        // Check if we need a new page
+                        if (yPos > pageHeight - 30) {
+                            doc.addPage();
+                            addDecorativeBorder();
+                            yPos = 20;
+                        }
+                        
+                        if (index === lines.length - 1) {
+                            // Last line - left aligned only
+                            doc.text(line, startX, yPos);
+                        } else {
+                            // Justify the line
+                            const lineWords = line.split(' ');
+                            if (lineWords.length === 1) {
+                                doc.text(line, startX, yPos);
+                            } else {
+                                const totalTextWidth = lineWords.reduce((sum, word) => sum + doc.getTextWidth(word), 0);
+                                const totalSpaceWidth = availableWidth - totalTextWidth;
+                                const spaceWidth = totalSpaceWidth / (lineWords.length - 1);
+                                
+                                let xPos = startX;
+                                lineWords.forEach((word, wordIndex) => {
+                                    doc.text(word, xPos, yPos);
+                                    if (wordIndex < lineWords.length - 1) {
+                                        xPos += doc.getTextWidth(word) + spaceWidth;
+                                    }
+                                });
+                            }
+                        }
+                        yPos += lineHeight;
+                    });
                 }
             }
             
@@ -1466,12 +1830,21 @@
             doc.text(`Mobile: ${data.mobile} | PIN: ${data.pin}`, leftMargin + 2, yPos);
             yPos += 7;
             
-            // 3. Chief Complaint
+            // 3. Vital Signs
+            addSection('Vital Signs');
+            doc.setFontSize(8);
+            doc.setFont(undefined, 'normal');
+            doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
+            yPos += lineHeight;
+            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi} (${data.bmiCategory})`, leftMargin + 2, yPos);
+            yPos += 7;
+            
+            // 4. Chief Complaint
             addSection('Chief Complaint');
-            addWrappedText('Complaint', data.complaint, 70);
+            addWrappedText('Complaint', data.complaint, 100);
             yPos += 2;
             
-            // 4. Addiction & Surgery History - 1 line
+            // 5. Addiction & Surgery History - 1 line
             addSection('Addiction & Surgery History');
             doc.setFontSize(8);
             doc.setFont(undefined, 'normal');
@@ -1483,13 +1856,8 @@
             doc.text(surgeryLines, leftMargin + 2, yPos);
             yPos += lineHeight * surgeryLines.length + 2;
             
-            // 5. Medical History
-            addSection('Medical History');
-            addWrappedText('History', data.medicalHistory || 'None', 70);
-            yPos += 2;
-            
-            // 6. Gynecology Information - 2 lines (Female only)
-            if (data.gender === 'Female') {
+            // 6. Gynecology Information - 2 lines (Female > 8 years only)
+            if (data.gender === 'Female' && parseInt(data.age) > 8) {
                 addSection('Gynecology Information');
                 doc.setFontSize(8);
                 doc.setFont(undefined, 'normal');
@@ -1499,23 +1867,20 @@
                 yPos += 7;
             }
             
-            // 7. Current Medications
-            addSection('Current Medications');
-            addWrappedText('Medicines', data.onMedicines || 'None', 70);
+            // 7. Medical History
+            addSection('Medical History');
+            addWrappedText('History', data.medicalHistory || 'None', 100);
             yPos += 2;
             
             // 8. Recent Investigation
             addSection('Recent Investigation');
-            addWrappedText('Tests/Reports', data.investigation || 'None', 70);
+            addWrappedText('Tests/Reports', data.investigation || 'None', 100);
             yPos += 2;
             
-            // 9. Vital Signs
-            addSection('Vital Signs');
-            doc.setFontSize(8);
-            doc.setFont(undefined, 'normal');
-            doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
-            yPos += lineHeight;
-            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi} (${data.bmiCategory})`, leftMargin + 2, yPos);
+            // 9. Current Medications
+            addSection('Current Medications');
+            addWrappedText('Medicines', data.onMedicines || 'None', 100);
+            yPos += 2;
             
             yPos = pageHeight - 10;
             doc.setFontSize(7);
