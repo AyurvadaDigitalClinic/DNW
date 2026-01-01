@@ -725,7 +725,8 @@
                         </div>
                         <div class="form-group">
                             <label>Name <span class="required">*</span></label>
-                            <input type="text" id="referralName" placeholder="Enter name" required>
+                            <input type="text" id="referralName" placeholder="Enter name" required 
+                                   oninput="applyProperCase(this)">
                         </div>
                     </div>
                     <div class="form-group">
@@ -740,7 +741,8 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Patient Name <span class="required">*</span></label>
-                            <input type="text" id="name" placeholder="Enter full name" required>
+                            <input type="text" id="name" placeholder="Enter full name" required 
+                                   oninput="applyProperCase(this)">
                         </div>
                         <div class="form-group">
                             <label>DOB (DD-MM-YYYY) <span class="required">*</span></label>
@@ -772,13 +774,15 @@
                         </div>
                         <div class="form-group">
                             <label>Father's/Husband's Name</label>
-                            <input type="text" id="fatherHusband" placeholder="Enter name">
+                            <input type="text" id="fatherHusband" placeholder="Enter name" 
+                                   oninput="applyProperCase(this)">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Address <span class="required">*</span></label>
-                            <input type="text" id="address" placeholder="Complete address" required>
+                            <input type="text" id="address" placeholder="Complete address" required 
+                                   oninput="applyProperCase(this)">
                         </div>
                         <div class="form-group">
                             <label>PIN Code <span class="required">*</span></label>
@@ -858,6 +862,12 @@
                             <input type="checkbox" id="tobacco" name="addiction" value="Tobacco">
                             <label for="tobacco" class="checkbox-label">🌿 Tobacco</label>
                             
+                            <input type="checkbox" id="drugs" name="addiction" value="Drugs">
+                            <label for="drugs" class="checkbox-label">💊 Drugs</label>
+                            
+                            <input type="checkbox" id="mobileGame" name="addiction" value="Mobile Game">
+                            <label for="mobileGame" class="checkbox-label">📱 Mobile Game</label>
+                            
                             <input type="checkbox" id="noAddiction" name="addiction" value="None">
                             <label for="noAddiction" class="checkbox-label">✅ None</label>
                         </div>
@@ -866,19 +876,37 @@
                         <label>Past Surgery History</label>
                         <div class="checkbox-group">
                             <input type="checkbox" id="appendicectomy" name="surgery" value="Appendicectomy">
-                            <label for="appendicectomy" class="checkbox-label">🏥 Appendicectomy</label>
+                            <label for="appendicectomy" class="checkbox-label">🦠 Appendicectomy</label>
                             
                             <input type="checkbox" id="cholecystectomy" name="surgery" value="Cholecystectomy">
-                            <label for="cholecystectomy" class="checkbox-label">🏥 Cholecystectomy</label>
+                            <label for="cholecystectomy" class="checkbox-label">🫀 Cholecystectomy</label>
                             
                             <input type="checkbox" id="hernia" name="surgery" value="Hernia">
-                            <label for="hernia" class="checkbox-label">🏥 Hernia</label>
+                            <label for="hernia" class="checkbox-label">💪 Hernia</label>
                             
                             <input type="checkbox" id="cesarean" name="surgery" value="C-Section">
                             <label for="cesarean" class="checkbox-label">👶 C-Section</label>
                             
                             <input type="checkbox" id="hysterectomy" name="surgery" value="Hysterectomy">
-                            <label for="hysterectomy" class="checkbox-label">🏥 Hysterectomy</label>
+                            <label for="hysterectomy" class="checkbox-label">🫄 Hysterectomy</label>
+                            
+                            <input type="checkbox" id="tubectomy" name="surgery" value="Tubectomy">
+                            <label for="tubectomy" class="checkbox-label">♀️ Tubectomy</label>
+                            
+                            <input type="checkbox" id="angioplasty" name="surgery" value="Angioplasty">
+                            <label for="angioplasty" class="checkbox-label">❤️ Angioplasty</label>
+                            
+                            <input type="checkbox" id="cabg" name="surgery" value="CABG">
+                            <label for="cabg" class="checkbox-label">💓 CABG</label>
+                            
+                            <input type="checkbox" id="pacemaker" name="surgery" value="Pacemaker">
+                            <label for="pacemaker" class="checkbox-label">⚡ Pacemaker</label>
+                            
+                            <input type="checkbox" id="nephrectomy" name="surgery" value="Nephrectomy">
+                            <label for="nephrectomy" class="checkbox-label">🫘 Nephrectomy</label>
+                            
+                            <input type="checkbox" id="hepatectomy" name="surgery" value="Hepatectomy">
+                            <label for="hepatectomy" class="checkbox-label">🟤 Hepatectomy</label>
                             
                             <input type="checkbox" id="fracture" name="surgery" value="Fracture">
                             <label for="fracture" class="checkbox-label">🦴 Fracture</label>
@@ -889,7 +917,8 @@
                     </div>
                     <div class="form-group">
                         <label>Other Surgery Details (Optional)</label>
-                        <textarea id="surgeryOther" placeholder="अन्य सर्जरी का विवरण | Other surgery details"></textarea>
+                        <textarea id="surgeryOther" placeholder="अन्य सर्जरी का विवरण | Other surgery details" 
+                                  oninput="applyProperCase(this)"></textarea>
                     </div>
                 </div>
 
@@ -940,7 +969,8 @@
                     <div class="section-title">Medical History</div>
                     <div class="form-group">
                         <label>Medical History</label>
-                        <textarea id="medicalHistory" placeholder="Diabetes, BP, Heart disease, etc."></textarea>
+                        <textarea id="medicalHistory" placeholder="Diabetes, BP, Heart disease, etc." 
+                                  oninput="applyProperCase(this)"></textarea>
                     </div>
                 </div>
 
@@ -958,7 +988,8 @@
                     <div class="section-title">Current Medications</div>
                     <div class="form-group">
                         <label>Current Medicines</label>
-                        <textarea id="onMedicines" placeholder="List current medications"></textarea>
+                        <textarea id="onMedicines" placeholder="List current medications" 
+                                  oninput="applyProperCase(this)"></textarea>
                     </div>
                 </div>
 
@@ -1046,6 +1077,26 @@
             } else {
                 gynecoSection.classList.remove('visible');
                 menopauseField.classList.remove('visible');
+            }
+        }
+        
+        // Function to convert text to Proper Case (Title Case)
+        function toProperCase(text) {
+            return text.toLowerCase().replace(/\b\w/g, function(char) {
+                return char.toUpperCase();
+            });
+        }
+        
+        // Apply proper case to specific fields
+        function applyProperCase(element) {
+            const cursorPosition = element.selectionStart;
+            const oldValue = element.value;
+            const newValue = toProperCase(oldValue);
+            
+            if (oldValue !== newValue) {
+                element.value = newValue;
+                // Restore cursor position
+                element.setSelectionRange(cursorPosition, cursorPosition);
             }
         }
         
@@ -1219,11 +1270,14 @@
                 // Create file from blob
                 const file = new File([pdfBlob], filename, { type: 'application/pdf' });
                 
+                // Patient info caption/message
+                const caption = `🏥 Patient Information\n\nName: ${data.name}\nAge: ${data.age} years\nGender: ${data.gender}\nMobile: ${data.mobile}`;
+                
                 // Check if Web Share API is available (for mobile)
                 if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
-                        title: `Patient Information - ${data.name}`,
-                        text: `Patient: ${data.name}, Age: ${data.age}, Gender: ${data.gender}`,
+                        title: `Patient: ${data.name}`,
+                        text: caption,
                         files: [file]
                     });
                     
@@ -1233,7 +1287,7 @@
                         document.getElementById('successMessage').classList.remove('active');
                     }, 2000);
                 } else {
-                    // Fallback: Download PDF and show WhatsApp message
+                    // Fallback: Download PDF and open WhatsApp with message
                     const url = URL.createObjectURL(pdfBlob);
                     const a = document.createElement('a');
                     a.href = url;
@@ -1241,13 +1295,18 @@
                     a.click();
                     URL.revokeObjectURL(url);
                     
-                    // Open WhatsApp with text message
+                    // Open WhatsApp with formatted message
                     setTimeout(() => {
-                        const message = `🏥 *Patient Information*\n\n*Name:* ${data.name}\n*Age:* ${data.age}\n*Gender:* ${data.gender}\n*Mobile:* ${data.mobile}\n\n📄 PDF: ${filename}\n\nPDF has been downloaded. Please attach and send it.`;
-                        window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank');
+                        const whatsappMessage = `${caption}\n\n📄 File: ${filename}\n\nPDF has been downloaded. Please attach and send it.`;
+                        // Try WhatsApp Web first, then fall back to wa.me
+                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                        const whatsappURL = isMobile 
+                            ? `whatsapp://send?text=${encodeURIComponent(whatsappMessage)}`
+                            : `https://web.whatsapp.com/send?text=${encodeURIComponent(whatsappMessage)}`;
+                        window.open(whatsappURL, '_blank');
                     }, 500);
                     
-                    alert(`📱 PDF downloaded as: ${filename}\n\nPlease attach it manually in WhatsApp.`);
+                    alert(`📱 PDF downloaded as: ${filename}\n\n${caption}\n\nPlease attach the PDF in WhatsApp.`);
                 }
             } catch (error) {
                 console.error('Share error:', error);
@@ -1279,11 +1338,14 @@
                 // Create file from blob
                 const file = new File([pdfBlob], filename, { type: 'application/pdf' });
                 
+                // Patient info caption/message
+                const caption = `🏥 Patient Information\n\nName: ${data.name}\nAge: ${data.age} years\nGender: ${data.gender}\nMobile: ${data.mobile}`;
+                
                 // Check if Web Share API is available (for mobile)
                 if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
-                        title: `Patient Information - ${data.name}`,
-                        text: `Patient: ${data.name}, Age: ${data.age}, Gender: ${data.gender}`,
+                        title: `Patient: ${data.name}`,
+                        text: caption,
                         files: [file]
                     });
                     
@@ -1301,14 +1363,14 @@
                     a.click();
                     URL.revokeObjectURL(url);
                     
-                    // Open Arattai with text message (if Arattai has share URL)
+                    // Open Arattai with formatted message
                     setTimeout(() => {
-                        const message = `🏥 *Patient Information*\n\n*Name:* ${data.name}\n*Age:* ${data.age}\n*Gender:* ${data.gender}\n*Mobile:* ${data.mobile}\n\n📄 PDF: ${filename}\n\nPDF has been downloaded. Please attach and send it.`;
+                        const arattaiMessage = `${caption}\n\n📄 File: ${filename}\n\nPDF has been downloaded. Please attach and send it.`;
                         // Arattai share URL (adjust if needed)
-                        window.open(`https://arattai.com/share?text=${encodeURIComponent(message)}`, '_blank');
+                        window.open(`https://arattai.com/share?text=${encodeURIComponent(arattaiMessage)}`, '_blank');
                     }, 500);
                     
-                    alert(`💬 PDF downloaded as: ${filename}\n\nPlease attach it manually in Arattai.`);
+                    alert(`💬 PDF downloaded as: ${filename}\n\n${caption}\n\nPlease attach the PDF in Arattai.`);
                 }
             } catch (error) {
                 console.error('Share error:', error);
