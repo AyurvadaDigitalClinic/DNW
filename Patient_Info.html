@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>रोगी सूचना फॉर्म</title>
+    <title>रोगी सूचना प्रपत्र </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,7 +17,7 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Noto Sans Devanagari', Arial, sans-serif;
             background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: gradientShift 15s ease infinite;
@@ -161,10 +165,10 @@
             color: rgba(255,255,255,0.8);
         }
 
-        /* Section 3: Vital Signs - Green Gradient */
+        /* Section 3: Physical Test - Cyan Gradient */
         .section:nth-child(3) {
-            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
-            border-left-color: #56ab2f;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            border-left-color: #11998e;
         }
 
         .section:nth-child(3) .section-title {
@@ -175,10 +179,10 @@
             color: rgba(255,255,255,0.95);
         }
 
-        /* Section 4: Chief Complaint - Pink Gradient */
+        /* Section 4: Vital Signs - Green Gradient */
         .section:nth-child(4) {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-left-color: #f093fb;
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+            border-left-color: #56ab2f;
         }
 
         .section:nth-child(4) .section-title {
@@ -189,10 +193,10 @@
             color: rgba(255,255,255,0.95);
         }
 
-        /* Section 5: Addiction & Surgery History - Orange-Yellow Gradient */
+        /* Section 5: Chief Complaint - Pink Gradient */
         .section:nth-child(5) {
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-            border-left-color: #fa709a;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-left-color: #f093fb;
         }
 
         .section:nth-child(5) .section-title {
@@ -203,42 +207,42 @@
             color: rgba(255,255,255,0.95);
         }
 
-        /* Section 6: Gynecology - Teal Gradient */
+        /* Section 6: Addiction & Surgery History - Orange-Yellow Gradient */
         .section:nth-child(6) {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            border-left-color: #fa709a;
+        }
+
+        .section:nth-child(6) .section-title {
+            color: white;
+        }
+
+        .section:nth-child(6) label {
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* Section 7: Gynecology - Teal Gradient */
+        .section:nth-child(7) {
             background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
             border-left-color: #a8edea;
         }
 
-        .section:nth-child(6) .section-title {
+        .section:nth-child(7) .section-title {
             color: #333;
         }
 
-        .section:nth-child(6) label {
+        .section:nth-child(7) label {
             color: #555;
         }
 
-        .section:nth-child(6) .helper-text {
+        .section:nth-child(7) .helper-text {
             color: #666;
         }
 
-        /* Section 7: Medical History - Teal-Purple Gradient */
-        .section:nth-child(7) {
+        /* Section 8: Medical History - Teal-Purple Gradient */
+        .section:nth-child(8) {
             background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
             border-left-color: #30cfd0;
-        }
-
-        .section:nth-child(7) .section-title {
-            color: white;
-        }
-
-        .section:nth-child(7) label {
-            color: rgba(255,255,255,0.95);
-        }
-
-        /* Section 8: Investigation - Indigo Gradient */
-        .section:nth-child(8) {
-            background: linear-gradient(135deg, #5f72bd 0%, #9b23ea 100%);
-            border-left-color: #5f72bd;
         }
 
         .section:nth-child(8) .section-title {
@@ -249,10 +253,10 @@
             color: rgba(255,255,255,0.95);
         }
 
-        /* Section 9: Current Medications - Red Gradient */
+        /* Section 9: Investigation - Indigo Gradient */
         .section:nth-child(9) {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-            border-left-color: #ff6b6b;
+            background: linear-gradient(135deg, #5f72bd 0%, #9b23ea 100%);
+            border-left-color: #5f72bd;
         }
 
         .section:nth-child(9) .section-title {
@@ -260,6 +264,20 @@
         }
 
         .section:nth-child(9) label {
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* Section 10: Current Medications - Red Gradient */
+        .section:nth-child(10) {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            border-left-color: #ff6b6b;
+        }
+
+        .section:nth-child(10) .section-title {
+            color: white;
+        }
+
+        .section:nth-child(10) label {
             color: rgba(255,255,255,0.95);
         }
 
@@ -594,6 +612,100 @@
             background: linear-gradient(135deg, #ffcdd2 0%, #ef9a9a 100%);
         }
 
+        /* PDF Language Selection Styles */
+        .pdf-language-selection {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eaf6 100%);
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .pdf-language-selection h3 {
+            color: #667eea;
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .pdf-lang-options {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .pdf-lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+
+        .pdf-lang-option:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .pdf-lang-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        .pdf-lang-option label {
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            margin: 0;
+        }
+
+        .pdf-lang-option input[type="radio"]:checked + label {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .pdf-lang-option:has(input[type="radio"]:checked) {
+            border-color: #667eea;
+            background: #f0f4ff;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .pdf-lang-info {
+            margin-top: 10px;
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .pdf-lang-option.hidden {
+            display: none !important;
+        }
+
+        .hindi-warning {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #856404;
+            display: none;
+        }
+
+        .hindi-warning.active {
+            display: block;
+        }
+
         .loading {
             position: fixed;
             top: 0;
@@ -703,7 +815,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏥 रोगी सूचना फॉर्म</h1>
+            <h1>🏥 रोगी सूचना प्रपत्र Ver 1.2</h1>
             <p>Patient Information Form</p>
         </div>
 
@@ -714,7 +826,7 @@
                     <div class="section-title">Wellness Coach Details</div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>DNW ID <span class="required">*</span></label>
+                            <label>DNW ID वेल्नेस कोच का ID नंबर<span class="required">*</span></label>
                             <div style="display: flex; align-items: center; gap: 0;">
                                 <span style="font-weight: bold; font-size: 16px; color: #667eea; padding: 12px 10px; background: #f0f0f0; border-radius: 8px 0 0 8px; border: 2px solid #ddd; border-right: none;">DNW</span>
                                 <input type="text" id="dnwId" inputmode="numeric" placeholder="12345" required 
@@ -724,13 +836,13 @@
                             <div class="helper-text">केवल नंबर दर्ज करें</div>
                         </div>
                         <div class="form-group">
-                            <label>Name <span class="required">*</span></label>
+                            <label>Name वेल्नेस कोच का नाम <span class="required">*</span></label>
                             <input type="text" id="referralName" placeholder="Enter name" required 
                                    oninput="applyProperCase(this)">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Mobile <span class="required">*</span></label>
+                        <label>Mobile वेल्नेस कोच का मोबाइल न०<span class="required">*</span></label>
                         <input type="tel" id="referralMobile" inputmode="numeric" placeholder="10 digit mobile" maxlength="10" required>
                     </div>
                 </div>
@@ -740,7 +852,7 @@
                     <div class="section-title">Basic Information</div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Patient Name <span class="required">*</span></label>
+                            <label>Patient Name रोगी का नाम <span class="required">*</span></label>
                             <input type="text" id="name" placeholder="Enter full name" required 
                                    oninput="applyProperCase(this)">
                         </div>
@@ -769,7 +881,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Mobile <span class="required">*</span></label>
+                            <label>Mobile वेल्नेस कोच का मोबाइल न०<span class="required">*</span></label>
                             <input type="tel" id="mobile" inputmode="numeric" placeholder="10 digit mobile" maxlength="10" required>
                         </div>
                         <div class="form-group">
@@ -780,7 +892,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Address <span class="required">*</span></label>
+                            <label>Address पता <span class="required">*</span></label>
                             <input type="text" id="address" placeholder="Complete address" required 
                                    oninput="applyProperCase(this)">
                         </div>
@@ -791,42 +903,72 @@
                     </div>
                 </div>
 
-                <!-- Chief Complaint -->
+                <!-- Physical Test -->
+                <div class="section">
+                    <div class="section-title">Physical Test (शारीरिक जांच)</div>
+                    <div class="form-group">
+                        <label>Select Physical Findings शारीरिक निष्कर्ष चुनें</label>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="paleSclera" name="physicalTest" value="Pale Sclera">
+                            <label for="paleSclera" class="checkbox-label">👁️ Pale Sclera</label>
+                            
+                            <input type="checkbox" id="pedalEdema" name="physicalTest" value="Pedal Edema">
+                            <label for="pedalEdema" class="checkbox-label">🦶 Pedal Edema</label>
+                            
+                            <input type="checkbox" id="facialEdema" name="physicalTest" value="Facial Edema">
+                            <label for="facialEdema" class="checkbox-label">😶 Facial Edema</label>
+                            
+                            <input type="checkbox" id="oralThrush" name="physicalTest" value="Oral Thrush">
+                            <label for="oralThrush" class="checkbox-label">👄 Oral Thrush</label>
+                            
+                            <input type="checkbox" id="constipation" name="physicalTest" value="Constipation">
+                            <label for="constipation" class="checkbox-label">🚽 Constipation</label>
+                            
+                            <input type="checkbox" id="appetiteLoss" name="physicalTest" value="Appetite Loss">
+                            <label for="appetiteLoss" class="checkbox-label">🍽️ Appetite Loss</label>
+                            
+                            <input type="checkbox" id="noPhysical" name="physicalTest" value="None">
+                            <label for="noPhysical" class="checkbox-label">✅ None</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vital Signs -->
                 <div class="section">
                     <div class="section-title">Vital Signs</div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>BP (mmHg) <span class="required">*</span></label>
+                            <label>BP (mmHg) रक्त चाप <span class="required">*</span></label>
                             <input type="text" id="bp" placeholder="e.g., 120/80" required>
                         </div>
                         <div class="form-group">
-                            <label>Pulse (bpm) <span class="required">*</span></label>
+                            <label>Pulse नाडी (bpm) <span class="required">*</span></label>
                             <input type="text" id="pulse" inputmode="numeric" placeholder="e.g., 72" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Temp (°F) <span class="required">*</span></label>
+                            <label>Temp तापमान (°F) <span class="required">*</span></label>
                             <input type="text" id="temp" inputmode="decimal" placeholder="e.g., 98.6" required>
                         </div>
                         <div class="form-group">
-                            <label>RR (breaths/min) <span class="required">*</span></label>
+                            <label>RR साँस की गति (breaths/min) <span class="required">*</span></label>
                             <input type="text" id="rr" inputmode="numeric" placeholder="e.g., 18" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>SpO2 (%) <span class="required">*</span></label>
+                            <label>SpO2 ऑक्सीजन की मात्रा (%) <span class="required">*</span></label>
                             <input type="text" id="spo2" inputmode="numeric" placeholder="e.g., 98" required>
                         </div>
                         <div class="form-group">
-                            <label>Weight (kg) <span class="required">*</span></label>
+                            <label>Weight वजन (kg) <span class="required">*</span></label>
                             <input type="text" id="weight" inputmode="decimal" placeholder="e.g., 70" required>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Height (cm) <span class="required">*</span></label>
+                            <label>Height उचाई (cm) <span class="required">*</span></label>
                             <input type="text" id="height" inputmode="decimal" placeholder="e.g., 170" required>
                         </div>
                         <div class="form-group">
@@ -842,7 +984,7 @@
                 <div class="section">
                     <div class="section-title">Chief Complaint</div>
                     <div class="form-group">
-                        <label>Main Complaint <span class="required">*</span></label>
+                        <label>Main Complaint वर्तमान लक्षण एवं समस्याएं <span class="required">*</span></label>
                         <textarea id="complaint" placeholder="Describe main complaint" required></textarea>
                     </div>
                 </div>
@@ -851,7 +993,7 @@
                 <div class="section">
                     <div class="section-title">Addiction & Surgery History</div>
                     <div class="form-group">
-                        <label>Addiction</label>
+                        <label>Addiction यदि कोई नशा हो तो चुने</label>
                         <div class="checkbox-group">
                             <input type="checkbox" id="smoking" name="addiction" value="Smoking">
                             <label for="smoking" class="checkbox-label">🚬 Smoking</label>
@@ -873,7 +1015,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Past Surgery History</label>
+                        <label>Past Surgery History पूर्व में हुई कोई शल्य चिकित्सा</label>
                         <div class="checkbox-group">
                             <input type="checkbox" id="appendicectomy" name="surgery" value="Appendicectomy">
                             <label for="appendicectomy" class="checkbox-label">🦠 Appendicectomy</label>
@@ -937,7 +1079,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>LMP</label>
+                            <label>LMP अंतिम मासिक धर्म की तिथि</label>
                             <input type="text" id="lmp" inputmode="numeric" placeholder="DD-MM-YYYY" maxlength="10">
                             <div class="helper-text">📅 Last Menstrual Period</div>
                         </div>
@@ -968,7 +1110,7 @@
                 <div class="section">
                     <div class="section-title">Medical History</div>
                     <div class="form-group">
-                        <label>Medical History</label>
+                        <label>Medical History पहले से कोई अन्य बीमारियाँ</label>
                         <textarea id="medicalHistory" placeholder="Diabetes, BP, Heart disease, etc." 
                                   oninput="applyProperCase(this)"></textarea>
                     </div>
@@ -976,7 +1118,7 @@
 
                 <!-- Gynecology Section -->
                 <div class="section">
-                    <div class="section-title">Recent Investigation</div>
+                    <div class="section-title">Recent Investigation वर्तमान में कराई गई मेडिकल जाँच</div>
                     <div class="form-group">
                         <label>Recent Tests/Reports</label>
                         <textarea id="investigation" placeholder="Blood tests, X-rays, scans, etc."></textarea>
@@ -987,13 +1129,35 @@
                 <div class="section">
                     <div class="section-title">Current Medications</div>
                     <div class="form-group">
-                        <label>Current Medicines</label>
+                        <label>Current Medicines वर्तमान में ली जाने वाली दवाईयाँ</label>
                         <textarea id="onMedicines" placeholder="List current medications" 
                                   oninput="applyProperCase(this)"></textarea>
                     </div>
                 </div>
 
                 <!-- Investigation -->
+                
+                <!-- PDF Language Selection -->
+                <div class="pdf-language-selection">
+                    <h3>📄 रोगी सूचना प्रपत्र PDF भाषा चयन | PDF Language Selection</h3>
+                    <div class="pdf-lang-options">
+                        <div class="pdf-lang-option">
+                            <input type="radio" id="pdfLangEnglish" name="pdfLanguage" value="english" checked>
+                            <label for="pdfLangEnglish">🇬🇧 English PDF (Normal Text-based)</label>
+                        </div>
+                        <div class="pdf-lang-option">
+                            <input type="radio" id="pdfLangHindi" name="pdfLanguage" value="hindi">
+                            <label for="pdfLangHindi">🇮🇳 Hindi PDF (High-Quality Image-based)</label>
+                        </div>
+                    </div>
+                    <div class="pdf-lang-info">
+                        कोई एक चुने 
+                    </div>
+                    <div class="hindi-warning" id="hindiWarning">
+                        ⚠️ <strong>Hindi text detected!</strong> हिंदी टेक्स्ट मिला! Only Hindi PDF option is available for proper rendering.
+                    </div>
+                </div>
+                
                 <!-- Buttons -->
                 <div class="button-group">
                     <button type="button" class="submit-btn btn-pdf" onclick="handleDownloadPDF()">
@@ -1005,6 +1169,9 @@
                     <button type="button" class="submit-btn btn-arattai" onclick="handleArattaiShare()">
                         <span class="btn-icon">💬</span> Send via Arattai
                     </button>
+                </div>
+                <div style="text-align: center; margin-top: 10px; color: #666; font-size: 12px; background: #f0f9ff; padding: 10px; border-radius: 5px;">
+                    ✅ <strong>रूपांकित एवं विकसित | <strong>डा० राजेन्द्र प्रसाद गुप्ता </strong>
                 </div>
             </form>
         </div>
@@ -1020,6 +1187,68 @@
     </div>
 
     <script>
+        // Hindi text detection function
+        function hasHindiText(text) {
+            if (!text) return false;
+            // Check for Devanagari Unicode range (0900-097F)
+            const hindiRegex = /[\u0900-\u097F]/;
+            return hindiRegex.test(text);
+        }
+
+        // Check all form fields for Hindi text
+        function checkForHindiInForm() {
+            const englishOption = document.getElementById('pdfLangEnglish').parentElement;
+            const hindiOption = document.getElementById('pdfLangHindi');
+            const hindiWarning = document.getElementById('hindiWarning');
+            
+            // Get all text inputs, textareas
+            const textFields = document.querySelectorAll('input[type="text"], textarea');
+            
+            let hindiDetected = false;
+            
+            // Check each field for Hindi text
+            for (let field of textFields) {
+                if (hasHindiText(field.value)) {
+                    hindiDetected = true;
+                    break;
+                }
+            }
+            
+            if (hindiDetected) {
+                // Hide English option
+                englishOption.classList.add('hidden');
+                // Auto-select Hindi option
+                hindiOption.checked = true;
+                // Show warning
+                hindiWarning.classList.add('active');
+            } else {
+                // Show English option
+                englishOption.classList.remove('hidden');
+                // Hide warning
+                hindiWarning.classList.remove('active');
+            }
+        }
+
+        // Add event listeners to all text fields
+        document.addEventListener('DOMContentLoaded', function() {
+            const textFields = document.querySelectorAll('input[type="text"], textarea');
+            
+            textFields.forEach(field => {
+                // Check on input (while typing)
+                field.addEventListener('input', function() {
+                    checkForHindiInForm();
+                });
+                
+                // Check on change (after editing)
+                field.addEventListener('change', function() {
+                    checkForHindiInForm();
+                });
+            });
+            
+            // Initial check in case form is pre-filled
+            checkForHindiInForm();
+        });
+
         // Scroll background image for PDF (base64 encoded)
         const scrollBackgroundImage = '/mnt/user-data/uploads/Gemini_Generated_Image_w04lzw04lzw04lzw.png';
         
@@ -1199,6 +1428,7 @@
                 fatherHusband: document.getElementById('fatherHusband').value,
                 address: document.getElementById('address').value,
                 pin: document.getElementById('pin').value,
+                physicalTest: getCheckboxValues('physicalTest'),
                 complaint: document.getElementById('complaint').value,
                 addiction: getCheckboxValues('addiction'),
                 surgery: getCheckboxValues('surgery'),
@@ -1232,18 +1462,29 @@
             }
 
             const data = collectFormData();
+            
+            // Check which PDF language is selected
+            const selectedLanguage = document.querySelector('input[name="pdfLanguage"]:checked').value;
+            
             document.getElementById('loading').classList.add('active');
-            document.getElementById('loadingText').textContent = 'Creating PDF...';
+            document.getElementById('loadingText').textContent = selectedLanguage === 'hindi' ? 'Hindi PDF बनाई जा रही है...' : 'Creating English PDF...';
 
             try {
-                await generatePDF(data);
-                document.getElementById('successMessage').textContent = '✅ PDF Created Successfully!';
+                if (selectedLanguage === 'hindi') {
+                    await generateHindiPDF(data);
+                    document.getElementById('successMessage').textContent = '✅ Hindi PDF Created Successfully! | हिंदी PDF सफलतापूर्वक बनाई गई!';
+                } else {
+                    await generateEnglishPDF(data);
+                    document.getElementById('successMessage').textContent = '✅ English PDF Created Successfully!';
+                }
+                
                 document.getElementById('successMessage').classList.add('active');
                 setTimeout(() => {
                     document.getElementById('successMessage').classList.remove('active');
                 }, 2000);
             } catch (error) {
-                alert('Error generating PDF');
+                console.error('PDF Generation Error:', error);
+                alert('Error generating PDF | PDF बनाने में त्रुटि');
             } finally {
                 document.getElementById('loading').classList.remove('active');
             }
@@ -1381,105 +1622,65 @@
             }
         }
 
-        // Generate PDF (for download)
-        async function generatePDF(data) {
+        // Generate English PDF with decorative borders (text-based)
+        async function generateEnglishPDF(data) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
             const pageWidth = doc.internal.pageSize.getWidth();
             const pageHeight = doc.internal.pageSize.getHeight();
             const leftMargin = 15;
-            const rightMargin = pageWidth - 15;
             let yPos = 20;
             const lineHeight = 5;
             
-            // ============= DECORATIVE BORDER FUNCTION =============
+            // Golden decorative border
             function addDecorativeBorder() {
-                // Outer Border - Golden Color (thinner)
-                doc.setDrawColor(184, 134, 11); // Dark golden
+                doc.setDrawColor(184, 134, 11);
                 doc.setLineWidth(1.5);
                 doc.rect(3, 3, pageWidth - 6, pageHeight - 6);
                 
-                // Inner Border - Light Golden (thinner)
-                doc.setDrawColor(218, 165, 32); // Goldenrod
+                doc.setDrawColor(218, 165, 32);
                 doc.setLineWidth(0.8);
                 doc.rect(5, 5, pageWidth - 10, pageHeight - 10);
                 
-                // Compact Corner Elements
-                function drawCornerDecoration(x, y, rotation) {
+                // Corner decorations
+                function drawCorner(x, y, rotation) {
                     doc.setFillColor(184, 134, 11);
-                    
-                    // Smaller corner ornament
                     for (let i = 0; i < 8; i++) {
                         const angle = (rotation + i * 45) * Math.PI / 180;
-                        const petalX = x + Math.cos(angle) * 1.5;
-                        const petalY = y + Math.sin(angle) * 1.5;
-                        doc.circle(petalX, petalY, 0.8, 'F');
+                        const px = x + Math.cos(angle) * 1.5;
+                        const py = y + Math.sin(angle) * 1.5;
+                        doc.circle(px, py, 0.8, 'F');
                     }
-                    
-                    // Center circle
                     doc.setFillColor(218, 165, 32);
                     doc.circle(x, y, 1, 'F');
                 }
                 
-                // Draw corner decorations (smaller)
-                drawCornerDecoration(7, 7, 0);      // Top-left
-                drawCornerDecoration(pageWidth - 7, 7, 90);    // Top-right
-                drawCornerDecoration(7, pageHeight - 7, 270);  // Bottom-left
-                drawCornerDecoration(pageWidth - 7, pageHeight - 7, 180); // Bottom-right
+                drawCorner(7, 7, 0);
+                drawCorner(pageWidth - 7, 7, 90);
+                drawCorner(7, pageHeight - 7, 270);
+                drawCorner(pageWidth - 7, pageHeight - 7, 180);
                 
-                // Thin top decorative bar
-                doc.setFillColor(184, 134, 11);
-                doc.rect(10, 8, pageWidth - 20, 1.5, 'F');
-                
-                // Top pattern (fewer circles)
-                doc.setFillColor(218, 165, 32);
-                for (let i = 15; i < pageWidth - 15; i += 10) {
-                    doc.circle(i, 8.75, 0.5, 'F');
-                }
-                
-                // Thin bottom decorative bar
-                doc.setFillColor(184, 134, 11);
-                doc.rect(10, pageHeight - 9.5, pageWidth - 20, 1.5, 'F');
-                
-                // Bottom pattern
-                doc.setFillColor(218, 165, 32);
-                for (let i = 15; i < pageWidth - 15; i += 10) {
-                    doc.circle(i, pageHeight - 8.75, 0.5, 'F');
-                }
-                
-                // Minimal side decorations
-                doc.setFillColor(218, 165, 32);
-                for (let i = 25; i < pageHeight - 25; i += 20) {
-                    doc.circle(7, i, 0.6, 'F');
-                    doc.circle(pageWidth - 7, i, 0.6, 'F');
-                }
-                
-                // Light background
                 doc.setFillColor(255, 253, 245);
                 doc.rect(8, 11, pageWidth - 16, pageHeight - 22, 'F');
             }
-            // ============= END OF DECORATIVE BORDER FUNCTION =============
             
-            // Add decorative border to first page
             addDecorativeBorder();
             
-            // Header with decorative background
+            // Header
             doc.setFillColor(102, 126, 234);
             doc.rect(12, 13, pageWidth - 24, 10, 'F');
             doc.setFontSize(16);
             doc.setFont(undefined, 'bold');
             doc.setTextColor(255, 255, 255);
             doc.text('Patient Information Form', pageWidth/2, 20, { align: 'center' });
-            
             doc.setTextColor(0, 0, 0);
             yPos = 28;
             
-            // Helper function for section header
             function addSection(title) {
                 if (yPos > pageHeight - 40) {
                     doc.addPage();
-                    addDecorativeBorder(); // Add border to new page too
+                    addDecorativeBorder();
                     yPos = 20;
                 }
                 doc.setFontSize(10);
@@ -1492,188 +1693,425 @@
                 yPos += 7;
             }
             
-            // Helper function for wrapped text with justify alignment (100 characters per line)
-            function addWrappedText(label, value, maxChars = 100) {
-                if (yPos > pageHeight - 30) {
-                    doc.addPage();
-                    addDecorativeBorder();
-                    yPos = 20;
-                }
-                doc.setFontSize(8);
-                doc.setFont(undefined, 'bold');
-                doc.text(label + ':', leftMargin + 2, yPos);
-                doc.setFont(undefined, 'normal');
-                
-                if (!value || value === 'None' || value.trim() === '') {
-                    doc.text('-', leftMargin + 40, yPos);
-                    yPos += lineHeight;
-                } else {
-                    // Word wrapping with proper long word handling
-                    const words = value.split(' ');
-                    const lines = [];
-                    let currentLine = '';
-                    
-                    for (let i = 0; i < words.length; i++) {
-                        let word = words[i];
-                        
-                        // Handle very long words (>100 chars) by breaking them
-                        while (word.length > maxChars) {
-                            if (currentLine) {
-                                lines.push(currentLine);
-                                currentLine = '';
-                            }
-                            lines.push(word.substring(0, maxChars));
-                            word = word.substring(maxChars);
-                        }
-                        
-                        const testLine = currentLine + (currentLine ? ' ' : '') + word;
-                        
-                        if (testLine.length <= maxChars) {
-                            currentLine = testLine;
-                        } else {
-                            if (currentLine) {
-                                lines.push(currentLine);
-                            }
-                            currentLine = word;
-                        }
-                    }
-                    
-                    if (currentLine) {
-                        lines.push(currentLine);
-                    }
-                    
-                    // Render lines with proper spacing
-                    const startX = leftMargin + 40;
-                    const endX = leftMargin + 178;
-                    const availableWidth = endX - startX;
-                    
-                    lines.forEach((line, index) => {
-                        // Check if we need a new page
-                        if (yPos > pageHeight - 30) {
-                            doc.addPage();
-                            addDecorativeBorder();
-                            yPos = 20;
-                        }
-                        
-                        if (index === lines.length - 1) {
-                            // Last line - left aligned only
-                            doc.text(line, startX, yPos);
-                        } else {
-                            // Justify the line
-                            const lineWords = line.split(' ');
-                            if (lineWords.length === 1) {
-                                doc.text(line, startX, yPos);
-                            } else {
-                                const totalTextWidth = lineWords.reduce((sum, word) => sum + doc.getTextWidth(word), 0);
-                                const totalSpaceWidth = availableWidth - totalTextWidth;
-                                const spaceWidth = totalSpaceWidth / (lineWords.length - 1);
-                                
-                                let xPos = startX;
-                                lineWords.forEach((word, wordIndex) => {
-                                    doc.text(word, xPos, yPos);
-                                    if (wordIndex < lineWords.length - 1) {
-                                        xPos += doc.getTextWidth(word) + spaceWidth;
-                                    }
-                                });
-                            }
-                        }
-                        yPos += lineHeight;
-                    });
-                }
-            }
-            
-            // 1. Wellness Coach Details - 1 line: ID, Name, Mobile
+            // Wellness Coach
             addSection('Wellness Coach Details');
             doc.setFontSize(8);
             doc.setFont(undefined, 'normal');
             doc.text(`ID: DNW${data.dnwId} | Name: ${data.referralName} | Mobile: ${data.referralMobile}`, leftMargin + 2, yPos);
             yPos += 7;
             
-            // 2. Basic Information - 4 lines
+            // Basic Information
             addSection('Basic Information');
             doc.setFontSize(8);
-            doc.setFont(undefined, 'normal');
-            // Line 1: Name, DOB, Age
             doc.text(`Name: ${data.name} | DOB: ${data.dob} | Age: ${data.age} years`, leftMargin + 2, yPos);
             yPos += lineHeight;
-            // Line 2: Gender, Father/Husband Name
             doc.text(`Gender: ${data.gender} | Father/Husband: ${data.fatherHusband || '-'}`, leftMargin + 2, yPos);
             yPos += lineHeight;
-            // Line 3: Address
-            const addressLines = doc.splitTextToSize(`Address: ${data.address}`, 170);
-            doc.text(addressLines, leftMargin + 2, yPos);
-            yPos += lineHeight * addressLines.length;
-            // Line 4: Mobile, PIN
+            doc.text(`Address: ${data.address}`, leftMargin + 2, yPos);
+            yPos += lineHeight;
             doc.text(`Mobile: ${data.mobile} | PIN: ${data.pin}`, leftMargin + 2, yPos);
             yPos += 7;
             
-            // 3. Vital Signs - 2 lines
-            addSection('Vital Signs');
+            // Physical Test
+            addSection('Physical Test');
             doc.setFontSize(8);
-            doc.setFont(undefined, 'normal');
-            doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
-            yPos += lineHeight;
-            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi} (${data.bmiCategory})`, leftMargin + 2, yPos);
+            doc.text(`Physical Findings: ${data.physicalTest}`, leftMargin + 2, yPos);
             yPos += 7;
             
-            // 4. Chief Complaint - Max 100 chars per line
-            addSection('Chief Complaint');
-            addWrappedText('Complaint', data.complaint, 100);
-            yPos += 2;
-            
-            // 5. Addiction & Surgery History - 1 line
-            addSection('Addiction & Surgery History');
+            // Vital Signs
+            addSection('Vital Signs');
             doc.setFontSize(8);
-            doc.setFont(undefined, 'normal');
+            doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
+            yPos += lineHeight;
+            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi}`, leftMargin + 2, yPos);
+            yPos += 7;
+            
+            // Chief Complaint
+            addSection('Chief Complaint');
+            const complaintLines = doc.splitTextToSize(data.complaint, 170);
+            doc.text(complaintLines, leftMargin + 2, yPos);
+            yPos += lineHeight * complaintLines.length + 5;
+            
+            // Addiction & Surgery
+            addSection('Addiction & Surgery History');
             let surgeryText = `Addiction: ${data.addiction} | Surgery: ${data.surgery}`;
-            if (data.surgeryOther && data.surgeryOther.trim()) {
-                surgeryText += ` | Other: ${data.surgeryOther}`;
-            }
+            if (data.surgeryOther) surgeryText += ` | Other: ${data.surgeryOther}`;
             const surgeryLines = doc.splitTextToSize(surgeryText, 170);
             doc.text(surgeryLines, leftMargin + 2, yPos);
-            yPos += lineHeight * surgeryLines.length + 2;
+            yPos += lineHeight * surgeryLines.length + 5;
             
-            // 6. Gynecology Information - 2 lines (Female > 8 years only)
-            if (data.gender === 'Female' && parseInt(data.age) > 8) {
+            // Gynecology
+            if (data.gynecoInfo) {
                 addSection('Gynecology Information');
-                doc.setFontSize(8);
-                doc.setFont(undefined, 'normal');
-                // Line 1: Menopause, LMP, Cycle, Duration
-                doc.text(`Menopause: ${data.menopause || '-'} | LMP: ${data.lmp || '-'} | Cycle: ${data.cycle || '-'} days | Duration: ${data.duration || '-'} days`, leftMargin + 2, yPos);
-                yPos += lineHeight;
-                // Line 2: Total Children, Last Child Age
-                doc.text(`Total Children: ${data.totalChild || '-'} | Last Child Age: ${data.lastChildAge || '-'} years`, leftMargin + 2, yPos);
-                yPos += 7;
+                const gynecoLines = doc.splitTextToSize(data.gynecoInfo, 170);
+                doc.text(gynecoLines, leftMargin + 2, yPos);
+                yPos += lineHeight * gynecoLines.length + 5;
             }
             
-            // 7. Medical History - Max 100 chars per line
+            // Medical History
             addSection('Medical History');
-            addWrappedText('History', data.medicalHistory || 'None', 100);
-            yPos += 2;
+            const historyLines = doc.splitTextToSize(data.medicalHistory || '-', 170);
+            doc.text(historyLines, leftMargin + 2, yPos);
+            yPos += lineHeight * historyLines.length + 5;
             
-            // 8. Recent Investigation - Max 100 chars per line
+            // Recent Investigation
             addSection('Recent Investigation');
-            addWrappedText('Tests/Reports', data.investigation || 'None', 100);
-            yPos += 2;
+            const investigationLines = doc.splitTextToSize(data.investigation || '-', 170);
+            doc.text(investigationLines, leftMargin + 2, yPos);
+            yPos += lineHeight * investigationLines.length + 5;
             
-            // 9. Current Medications - Max 100 chars per line
+            // Current Medications
             addSection('Current Medications');
-            addWrappedText('Medicines', data.onMedicines || 'None', 100);
-            yPos += 2;
+            const medicinesLines = doc.splitTextToSize(data.onMedicines || '-', 170);
+            doc.text(medicinesLines, leftMargin + 2, yPos);
+            yPos += lineHeight * medicinesLines.length + 5;
             
             // Footer
-            yPos = pageHeight - 10;
             doc.setFontSize(7);
             doc.setTextColor(100);
-            doc.text('Generated on: ' + new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}), pageWidth/2, yPos, { align: 'center' });
+            doc.text('Generated on: ' + new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}), pageWidth/2, pageHeight - 10, { align: 'center' });
             
-            // Save with custom filename: ID_Name_Mobile.pdf
             const filename = `${data.dnwId}_${data.name}_${data.mobile}.pdf`;
             doc.save(filename);
         }
 
-        // Generate PDF as Blob (for sharing)
-        async function generatePDFBlob(data) {
+        // Generate Hindi PDF using html2canvas (for perfect Hindi rendering)
+        async function generateHindiPDF(data) {
+            // Show loading message
+            const loadingMsg = document.createElement('div');
+            loadingMsg.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:30px;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.3);z-index:10000;text-align:center;';
+            loadingMsg.innerHTML = '<div style="font-size:18px;margin-bottom:10px;">📄 Creating PDF...</div><div style="color:#666;">कृपया प्रतीक्षा करें...</div>';
+            document.body.appendChild(loadingMsg);
+            
+            try {
+                // Create a temporary container for PDF content
+                const pdfContainer = document.createElement('div');
+                pdfContainer.style.cssText = 'position:absolute;left:-9999px;top:0;width:210mm;background:white;font-family:"Noto Sans Devanagari",Arial,sans-serif;';
+                
+                // Build PDF content HTML with decorative borders
+                pdfContainer.innerHTML = `
+                    <style>
+                        .pdf-page {
+                            position: relative;
+                            padding: 15mm;
+                            background: rgb(255, 253, 245);
+                        }
+                        
+                        .pdf-outer-border {
+                            position: absolute;
+                            top: 3mm;
+                            left: 3mm;
+                            right: 3mm;
+                            bottom: 3mm;
+                            border: 1.5px solid rgb(184, 134, 11);
+                            border-radius: 2mm;
+                        }
+                        
+                        .pdf-inner-border {
+                            position: absolute;
+                            top: 5mm;
+                            left: 5mm;
+                            right: 5mm;
+                            bottom: 5mm;
+                            border: 0.8px solid rgb(218, 165, 32);
+                            border-radius: 1.5mm;
+                        }
+                        
+                        .corner-decoration {
+                            position: absolute;
+                            width: 4mm;
+                            height: 4mm;
+                            background: radial-gradient(circle, rgb(218, 165, 32), rgb(184, 134, 11));
+                            border-radius: 50%;
+                        }
+                        
+                        .corner-decoration::before {
+                            content: '';
+                            position: absolute;
+                            width: 3mm;
+                            height: 3mm;
+                            background: rgb(218, 165, 32);
+                            border-radius: 50%;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                        
+                        .corner-tl { top: 7mm; left: 7mm; }
+                        .corner-tr { top: 7mm; right: 7mm; }
+                        .corner-bl { bottom: 7mm; left: 7mm; }
+                        .corner-br { bottom: 7mm; right: 7mm; }
+                        
+                        .top-bar {
+                            position: absolute;
+                            top: 8mm;
+                            left: 15mm;
+                            right: 15mm;
+                            height: 1.5mm;
+                            background: rgb(184, 134, 11);
+                        }
+                        
+                        .bottom-bar {
+                            position: absolute;
+                            bottom: 8mm;
+                            left: 15mm;
+                            right: 15mm;
+                            height: 1.5mm;
+                            background: rgb(184, 134, 11);
+                        }
+                        
+                        .top-dots, .bottom-dots {
+                            position: absolute;
+                            left: 15mm;
+                            right: 15mm;
+                            display: flex;
+                            justify-content: space-around;
+                        }
+                        
+                        .top-dots {
+                            top: 8.75mm;
+                        }
+                        
+                        .bottom-dots {
+                            bottom: 8.75mm;
+                        }
+                        
+                        .dot {
+                            width: 1mm;
+                            height: 1mm;
+                            background: rgb(218, 165, 32);
+                            border-radius: 50%;
+                        }
+                        
+                        .side-dots-left, .side-dots-right {
+                            position: absolute;
+                            top: 25mm;
+                            bottom: 25mm;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-around;
+                        }
+                        
+                        .side-dots-left { left: 7mm; }
+                        .side-dots-right { right: 7mm; }
+                        
+                        .side-dot {
+                            width: 1.2mm;
+                            height: 1.2mm;
+                            background: rgb(218, 165, 32);
+                            border-radius: 50%;
+                        }
+                        
+                        .pdf-content {
+                            position: relative;
+                            z-index: 10;
+                            padding: 5mm;
+                        }
+                    </style>
+                    
+                    <div class="pdf-page">
+                        <!-- Decorative Borders -->
+                        <div class="pdf-outer-border"></div>
+                        <div class="pdf-inner-border"></div>
+                        
+                        <!-- Corner Decorations -->
+                        <div class="corner-decoration corner-tl"></div>
+                        <div class="corner-decoration corner-tr"></div>
+                        <div class="corner-decoration corner-bl"></div>
+                        <div class="corner-decoration corner-br"></div>
+                        
+                        <!-- Top/Bottom Bars -->
+                        <div class="top-bar"></div>
+                        <div class="bottom-bar"></div>
+                        
+                        <!-- Decorative Dots -->
+                        <div class="top-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <div class="bottom-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        
+                        <!-- Side Dots -->
+                        <div class="side-dots-left">
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                        </div>
+                        <div class="side-dots-right">
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                        </div>
+                        
+                        <!-- Main Content -->
+                        <div class="pdf-content">
+                    <div style="text-align:center;margin-bottom:20px;">
+                        <h1 style="color:#667eea;font-size:24px;margin-bottom:5px;">Patient Information Form</h1>
+                        <p style="color:#666;font-size:12px;">रोगी सूचना फॉर्म</p>
+                    </div>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Wellness Coach Details
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        <strong>ID:</strong> DNW${data.dnwId} | <strong>Name:</strong> ${data.referralName} | <strong>Mobile:</strong> ${data.referralMobile}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Basic Information
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        <strong>Name:</strong> ${data.name} | <strong>DOB:</strong> ${data.dob} | <strong>Age:</strong> ${data.age} years<br>
+                        <strong>Gender:</strong> ${data.gender} | <strong>Father/Husband:</strong> ${data.fatherHusband || '-'}<br>
+                        <strong>Address:</strong> ${data.address}<br>
+                        <strong>Mobile:</strong> ${data.mobile} | <strong>PIN:</strong> ${data.pin}
+                    </p>
+                    
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Physical Test (शारीरिक जांच)
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        <strong>Physical Findings:</strong> ${data.physicalTest}
+                    </p>
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Vital Signs
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        <strong>BP:</strong> ${data.bp} | <strong>Pulse:</strong> ${data.pulse} bpm | <strong>Temp:</strong> ${data.temp}°F | <strong>RR:</strong> ${data.rr}/min<br>
+                        <strong>SpO2:</strong> ${data.spo2}% | <strong>Weight:</strong> ${data.weight}kg | <strong>Height:</strong> ${data.height}cm | <strong>BMI:</strong> ${data.bmi}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Chief Complaint
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;line-height:1.6;text-align:justify;">
+                        ${data.complaint}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Addiction & Surgery History
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        <strong>Addiction:</strong> ${data.addiction} | <strong>Surgery:</strong> ${data.surgery}${data.surgeryOther ? ' | Other: ' + data.surgeryOther : ''}
+                    </p>
+                    
+                    ${data.gynecoInfo ? `
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Gynecology Information
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        ${data.gynecoInfo}
+                    </p>
+                    ` : ''}
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Medical History
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;line-height:1.6;text-align:justify;">
+                        ${data.medicalHistory || '-'}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Recent Investigation
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;line-height:1.6;text-align:justify;">
+                        ${data.investigation || '-'}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Current Medications
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;line-height:1.6;text-align:justify;">
+                        ${data.onMedicines || '-'}
+                    </p>
+                    
+                    <p style="text-align:center;font-size:10px;color:#666;margin-top:20px;">
+                        Generated on: ${new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'})}
+                    </p>
+                        </div><!-- Close pdf-content -->
+                    </div><!-- Close pdf-page -->
+                `;
+                
+                document.body.appendChild(pdfContainer);
+                
+                // Wait for fonts to load
+                await document.fonts.ready;
+                
+                // Convert to canvas with high quality
+                const canvas = await html2canvas(pdfContainer, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                });
+                
+                // Create PDF
+                const { jsPDF } = window.jspdf;
+                const imgWidth = 210; // A4 width in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgData = canvas.toDataURL('image/png');
+                
+                // Add image to PDF
+                let position = 0;
+                const pageHeight = 297; // A4 height in mm
+                
+                if (imgHeight > pageHeight) {
+                    // Multiple pages needed
+                    let heightLeft = imgHeight;
+                    
+                    while (heightLeft > 0) {
+                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                        
+                        if (heightLeft > 0) {
+                            pdf.addPage();
+                            position = -pageHeight;
+                        }
+                    }
+                } else {
+                    // Single page
+                    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                }
+                
+                // Clean up
+                document.body.removeChild(pdfContainer);
+                
+                // Save PDF
+                const filename = `${data.dnwId}_${data.name}_${data.mobile}.pdf`;
+                pdf.save(filename);
+                
+            } catch (error) {
+                console.error('PDF Generation Error:', error);
+                alert('PDF generation failed. Please try again.');
+            } finally {
+                document.body.removeChild(loadingMsg);
+            }
+        }
+
+        // Generate English PDF as Blob (for sharing)
+        async function generateEnglishPDFBlob(data) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
@@ -1683,93 +2121,52 @@
             let yPos = 20;
             const lineHeight = 5;
             
-            // ============= DECORATIVE BORDER FUNCTION =============
+            // Golden decorative border
             function addDecorativeBorder() {
-                // Outer Border - Golden Color (thinner)
-                doc.setDrawColor(184, 134, 11); // Dark golden
+                doc.setDrawColor(184, 134, 11);
                 doc.setLineWidth(1.5);
                 doc.rect(3, 3, pageWidth - 6, pageHeight - 6);
                 
-                // Inner Border - Light Golden (thinner)
-                doc.setDrawColor(218, 165, 32); // Goldenrod
+                doc.setDrawColor(218, 165, 32);
                 doc.setLineWidth(0.8);
                 doc.rect(5, 5, pageWidth - 10, pageHeight - 10);
                 
-                // Compact Corner Elements
-                function drawCornerDecoration(x, y, rotation) {
+                function drawCorner(x, y, rotation) {
                     doc.setFillColor(184, 134, 11);
-                    
-                    // Smaller corner ornament
                     for (let i = 0; i < 8; i++) {
                         const angle = (rotation + i * 45) * Math.PI / 180;
-                        const petalX = x + Math.cos(angle) * 1.5;
-                        const petalY = y + Math.sin(angle) * 1.5;
-                        doc.circle(petalX, petalY, 0.8, 'F');
+                        const px = x + Math.cos(angle) * 1.5;
+                        const py = y + Math.sin(angle) * 1.5;
+                        doc.circle(px, py, 0.8, 'F');
                     }
-                    
-                    // Center circle
                     doc.setFillColor(218, 165, 32);
                     doc.circle(x, y, 1, 'F');
                 }
                 
-                // Draw corner decorations (smaller)
-                drawCornerDecoration(7, 7, 0);      // Top-left
-                drawCornerDecoration(pageWidth - 7, 7, 90);    // Top-right
-                drawCornerDecoration(7, pageHeight - 7, 270);  // Bottom-left
-                drawCornerDecoration(pageWidth - 7, pageHeight - 7, 180); // Bottom-right
+                drawCorner(7, 7, 0);
+                drawCorner(pageWidth - 7, 7, 90);
+                drawCorner(7, pageHeight - 7, 270);
+                drawCorner(pageWidth - 7, pageHeight - 7, 180);
                 
-                // Thin top decorative bar
-                doc.setFillColor(184, 134, 11);
-                doc.rect(10, 8, pageWidth - 20, 1.5, 'F');
-                
-                // Top pattern (fewer circles)
-                doc.setFillColor(218, 165, 32);
-                for (let i = 15; i < pageWidth - 15; i += 10) {
-                    doc.circle(i, 8.75, 0.5, 'F');
-                }
-                
-                // Thin bottom decorative bar
-                doc.setFillColor(184, 134, 11);
-                doc.rect(10, pageHeight - 9.5, pageWidth - 20, 1.5, 'F');
-                
-                // Bottom pattern
-                doc.setFillColor(218, 165, 32);
-                for (let i = 15; i < pageWidth - 15; i += 10) {
-                    doc.circle(i, pageHeight - 8.75, 0.5, 'F');
-                }
-                
-                // Minimal side decorations
-                doc.setFillColor(218, 165, 32);
-                for (let i = 25; i < pageHeight - 25; i += 20) {
-                    doc.circle(7, i, 0.6, 'F');
-                    doc.circle(pageWidth - 7, i, 0.6, 'F');
-                }
-                
-                // Light background
                 doc.setFillColor(255, 253, 245);
                 doc.rect(8, 11, pageWidth - 16, pageHeight - 22, 'F');
             }
-            // ============= END OF DECORATIVE BORDER FUNCTION =============
             
-            // Add decorative border to first page
             addDecorativeBorder();
             
-            // Header with decorative background
             doc.setFillColor(102, 126, 234);
             doc.rect(12, 13, pageWidth - 24, 10, 'F');
             doc.setFontSize(16);
             doc.setFont(undefined, 'bold');
             doc.setTextColor(255, 255, 255);
             doc.text('Patient Information Form', pageWidth/2, 20, { align: 'center' });
-            
             doc.setTextColor(0, 0, 0);
             yPos = 28;
             
-            // Helper functions
             function addSection(title) {
                 if (yPos > pageHeight - 40) {
                     doc.addPage();
-                    addDecorativeBorder(); // Add border to new page too
+                    addDecorativeBorder();
                     yPos = 20;
                 }
                 doc.setFontSize(10);
@@ -1782,174 +2179,408 @@
                 yPos += 7;
             }
             
-            function addWrappedText(label, value, maxChars = 100) {
-                if (yPos > pageHeight - 30) {
-                    doc.addPage();
-                    addDecorativeBorder();
-                    yPos = 20;
-                }
-                doc.setFontSize(8);
-                doc.setFont(undefined, 'bold');
-                doc.text(label + ':', leftMargin + 2, yPos);
-                doc.setFont(undefined, 'normal');
-                
-                if (!value || value === 'None' || value.trim() === '') {
-                    doc.text('-', leftMargin + 40, yPos);
-                    yPos += lineHeight;
-                } else {
-                    // Word wrapping with proper long word handling
-                    const words = value.split(' ');
-                    const lines = [];
-                    let currentLine = '';
-                    
-                    for (let i = 0; i < words.length; i++) {
-                        let word = words[i];
-                        
-                        // Handle very long words (>100 chars) by breaking them
-                        while (word.length > maxChars) {
-                            if (currentLine) {
-                                lines.push(currentLine);
-                                currentLine = '';
-                            }
-                            lines.push(word.substring(0, maxChars));
-                            word = word.substring(maxChars);
-                        }
-                        
-                        const testLine = currentLine + (currentLine ? ' ' : '') + word;
-                        
-                        if (testLine.length <= maxChars) {
-                            currentLine = testLine;
-                        } else {
-                            if (currentLine) {
-                                lines.push(currentLine);
-                            }
-                            currentLine = word;
-                        }
-                    }
-                    
-                    if (currentLine) {
-                        lines.push(currentLine);
-                    }
-                    
-                    // Render lines with proper spacing
-                    const startX = leftMargin + 40;
-                    const endX = leftMargin + 178;
-                    const availableWidth = endX - startX;
-                    
-                    lines.forEach((line, index) => {
-                        // Check if we need a new page
-                        if (yPos > pageHeight - 30) {
-                            doc.addPage();
-                            addDecorativeBorder();
-                            yPos = 20;
-                        }
-                        
-                        if (index === lines.length - 1) {
-                            // Last line - left aligned only
-                            doc.text(line, startX, yPos);
-                        } else {
-                            // Justify the line
-                            const lineWords = line.split(' ');
-                            if (lineWords.length === 1) {
-                                doc.text(line, startX, yPos);
-                            } else {
-                                const totalTextWidth = lineWords.reduce((sum, word) => sum + doc.getTextWidth(word), 0);
-                                const totalSpaceWidth = availableWidth - totalTextWidth;
-                                const spaceWidth = totalSpaceWidth / (lineWords.length - 1);
-                                
-                                let xPos = startX;
-                                lineWords.forEach((word, wordIndex) => {
-                                    doc.text(word, xPos, yPos);
-                                    if (wordIndex < lineWords.length - 1) {
-                                        xPos += doc.getTextWidth(word) + spaceWidth;
-                                    }
-                                });
-                            }
-                        }
-                        yPos += lineHeight;
-                    });
-                }
-            }
-            
-            // 1. Wellness Coach Details - 1 line
             addSection('Wellness Coach Details');
             doc.setFontSize(8);
             doc.setFont(undefined, 'normal');
             doc.text(`ID: DNW${data.dnwId} | Name: ${data.referralName} | Mobile: ${data.referralMobile}`, leftMargin + 2, yPos);
             yPos += 7;
             
-            // 2. Basic Information - 4 lines
             addSection('Basic Information');
             doc.setFontSize(8);
-            doc.setFont(undefined, 'normal');
             doc.text(`Name: ${data.name} | DOB: ${data.dob} | Age: ${data.age} years`, leftMargin + 2, yPos);
             yPos += lineHeight;
             doc.text(`Gender: ${data.gender} | Father/Husband: ${data.fatherHusband || '-'}`, leftMargin + 2, yPos);
             yPos += lineHeight;
-            const addressLines = doc.splitTextToSize(`Address: ${data.address}`, 170);
-            doc.text(addressLines, leftMargin + 2, yPos);
-            yPos += lineHeight * addressLines.length;
+            doc.text(`Address: ${data.address}`, leftMargin + 2, yPos);
+            yPos += lineHeight;
             doc.text(`Mobile: ${data.mobile} | PIN: ${data.pin}`, leftMargin + 2, yPos);
             yPos += 7;
             
-            // 3. Vital Signs
-            addSection('Vital Signs');
+            addSection('Physical Test');
             doc.setFontSize(8);
-            doc.setFont(undefined, 'normal');
-            doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
-            yPos += lineHeight;
-            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi} (${data.bmiCategory})`, leftMargin + 2, yPos);
+            doc.text(`Physical Findings: ${data.physicalTest}`, leftMargin + 2, yPos);
             yPos += 7;
             
-            // 4. Chief Complaint
-            addSection('Chief Complaint');
-            addWrappedText('Complaint', data.complaint, 100);
-            yPos += 2;
-            
-            // 5. Addiction & Surgery History - 1 line
-            addSection('Addiction & Surgery History');
+            addSection('Vital Signs');
             doc.setFontSize(8);
-            doc.setFont(undefined, 'normal');
+            doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
+            yPos += lineHeight;
+            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi}`, leftMargin + 2, yPos);
+            yPos += 7;
+            
+            addSection('Chief Complaint');
+            const complaintLines = doc.splitTextToSize(data.complaint, 170);
+            doc.text(complaintLines, leftMargin + 2, yPos);
+            yPos += lineHeight * complaintLines.length + 5;
+            
+            addSection('Addiction & Surgery History');
             let surgeryText = `Addiction: ${data.addiction} | Surgery: ${data.surgery}`;
-            if (data.surgeryOther && data.surgeryOther.trim()) {
-                surgeryText += ` | Other: ${data.surgeryOther}`;
-            }
+            if (data.surgeryOther) surgeryText += ` | Other: ${data.surgeryOther}`;
             const surgeryLines = doc.splitTextToSize(surgeryText, 170);
             doc.text(surgeryLines, leftMargin + 2, yPos);
-            yPos += lineHeight * surgeryLines.length + 2;
+            yPos += lineHeight * surgeryLines.length + 5;
             
-            // 6. Gynecology Information - 2 lines (Female > 8 years only)
-            if (data.gender === 'Female' && parseInt(data.age) > 8) {
+            if (data.gynecoInfo) {
                 addSection('Gynecology Information');
-                doc.setFontSize(8);
-                doc.setFont(undefined, 'normal');
-                doc.text(`Menopause: ${data.menopause || '-'} | LMP: ${data.lmp || '-'} | Cycle: ${data.cycle || '-'} days | Duration: ${data.duration || '-'} days`, leftMargin + 2, yPos);
-                yPos += lineHeight;
-                doc.text(`Total Children: ${data.totalChild || '-'} | Last Child Age: ${data.lastChildAge || '-'} years`, leftMargin + 2, yPos);
-                yPos += 7;
+                const gynecoLines = doc.splitTextToSize(data.gynecoInfo, 170);
+                doc.text(gynecoLines, leftMargin + 2, yPos);
+                yPos += lineHeight * gynecoLines.length + 5;
             }
             
-            // 7. Medical History
             addSection('Medical History');
-            addWrappedText('History', data.medicalHistory || 'None', 100);
-            yPos += 2;
+            const historyLines = doc.splitTextToSize(data.medicalHistory || '-', 170);
+            doc.text(historyLines, leftMargin + 2, yPos);
+            yPos += lineHeight * historyLines.length + 5;
             
-            // 8. Recent Investigation
             addSection('Recent Investigation');
-            addWrappedText('Tests/Reports', data.investigation || 'None', 100);
-            yPos += 2;
+            const investigationLines = doc.splitTextToSize(data.investigation || '-', 170);
+            doc.text(investigationLines, leftMargin + 2, yPos);
+            yPos += lineHeight * investigationLines.length + 5;
             
-            // 9. Current Medications
             addSection('Current Medications');
-            addWrappedText('Medicines', data.onMedicines || 'None', 100);
-            yPos += 2;
+            const medicinesLines = doc.splitTextToSize(data.onMedicines || '-', 170);
+            doc.text(medicinesLines, leftMargin + 2, yPos);
             
-            yPos = pageHeight - 10;
             doc.setFontSize(7);
             doc.setTextColor(100);
-            doc.text('Generated on: ' + new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}), pageWidth/2, yPos, { align: 'center' });
+            doc.text('Generated on: ' + new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}), pageWidth/2, pageHeight - 10, { align: 'center' });
             
             return doc.output('blob');
+        }
+
+        // Generate Hindi PDF as Blob (for sharing)
+        async function generateHindiPDFBlob(data) {
+            try {
+                // Create a temporary container for PDF content
+                const pdfContainer = document.createElement('div');
+                pdfContainer.style.cssText = 'position:absolute;left:-9999px;top:0;width:210mm;background:white;font-family:"Noto Sans Devanagari",Arial,sans-serif;';
+                
+                // Build PDF content HTML with decorative borders (same as generateHindiPDF)
+                pdfContainer.innerHTML = `
+                    <style>
+                        .pdf-page {
+                            position: relative;
+                            padding: 15mm;
+                            background: rgb(255, 253, 245);
+                        }
+                        
+                        .pdf-outer-border {
+                            position: absolute;
+                            top: 3mm;
+                            left: 3mm;
+                            right: 3mm;
+                            bottom: 3mm;
+                            border: 1.5px solid rgb(184, 134, 11);
+                            border-radius: 2mm;
+                        }
+                        
+                        .pdf-inner-border {
+                            position: absolute;
+                            top: 5mm;
+                            left: 5mm;
+                            right: 5mm;
+                            bottom: 5mm;
+                            border: 0.8px solid rgb(218, 165, 32);
+                            border-radius: 1.5mm;
+                        }
+                        
+                        .corner-decoration {
+                            position: absolute;
+                            width: 4mm;
+                            height: 4mm;
+                            background: radial-gradient(circle, rgb(218, 165, 32), rgb(184, 134, 11));
+                            border-radius: 50%;
+                        }
+                        
+                        .corner-decoration::before {
+                            content: '';
+                            position: absolute;
+                            width: 3mm;
+                            height: 3mm;
+                            background: rgb(218, 165, 32);
+                            border-radius: 50%;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                        }
+                        
+                        .corner-tl { top: 7mm; left: 7mm; }
+                        .corner-tr { top: 7mm; right: 7mm; }
+                        .corner-bl { bottom: 7mm; left: 7mm; }
+                        .corner-br { bottom: 7mm; right: 7mm; }
+                        
+                        .top-bar {
+                            position: absolute;
+                            top: 8mm;
+                            left: 15mm;
+                            right: 15mm;
+                            height: 1.5mm;
+                            background: rgb(184, 134, 11);
+                        }
+                        
+                        .bottom-bar {
+                            position: absolute;
+                            bottom: 8mm;
+                            left: 15mm;
+                            right: 15mm;
+                            height: 1.5mm;
+                            background: rgb(184, 134, 11);
+                        }
+                        
+                        .top-dots, .bottom-dots {
+                            position: absolute;
+                            left: 15mm;
+                            right: 15mm;
+                            display: flex;
+                            justify-content: space-around;
+                        }
+                        
+                        .top-dots {
+                            top: 8.75mm;
+                        }
+                        
+                        .bottom-dots {
+                            bottom: 8.75mm;
+                        }
+                        
+                        .dot {
+                            width: 1mm;
+                            height: 1mm;
+                            background: rgb(218, 165, 32);
+                            border-radius: 50%;
+                        }
+                        
+                        .side-dots-left, .side-dots-right {
+                            position: absolute;
+                            top: 25mm;
+                            bottom: 25mm;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-around;
+                        }
+                        
+                        .side-dots-left { left: 7mm; }
+                        .side-dots-right { right: 7mm; }
+                        
+                        .side-dot {
+                            width: 1.2mm;
+                            height: 1.2mm;
+                            background: rgb(218, 165, 32);
+                            border-radius: 50%;
+                        }
+                        
+                        .pdf-content {
+                            position: relative;
+                            z-index: 10;
+                            padding: 5mm;
+                        }
+                    </style>
+                    
+                    <div class="pdf-page">
+                        <!-- Decorative Borders -->
+                        <div class="pdf-outer-border"></div>
+                        <div class="pdf-inner-border"></div>
+                        
+                        <!-- Corner Decorations -->
+                        <div class="corner-decoration corner-tl"></div>
+                        <div class="corner-decoration corner-tr"></div>
+                        <div class="corner-decoration corner-bl"></div>
+                        <div class="corner-decoration corner-br"></div>
+                        
+                        <!-- Top/Bottom Bars -->
+                        <div class="top-bar"></div>
+                        <div class="bottom-bar"></div>
+                        
+                        <!-- Decorative Dots -->
+                        <div class="top-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        <div class="bottom-dots">
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                            <div class="dot"></div>
+                        </div>
+                        
+                        <!-- Side Dots -->
+                        <div class="side-dots-left">
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                        </div>
+                        <div class="side-dots-right">
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                            <div class="side-dot"></div>
+                        </div>
+                        
+                        <!-- Main Content -->
+                        <div class="pdf-content">
+                    <div style="text-align:center;margin-bottom:20px;">
+                        <h1 style="color:#667eea;font-size:24px;margin-bottom:5px;">Patient Information Form</h1>
+                        <p style="color:#666;font-size:12px;">रोगी सूचना फॉर्म</p>
+                    </div>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Wellness Coach Details
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        <strong>ID:</strong> DNW${data.dnwId} | <strong>Name:</strong> ${data.referralName} | <strong>Mobile:</strong> ${data.referralMobile}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Basic Information
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        <strong>Name:</strong> ${data.name} | <strong>DOB:</strong> ${data.dob} | <strong>Age:</strong> ${data.age} years<br>
+                        <strong>Gender:</strong> ${data.gender} | <strong>Father/Husband:</strong> ${data.fatherHusband || '-'}<br>
+                        <strong>Address:</strong> ${data.address}<br>
+                        <strong>Mobile:</strong> ${data.mobile} | <strong>PIN:</strong> ${data.pin}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Physical Test (शारीरिक जांच)
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        <strong>Physical Findings:</strong> ${data.physicalTest}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Vital Signs
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        <strong>BP:</strong> ${data.bp} | <strong>Pulse:</strong> ${data.pulse} bpm | <strong>Temp:</strong> ${data.temp}°F | <strong>RR:</strong> ${data.rr}/min<br>
+                        <strong>SpO2:</strong> ${data.spo2}% | <strong>Weight:</strong> ${data.weight}kg | <strong>Height:</strong> ${data.height}cm | <strong>BMI:</strong> ${data.bmi}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Chief Complaint
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;line-height:1.6;text-align:justify;">
+                        ${data.complaint}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Addiction & Surgery History
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        <strong>Addiction:</strong> ${data.addiction} | <strong>Surgery:</strong> ${data.surgery}${data.surgeryOther ? ' | Other: ' + data.surgeryOther : ''}
+                    </p>
+                    
+                    ${data.gynecoInfo ? `
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Gynecology Information
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;">
+                        ${data.gynecoInfo}
+                    </p>
+                    ` : ''}
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Medical History
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;line-height:1.6;text-align:justify;">
+                        ${data.medicalHistory || '-'}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Recent Investigation
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;line-height:1.6;text-align:justify;">
+                        ${data.investigation || '-'}
+                    </p>
+                    
+                    <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
+                        Current Medications
+                    </div>
+                    <p style="font-size:11px;margin:5px 0;line-height:1.6;text-align:justify;">
+                        ${data.onMedicines || '-'}
+                    </p>
+                    
+                    <p style="text-align:center;font-size:10px;color:#666;margin-top:20px;">
+                        Generated on: ${new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'})}
+                    </p>
+                        </div><!-- Close pdf-content -->
+                    </div><!-- Close pdf-page -->
+                `;
+                
+                document.body.appendChild(pdfContainer);
+                
+                // Wait for fonts to load
+                await document.fonts.ready;
+                
+                // Convert to canvas
+                const canvas = await html2canvas(pdfContainer, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#ffffff'
+                });
+                
+                // Create PDF
+                const { jsPDF } = window.jspdf;
+                const imgWidth = 210;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgData = canvas.toDataURL('image/png');
+                
+                // Add image to PDF
+                let position = 0;
+                const pageHeight = 297;
+                
+                if (imgHeight > pageHeight) {
+                    let heightLeft = imgHeight;
+                    
+                    while (heightLeft > 0) {
+                        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                        heightLeft -= pageHeight;
+                        
+                        if (heightLeft > 0) {
+                            pdf.addPage();
+                            position = -pageHeight;
+                        }
+                    }
+                } else {
+                    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                }
+                
+                // Clean up
+                document.body.removeChild(pdfContainer);
+                
+                // Return blob
+                return pdf.output('blob');
+                
+            } catch (error) {
+                console.error('PDF Blob Generation Error:', error);
+                throw error;
+            }
+        }
+
+        // Wrapper function that chooses PDF generation method based on radio selection
+        async function generatePDFBlob(data) {
+            const selectedLanguage = document.querySelector('input[name="pdfLanguage"]:checked').value;
+            
+            if (selectedLanguage === 'hindi') {
+                return await generateHindiPDFBlob(data);
+            } else {
+                return await generateEnglishPDFBlob(data);
+            }
         }
     </script>
 </body>
