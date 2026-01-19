@@ -895,7 +895,7 @@
                     <div class="form-row two-cols-always">
                         <div class="form-group">
                             <label>DOB (DD-MM-YYYY) या उम्र <span class="required">*</span></label>
-                            <input type="text" id="dob" inputmode="numeric" placeholder="15-03-1990 or just 25" maxlength="10" required 
+                            <input type="text" id="dob" inputmode="numeric" placeholder="15-03-1990 or just 25" required 
                                    onblur="handleDOBInput()">
                         </div>
                         <div class="form-group">
@@ -1339,6 +1339,39 @@
         // Scroll background image for PDF (base64 encoded)
         const scrollBackgroundImage = '/mnt/user-data/uploads/Gemini_Generated_Image_w04lzw04lzw04lzw.png';
         
+        // Helper function to get day name from date (Hindi only)
+        function getDayName(dateString) {
+            // dateString should be in DD-MM-YYYY format
+            const parts = dateString.split('-');
+            if (parts.length !== 3) return '';
+            
+            const day = parseInt(parts[0]);
+            const month = parseInt(parts[1]) - 1; // Month is 0-indexed in JavaScript
+            const year = parseInt(parts[2]);
+            
+            const date = new Date(year, month, day);
+            const daysHindi = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
+            
+            return daysHindi[date.getDay()];
+        }
+        
+        // Function to update DOB field with day name
+        function updateDOBWithDay(dobString) {
+            const dobInput = document.getElementById('dob');
+            if (!dobString || dobString.length < 10) {
+                return;
+            }
+            
+            // Extract just the date part (in case it already has day name)
+            const datePart = dobString.split('(')[0].trim();
+            
+            const dayName = getDayName(datePart);
+            if (dayName) {
+                // Format: DD-MM-YYYY (दिन)
+                dobInput.value = `${datePart} (${dayName})`;
+            }
+        }
+        
         // Smart DOB/Age Handler
         function handleDOBInput() {
             const dobInput = document.getElementById('dob');
@@ -1358,8 +1391,9 @@
                     const birthYear = currentYear - age;
                     const defaultDOB = `01-01-${birthYear}`;
                     
-                    // Set DOB field
+                    // Set DOB field with day name
                     dobInput.value = defaultDOB;
+                    updateDOBWithDay(defaultDOB);
                     
                     // Check gynecology section visibility
                     checkGynecoVisibility();
@@ -1367,6 +1401,9 @@
                     // Show confirmation
                     console.log(`Age ${age} converted to DOB: ${defaultDOB}`);
                 }
+            } else {
+                // If full DOB is entered, add day name
+                updateDOBWithDay(value);
             }
         }
         
@@ -1419,6 +1456,7 @@
                     const calculatedDOB = `${day}-${month}-${birthYear}`;
                     
                     dobInput.value = calculatedDOB;
+                    updateDOBWithDay(calculatedDOB);
                     checkGynecoVisibility();
                     console.log(`Age ${age} → DOB: ${calculatedDOB}`);
                 }
@@ -1451,6 +1489,7 @@
                     }
                     
                     ageInput.value = calculatedAge;
+                    updateDOBWithDay(formattedDOB);
                     checkGynecoVisibility();
                     console.log(`DOB Format (DDMMYY) ${cleanValue} → ${formattedDOB}, Age: ${calculatedAge}`);
                 }
@@ -1480,6 +1519,7 @@
                     }
                     
                     ageInput.value = calculatedAge;
+                    updateDOBWithDay(formattedDOB);
                     checkGynecoVisibility();
                     console.log(`DOB Format (DDMMYYYY) ${cleanValue} → ${formattedDOB}, Age: ${calculatedAge}`);
                 }
@@ -1757,12 +1797,16 @@
             const genderRadio = document.querySelector('input[name="gender"]:checked');
             const menopauseRadio = document.querySelector('input[name="menopause"]:checked');
             
+            // Get DOB value and extract only the date part (remove day name in parentheses)
+            const dobValue = document.getElementById('dob').value;
+            const dobDateOnly = dobValue.split('(')[0].trim(); // Extract "19-01-2000" from "19-01-2000 (बुधवार)"
+            
             const formData = {
                 dnwId: document.getElementById('dnwId').value,
                 referralName: document.getElementById('referralName').value,
                 referralMobile: document.getElementById('referralMobile').value,
                 name: document.getElementById('name').value,
-                dob: document.getElementById('dob').value,
+                dob: dobDateOnly,
                 age: document.getElementById('age').value,
                 gender: genderRadio ? genderRadio.value : '',
                 mobile: document.getElementById('mobile').value,
