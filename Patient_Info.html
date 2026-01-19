@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>रोगी सूचना प्रपत्र </title>
+    <title>रोगी सूचना फॉर्म</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
@@ -370,20 +370,47 @@
             grid-template-columns: 1fr;
             gap: 15px;
         }
+        
+        .form-row.three-cols {
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .form-row.two-cols-always {
+            grid-template-columns: 3fr 1fr;
+            gap: 10px;
+        }
+        
+        .form-row.two-cols-equal {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
 
         @media (min-width: 600px) {
             .form-row {
                 grid-template-columns: 1fr 1fr;
             }
+            
+            .form-row.three-cols {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 15px;
+            }
+            
+            .form-row.two-cols-always {
+                grid-template-columns: 3fr 1fr;
+                gap: 15px;
+            }
+            
+            .form-row.two-cols-equal {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
         }
 
         @media (max-width: 480px) {
-            .button-select-group {
-                flex-direction: column;
-            }
-
             .button-select-label {
-                padding: 10px 14px;
+                padding: 8px 12px;
+                font-size: 13px;
             }
 
             .submit-btn {
@@ -407,6 +434,7 @@
 
         .button-select-group {
             display: flex;
+            flex-wrap: wrap;
             gap: 10px;
             margin-top: 8px;
         }
@@ -772,26 +800,34 @@
         */
 
         .bmi-display {
-            background: linear-gradient(135deg, #FF6B6B 0%, #C44569 100%);
             color: white;
             padding: 15px;
             border-radius: 10px;
             text-align: center;
             margin-top: 10px;
             display: none;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-            animation: pulseGlow 2s ease-in-out infinite;
+            transition: all 0.3s ease;
         }
-
-        @keyframes pulseGlow {
-            0%, 100% {
-                box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
-                transform: scale(1);
-            }
-            50% {
-                box-shadow: 0 6px 25px rgba(255, 107, 107, 0.6);
-                transform: scale(1.02);
-            }
+        
+        /* BMI Category Colors */
+        .bmi-display.underweight {
+            background: linear-gradient(135deg, #fa9a14 0%, #F6C90E 100%);
+            box-shadow: 0 4px 15px rgba(255, 217, 61, 0.4);
+        }
+        
+        .bmi-display.normal {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .bmi-display.overweight {
+            background: linear-gradient(135deg, #FF6B6B 0%, #C44569 100%);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .bmi-display.obese {
+            background: linear-gradient(135deg, #D32F2F 0%, #B71C1C 100%);
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.5);
         }
 
         .bmi-value {
@@ -815,7 +851,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏥 रोगी सूचना प्रपत्र Ver 1.3</h1>
+            <h1>🏥 रोगी सूचना प्रपत्र Ver 1.5</h1>
             <p>Patient Information Form</p>
         </div>
 
@@ -826,14 +862,13 @@
                     <div class="section-title">Wellness Coach Details</div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>DNW ID वेल्नेस कोच का ID नंबर<span class="required">*</span></label>
+                            <label>DNW ID   :          केवल नंबर दर्ज करें<span class="required">*</span></label>
                             <div style="display: flex; align-items: center; gap: 0;">
-                                <span style="font-weight: bold; font-size: 16px; color: #667eea; padding: 12px 10px; background: #f0f0f0; border-radius: 8px 0 0 8px; border: 2px solid #ddd; border-right: none;">DNW</span>
+                                <span style="font-weight: bold; font-size: 16px; color: #667eea; padding: 10px 10px; background: #f0f0f0; border-radius: 8px 0 0 8px; border: 2px solid #ddd; border-right: none;">DNW</span>
                                 <input type="text" id="dnwId" inputmode="numeric" placeholder="12345" required 
                                        style="border-radius: 0 8px 8px 0; flex: 1;"
                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                             </div>
-                            <div class="helper-text">केवल नंबर दर्ज करें</div>
                         </div>
                         <div class="form-group">
                             <label>Name वेल्नेस कोच का नाम <span class="required">*</span></label>
@@ -856,32 +891,36 @@
                             <input type="text" id="name" placeholder="Enter full name" required 
                                    oninput="applyProperCase(this)">
                         </div>
+                    </div>
+                    <div class="form-row two-cols-always">
                         <div class="form-group">
-                            <label>DOB (DD-MM-YYYY) <span class="required">*</span></label>
+                            <label>DOB (DD-MM-YYYY) या उम्र <span class="required">*</span></label>
                             <input type="text" id="dob" inputmode="numeric" placeholder="15-03-1990 or just 25" maxlength="10" required 
                                    onblur="handleDOBInput()">
-                            <div class="helper-text">📅 पूरी तारीख या सिर्फ उम्र (25)</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Age <span class="required">*</span></label>
+                            <input type="text" id="age" inputmode="numeric" placeholder="Age" required oninput="handleAgeInput()">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Age <span class="required">*</span></label>
-                            <input type="text" id="age" inputmode="numeric" placeholder="Age" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Gender <span class="required">*</span></label>
+                            <label>Gender लिंग चुने <span class="required">*</span></label>
                             <div class="button-select-group">
                                 <input type="radio" id="genderMale" name="gender" value="Male" required>
                                 <label for="genderMale" class="button-select-label">👨 Male | पुरुष</label>
                                 
                                 <input type="radio" id="genderFemale" name="gender" value="Female" required>
                                 <label for="genderFemale" class="button-select-label">👩 Female | महिला</label>
+                                
+                                <input type="radio" id="genderOther" name="gender" value="Other" required>
+                                <label for="genderOther" class="button-select-label">⚧ Other | अन्य</label>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>Mobile रोगी का मोबाइल न०<span class="required">*</span></label>
+                            <label>Mobile रोगी का मोबाइल न० <span class="required">*</span></label>
                             <input type="tel" id="mobile" inputmode="numeric" placeholder="10 digit mobile" maxlength="10" required>
                         </div>
                         <div class="form-group">
@@ -966,16 +1005,25 @@
                             <input type="text" id="weight" inputmode="decimal" placeholder="e.g., 70" required>
                         </div>
                     </div>
-                    <div class="form-row">
+                    <div class="form-row two-cols-equal">
+                        <div class="form-group">
+                            <label>(Feet-Inches.MM)</label>
+                            <input type="text" id="heightFeet" inputmode="numeric" placeholder="5-6 or 5-6.5" 
+                                   oninput="handleFeetInput()">
+                        </div>
                         <div class="form-group">
                             <label>Height उचाई (cm) <span class="required">*</span></label>
-                            <input type="text" id="height" inputmode="decimal" placeholder="e.g., 170" required>
+                            <input type="text" id="height" inputmode="decimal" placeholder="e.g., 170" required
+                                   oninput="handleCmInput()">
                         </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group">
                             <div id="bmiDisplay" class="bmi-display">
                                 <div>BMI</div>
                                 <div class="bmi-value" id="bmiValue">--</div>
                                 <div id="bmiCategory">--</div>
+                                <div id="idealWeightRange" style="font-size: 20px; color: #f5f7f7; margin-top: 5px;">--</div>
                             </div>
                         </div>
                     </div>
@@ -1118,9 +1166,9 @@
 
                 <!-- Gynecology Section -->
                 <div class="section">
-                    <div class="section-title">Recent Investigation </div>
+                    <div class="section-title">Recent Investigation</div>
                     <div class="form-group">
-                        <label>Recent Tests/Reports वर्तमान में कराई गई मेडिकल जाँच</label>
+                        <label>Recent Tests/Reports हाल ही में हुए मेडिकल जाँच</label>
                         <textarea id="investigation" placeholder="Blood tests, X-rays, scans, etc."></textarea>
                     </div>
                 </div>
@@ -1143,15 +1191,15 @@
                     <div class="pdf-lang-options">
                         <div class="pdf-lang-option">
                             <input type="radio" id="pdfLangEnglish" name="pdfLanguage" value="english" checked>
-                            <label for="pdfLangEnglish">🇬🇧 English PDF (Normal Text-based)</label>
+                            <label for="pdfLangEnglish">🇬🇧 English PDF</label>
                         </div>
                         <div class="pdf-lang-option">
                             <input type="radio" id="pdfLangHindi" name="pdfLanguage" value="hindi">
-                            <label for="pdfLangHindi">🇮🇳 Hindi PDF (High-Quality Image-based)</label>
+                            <label for="pdfLangHindi">🇮🇳 Hindi PDF</label>
                         </div>
                     </div>
                     <div class="pdf-lang-info">
-                        कोई एक चुने 
+					
                     </div>
                     <div class="hindi-warning" id="hindiWarning">
                         ⚠️ <strong>Hindi text detected!</strong> हिंदी टेक्स्ट मिला! Only Hindi PDF option is available for proper rendering.
@@ -1248,6 +1296,45 @@
             // Initial check in case form is pre-filled
             checkForHindiInForm();
         });
+        
+        /*
+        // Function to populate ideal weight reference table (1 feet to 9.5 feet)
+        // Commented out as table is not displayed
+        function populateWeightReferenceTable() {
+            const tableBody = document.getElementById('weightReferenceTable');
+            let tableHTML = '';
+            
+            // Generate table from 1'0" to 9'6" (increment by 6 inches)
+            for (let feet = 1; feet <= 9; feet++) {
+                for (let inches = 0; inches <= 6; inches += 6) {
+                    // Skip if exceeds 9'6"
+                    if (feet === 9 && inches > 6) break;
+                    
+                    // Calculate height in cm
+                    const heightCm = (feet * 30.48) + (inches * 2.54);
+                    const heightM = heightCm / 100;
+                    
+                    // Calculate ideal weight range (BMI 18.5 - 24.9)
+                    const minWeight = (18.5 * heightM * heightM).toFixed(1);
+                    const maxWeight = (24.9 * heightM * heightM).toFixed(1);
+                    
+                    // Format height display
+                    const heightFeet = `${feet}-${inches}`;
+                    
+                    // Add row to table
+                    tableHTML += `
+                        <tr style="border-bottom: 1px solid #dee2e6;">
+                            <td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">${heightFeet}</td>
+                            <td style="padding: 8px; text-align: center; border: 1px solid #dee2e6;">${heightCm.toFixed(1)} cm</td>
+                            <td style="padding: 8px; text-align: center; border: 1px solid #dee2e6; font-weight: 600; color: #667eea;">${minWeight} - ${maxWeight} kg</td>
+                        </tr>
+                    `;
+                }
+            }
+            
+            tableBody.innerHTML = tableHTML;
+        }
+        */
 
         // Scroll background image for PDF (base64 encoded)
         const scrollBackgroundImage = '/mnt/user-data/uploads/Gemini_Generated_Image_w04lzw04lzw04lzw.png';
@@ -1280,6 +1367,207 @@
                     // Show confirmation
                     console.log(`Age ${age} converted to DOB: ${defaultDOB}`);
                 }
+            }
+        }
+        
+        // Handle Age Input - Calculate DOB based on current date OR accept DOB format
+        function handleAgeInput() {
+            const ageInput = document.getElementById('age');
+            const dobInput = document.getElementById('dob');
+            const ageValue = ageInput.value.trim();
+            
+            // Remove any non-numeric characters
+            const cleanValue = ageValue.replace(/[^\d]/g, '');
+            
+            // Try to detect if it's a date format (6 or 8 digits with valid date ranges)
+            let isDateFormat = false;
+            
+            if (cleanValue.length === 6) {
+                const day = parseInt(cleanValue.substring(0, 2));
+                const month = parseInt(cleanValue.substring(2, 4));
+                // Check if it looks like a valid date (day 1-31, month 1-12)
+                if (day >= 1 && day <= 31 && month >= 1 && month <= 12) {
+                    isDateFormat = true;
+                }
+            } else if (cleanValue.length === 8) {
+                const day = parseInt(cleanValue.substring(0, 2));
+                const month = parseInt(cleanValue.substring(2, 4));
+                const year = parseInt(cleanValue.substring(4, 8));
+                // Check if it looks like a valid date
+                if (day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 1900 && year <= 2100) {
+                    isDateFormat = true;
+                }
+            }
+            
+            // If not a date format, treat as age (any number)
+            if (!isDateFormat && cleanValue.length >= 1) {
+                const age = parseInt(cleanValue);
+                
+                if (age >= 0) {
+                    // Get current date
+                    const today = new Date();
+                    const currentDay = today.getDate();
+                    const currentMonth = today.getMonth() + 1;
+                    const currentYear = today.getFullYear();
+                    
+                    // Calculate birth year (can be negative for very large ages)
+                    const birthYear = currentYear - age;
+                    
+                    // Format DOB as DD-MM-YYYY
+                    const day = String(currentDay).padStart(2, '0');
+                    const month = String(currentMonth).padStart(2, '0');
+                    const calculatedDOB = `${day}-${month}-${birthYear}`;
+                    
+                    dobInput.value = calculatedDOB;
+                    checkGynecoVisibility();
+                    console.log(`Age ${age} → DOB: ${calculatedDOB}`);
+                }
+            } 
+            else if (cleanValue.length === 6 && isDateFormat) {
+                // 6 digits: Treat as DDMMYY format
+                const day = cleanValue.substring(0, 2);
+                const month = cleanValue.substring(2, 4);
+                const yearShort = cleanValue.substring(4, 6);
+                
+                // Convert 2-digit year to 4-digit (assume 1900s for 50-99, 2000s for 00-49)
+                const yearInt = parseInt(yearShort);
+                const fullYear = yearInt >= 50 ? 1900 + yearInt : 2000 + yearInt;
+                
+                // Validate date
+                const dayInt = parseInt(day);
+                const monthInt = parseInt(month);
+                
+                if (dayInt >= 1 && dayInt <= 31 && monthInt >= 1 && monthInt <= 12) {
+                    const formattedDOB = `${day}-${month}-${fullYear}`;
+                    dobInput.value = formattedDOB;
+                    
+                    // Calculate and set age
+                    const birthDate = new Date(fullYear, monthInt - 1, dayInt);
+                    const today = new Date();
+                    let calculatedAge = today.getFullYear() - birthDate.getFullYear();
+                    const monthDiff = today.getMonth() - birthDate.getMonth();
+                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                        calculatedAge--;
+                    }
+                    
+                    ageInput.value = calculatedAge;
+                    checkGynecoVisibility();
+                    console.log(`DOB Format (DDMMYY) ${cleanValue} → ${formattedDOB}, Age: ${calculatedAge}`);
+                }
+            }
+            else if (cleanValue.length === 8 && isDateFormat) {
+                // 8 digits: Treat as DDMMYYYY format
+                const day = cleanValue.substring(0, 2);
+                const month = cleanValue.substring(2, 4);
+                const year = cleanValue.substring(4, 8);
+                
+                // Validate date
+                const dayInt = parseInt(day);
+                const monthInt = parseInt(month);
+                const yearInt = parseInt(year);
+                
+                if (dayInt >= 1 && dayInt <= 31 && monthInt >= 1 && monthInt <= 12 && yearInt >= 1900 && yearInt <= 2100) {
+                    const formattedDOB = `${day}-${month}-${year}`;
+                    dobInput.value = formattedDOB;
+                    
+                    // Calculate and set age
+                    const birthDate = new Date(yearInt, monthInt - 1, dayInt);
+                    const today = new Date();
+                    let calculatedAge = today.getFullYear() - birthDate.getFullYear();
+                    const monthDiff = today.getMonth() - birthDate.getMonth();
+                    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                        calculatedAge--;
+                    }
+                    
+                    ageInput.value = calculatedAge;
+                    checkGynecoVisibility();
+                    console.log(`DOB Format (DDMMYYYY) ${cleanValue} → ${formattedDOB}, Age: ${calculatedAge}`);
+                }
+            }
+        }
+        
+        // Handle Feet-Inches input and convert to CM
+        function handleFeetInput() {
+            const feetInput = document.getElementById('heightFeet');
+            const cmInput = document.getElementById('height');
+            let value = feetInput.value.trim();
+            
+            // Remove any non-numeric characters except dash and decimal point
+            value = value.replace(/[^\d\-.]/g, '');
+            
+            // If user types continuous digits like "56", format as "5-6"
+            if (/^\d{2,}$/.test(value)) {
+                const feet = value.substring(0, value.length - 1);
+                const inches = value.substring(value.length - 1);
+                value = `${feet}-${inches}`;
+                feetInput.value = value;
+            }
+            
+            // Convert to CM - supports formats:
+            // "5-6" (5 feet 6 inches)
+            // "5-6.5" (5 feet 6 inches 5mm)
+            // "5-6.15" (5 feet 6 inches 15mm)
+            const match = value.match(/^(\d+)-(\d+)(?:\.(\d+))?$/);
+            if (match) {
+                const feet = parseInt(match[1]);
+                const inches = parseInt(match[2]);
+                const mmDigits = match[3] || '0'; // Decimal part as millimeters
+                const millimeters = parseInt(mmDigits);
+                
+                // Validate inches (should be 0-11)
+                if (inches >= 0 && inches <= 11) {
+                    // Convert to centimeters:
+                    // 1 foot = 30.48 cm
+                    // 1 inch = 2.54 cm
+                    // 1 mm = 0.1 cm
+                    const cm = (feet * 30.48) + (inches * 2.54) + (millimeters * 0.1);
+                    cmInput.value = Math.round(cm * 10) / 10; // Round to 1 decimal
+                    
+                    // Trigger BMI calculation
+                    calculateBMI();
+                }
+            }
+        }
+        
+        // Handle CM input and convert to Feet-Inches-Millimeters
+        function handleCmInput() {
+            const cmInput = document.getElementById('height');
+            const feetInput = document.getElementById('heightFeet');
+            const cm = parseFloat(cmInput.value);
+            
+            if (cm && cm > 0) {
+                // Convert cm to total inches: 1 cm = 0.393701 inches
+                const totalInches = cm * 0.393701;
+                
+                // Calculate feet
+                const feet = Math.floor(totalInches / 12);
+                
+                // Calculate remaining inches (with decimal)
+                const remainingInches = totalInches - (feet * 12);
+                
+                // Get whole inches
+                const inches = Math.floor(remainingInches);
+                
+                // Get fractional part and convert to millimeters
+                const fractionalInches = remainingInches - inches;
+                const millimeters = Math.round(fractionalInches * 25.4); // 1 inch = 25.4 mm
+                
+                // Update feet field with format: feet-inches or feet-inches.mm
+                if (feet > 0 || inches > 0) {
+                    if (millimeters > 0 && millimeters < 10) {
+                        // Single digit mm: 5-6.5 (means 5mm)
+                        feetInput.value = `${feet}-${inches}.${millimeters}`;
+                    } else if (millimeters >= 10) {
+                        // Double digit mm: 5-6.15 (means 15mm)
+                        feetInput.value = `${feet}-${inches}.${millimeters}`;
+                    } else {
+                        // No mm: 5-6
+                        feetInput.value = `${feet}-${inches}`;
+                    }
+                }
+                
+                // Trigger BMI calculation
+                calculateBMI();
             }
         }
         
@@ -1339,32 +1627,59 @@
             });
         });
 
-        // DOB formatting (allows age shortcut)
+        // DOB formatting (allows age shortcut) with backspace fix
+        let dobLastValue = '';
         document.getElementById('dob').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
+            let value = e.target.value;
+            
+            // Check if user is deleting (backspace/delete)
+            const isDeleting = value.length < dobLastValue.length;
+            
+            // Remove all non-digits for processing
+            let digits = value.replace(/\D/g, '');
             
             // Don't format if user is entering age shortcut (1-2 digits only)
-            if (value.length <= 2) {
-                e.target.value = value;
+            if (digits.length <= 2) {
+                e.target.value = digits;
+                dobLastValue = digits;
                 return;
             }
             
-            // Format as DD-MM-YYYY for full dates
-            if (value.length >= 2) value = value.substring(0, 2) + '-' + value.substring(2);
-            if (value.length >= 5) value = value.substring(0, 5) + '-' + value.substring(5);
-            if (value.length > 10) value = value.substring(0, 10);
-            e.target.value = value;
+            // If deleting and cursor is at a dash, remove the digit before it
+            if (isDeleting && (value.endsWith('-') || value.charAt(value.length - 1) === '-')) {
+                digits = digits.substring(0, digits.length);
+            }
             
-            if (value.length === 10) {
-                const parts = value.split('-');
-                const dob = new Date(parts[2], parts[1] - 1, parts[0]);
+            // Format as DD-MM-YYYY for full dates
+            let formatted = '';
+            if (digits.length >= 1) {
+                formatted = digits.substring(0, Math.min(2, digits.length));
+            }
+            if (digits.length >= 3) {
+                formatted += '-' + digits.substring(2, Math.min(4, digits.length));
+            }
+            if (digits.length >= 5) {
+                formatted += '-' + digits.substring(4, Math.min(8, digits.length));
+            }
+            
+            e.target.value = formatted;
+            dobLastValue = formatted;
+            
+            // Calculate age if complete date
+            if (digits.length === 8) {
+                const dd = digits.substring(0, 2);
+                const mm = digits.substring(2, 4);
+                const yyyy = digits.substring(4, 8);
+                
+                const dob = new Date(yyyy, mm - 1, dd);
                 const today = new Date();
                 let age = today.getFullYear() - dob.getFullYear();
                 const m = today.getMonth() - dob.getMonth();
                 if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+                
                 if (age >= 0 && age <= 150) {
                     document.getElementById('age').value = age;
-                    checkGynecoVisibility(); // Check gynecology visibility
+                    checkGynecoVisibility();
                 }
             }
         });
@@ -1391,14 +1706,40 @@
             if (weight > 0 && height > 0) {
                 const bmi = (weight / ((height/100) * (height/100))).toFixed(1);
                 let category = '';
-                if (bmi < 18.5) category = 'Underweight';
-                else if (bmi < 25) category = 'Normal';
-                else if (bmi < 30) category = 'Overweight';
-                else category = 'Obese';
+                let categoryClass = '';
                 
+                if (bmi < 18.5) {
+                    category = 'Underweight';
+                    categoryClass = 'underweight';
+                } else if (bmi < 25) {
+                    category = 'Normal';
+                    categoryClass = 'normal';
+                } else if (bmi < 30) {
+                    category = 'Overweight';
+                    categoryClass = 'overweight';
+                } else {
+                    category = 'Obese';
+                    categoryClass = 'obese';
+                }
+                
+                // Calculate ideal weight range for healthy BMI (18.5 - 24.9)
+                const heightInMeters = height / 100;
+                const minWeight = (18.5 * heightInMeters * heightInMeters).toFixed(1);
+                const maxWeight = (24.9 * heightInMeters * heightInMeters).toFixed(1);
+                
+                // Update BMI display
+                const bmiDisplay = document.getElementById('bmiDisplay');
                 document.getElementById('bmiValue').textContent = bmi;
                 document.getElementById('bmiCategory').textContent = category;
-                document.getElementById('bmiDisplay').style.display = 'block';
+                document.getElementById('idealWeightRange').textContent = `Ideal: ${minWeight} - ${maxWeight} Kg`;
+                
+                // Remove all category classes
+                bmiDisplay.classList.remove('underweight', 'normal', 'overweight', 'obese');
+                
+                // Add the appropriate category class for color coding
+                bmiDisplay.classList.add(categoryClass);
+                
+                bmiDisplay.style.display = 'block';
             }
         }
 
@@ -1416,7 +1757,7 @@
             const genderRadio = document.querySelector('input[name="gender"]:checked');
             const menopauseRadio = document.querySelector('input[name="menopause"]:checked');
             
-            return {
+            const formData = {
                 dnwId: document.getElementById('dnwId').value,
                 referralName: document.getElementById('referralName').value,
                 referralMobile: document.getElementById('referralMobile').value,
@@ -1449,9 +1790,17 @@
                 spo2: document.getElementById('spo2').value,
                 weight: document.getElementById('weight').value,
                 height: document.getElementById('height').value,
+                heightFeet: document.getElementById('heightFeet').value,
                 bmi: document.getElementById('bmiValue').textContent,
                 bmiCategory: document.getElementById('bmiCategory').textContent
             };
+            
+            // Debug log
+            console.log('Physical Test Value:', formData.physicalTest);
+            console.log('Addiction Value:', formData.addiction);
+            console.log('Surgery Value:', formData.surgery);
+            
+            return formData;
         }
 
         // Handle PDF Download
@@ -1723,7 +2072,7 @@
             doc.setFontSize(8);
             doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
             yPos += lineHeight;
-            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi}`, leftMargin + 2, yPos);
+            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.heightFeet ? `${data.height}cm (${data.heightFeet})` : `${data.height}cm`} | BMI: ${data.bmi}`, leftMargin + 2, yPos);
             yPos += 7;
             
             // Chief Complaint
@@ -1998,7 +2347,7 @@
                     </div>
                     <p style="font-size:11px;margin:5px 0;">
                         <strong>BP:</strong> ${data.bp} | <strong>Pulse:</strong> ${data.pulse} bpm | <strong>Temp:</strong> ${data.temp}°F | <strong>RR:</strong> ${data.rr}/min<br>
-                        <strong>SpO2:</strong> ${data.spo2}% | <strong>Weight:</strong> ${data.weight}kg | <strong>Height:</strong> ${data.height}cm | <strong>BMI:</strong> ${data.bmi}
+                        <strong>SpO2:</strong> ${data.spo2}% | <strong>Weight:</strong> ${data.weight}kg | <strong>Height:</strong> ${data.heightFeet ? `${data.height}cm (${data.heightFeet})` : `${data.height}cm`} | <strong>BMI:</strong> ${data.bmi}
                     </p>
                     
                     <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
@@ -2205,7 +2554,7 @@
             doc.setFontSize(8);
             doc.text(`BP: ${data.bp} | Pulse: ${data.pulse} bpm | Temp: ${data.temp}°F | RR: ${data.rr}/min`, leftMargin + 2, yPos);
             yPos += lineHeight;
-            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.height}cm | BMI: ${data.bmi}`, leftMargin + 2, yPos);
+            doc.text(`SpO2: ${data.spo2}% | Weight: ${data.weight}kg | Height: ${data.heightFeet ? `${data.height}cm (${data.heightFeet})` : `${data.height}cm`} | BMI: ${data.bmi}`, leftMargin + 2, yPos);
             yPos += 7;
             
             addSection('Chief Complaint');
@@ -2465,7 +2814,7 @@
                     </div>
                     <p style="font-size:11px;margin:5px 0;">
                         <strong>BP:</strong> ${data.bp} | <strong>Pulse:</strong> ${data.pulse} bpm | <strong>Temp:</strong> ${data.temp}°F | <strong>RR:</strong> ${data.rr}/min<br>
-                        <strong>SpO2:</strong> ${data.spo2}% | <strong>Weight:</strong> ${data.weight}kg | <strong>Height:</strong> ${data.height}cm | <strong>BMI:</strong> ${data.bmi}
+                        <strong>SpO2:</strong> ${data.spo2}% | <strong>Weight:</strong> ${data.weight}kg | <strong>Height:</strong> ${data.heightFeet ? `${data.height}cm (${data.heightFeet})` : `${data.height}cm`} | <strong>BMI:</strong> ${data.bmi}
                     </p>
                     
                     <div style="background:#667eea;color:white;padding:8px;margin:10px 0;border-radius:5px;font-weight:bold;">
