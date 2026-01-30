@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dr Nature Wellness</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary: #2e7d32;
+      --primary-dark: #1b5e20;
+      --accent: #f57c00;
+      --dark: #333;
+      --shadow: 0 4px 20px rgba(0,0,0,0.12);
+      --header-height: 70px;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #f0f7f4, #e8f5e9);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow);
+      transition: all 0.3s;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.9rem 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .logo span { color: white; }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1.2rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-size: 0.98rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: rgba(255,255,255,0.18);
+      transform: translateY(-2px);
+    }
+
+    main {
+      padding-top: calc(var(--header-height) + 10px);
+    }
+
+    .hero {
+      background: linear-gradient(rgba(46,125,50,0.82), rgba(27,94,32,0.88)),
+                  url('https://images.unsplash.com/photo-1544508282-4b38e2a6c4f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') center/cover;
+      color: white;
+      text-align: center;
+      padding: 6rem 5% 4rem;
+      border-radius: 0 0 30px 30px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      margin-bottom: 0.8rem;
+    }
+
+    .hero p {
+      font-size: clamp(1.1rem, 4vw, 1.4rem);
+      max-width: 800px;
+      margin: 0 auto 2rem;
+    }
+
+    .content-area {
+      display: none;
+      height: calc(100vh - var(--header-height) - 10px);
+      overflow: hidden;
+    }
+
+    .content-area.active {
+      display: block;
+    }
+
+    .iframe-wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .full-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 10;
+      background: rgba(255,255,255,0.9);
+      color: var(--primary);
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+      transition: all 0.3s;
+    }
+
+    .back-btn:hover {
+      background: white;
+      transform: translateY(-2px);
+    }
+
+    .btn {
+      background: var(--accent);
+      color: white;
+      padding: 0.9rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      margin: 0.6rem;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(245,124,0,0.3);
+      display: inline-block;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(245,124,0,0.4);
+    }
+
+    footer {
+      display: none; /* footer को छुपा दिया क्योंकि full view में जरूरत नहीं */
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 0.8rem 4%; }
+      .nav-links { gap: 0.7rem; }
+      .nav-links a { padding: 0.45rem 1rem; font-size: 0.92rem; }
+      .hero { padding: 5rem 5% 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo">Dr Nature <span>Wellness</span></div>
+      <ul class="nav-links">
+        <li><a class="active" data-target="home">होम</a></li>
+        <li><a data-target="products">औषधि सूची</a></li>
+        <li><a data-target="plan">Business Plan</a></li>
+        <li><a data-target="consult">परामर्श</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <div id="home" class="hero content-area active">
+      <h1>Dr Nature Wellness</h1>
+      <p>शुद्ध आयुर्वेदिक औषधियाँ • प्राकृतिक स्वास्थ्य • व्यवसाय अवसर</p>
+      <div>
+        <a class="btn" data-target="products">औषधि सूची</a>
+        <a class="btn" data-target="consult">परामर्श बुक करें</a>
+        <a class="btn" data-target="plan">Business Plan</a>
+      </div>
+    </div>
+
+    <div id="products" class="content-area">
+      <div class="iframe-wrapper">
+        <button class="back-btn" data-target="home">← होम</button>
+        <iframe class="full-iframe" src="https://ayurvadadigitalclinic.github.io/DNW/Catalouge" title="औषधि सूची"></iframe>
+      </div>
+    </div>
+
+    <div id="plan" class="content-area">
+      <div class="iframe-wrapper">
+        <button class="back-btn" data-target="home">← होम</button>
+        <iframe class="full-iframe" src="https://ayurvadadigitalclinic.github.io/DNW/Plan" title="Business Plan"></iframe>
+      </div>
+    </div>
+
+    <div id="consult" class="content-area">
+      <div class="iframe-wrapper">
+        <button class="back-btn" data-target="home">← होम</button>
+        <iframe class="full-iframe" src="https://ayurvadadigitalclinic.github.io/DNW/Patient_Info" title="परामर्श"></iframe>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    const links = document.querySelectorAll('[data-target]');
+    const sections = document.querySelectorAll('.content-area');
+
+    function showSection(targetId) {
+      sections.forEach(sec => sec.classList.remove('active'));
+      document.getElementById(targetId).classList.add('active');
+
+      links.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('data-target') === targetId);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    links.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        showSection(link.getAttribute('data-target'));
+      });
+    });
+  </script>
+</body>
+</html>
