@@ -2,7 +2,7 @@
   "name": "DNW-आयुर्वेद",
   "short_name": "DNW",
   "description": "Dr Nature Wellness - प्राकृतिक आयुर्वेदिक उपचार",
-  "start_url": "./index.html",
+  "start_url": "./Home.html",
   "display": "standalone",
   "background_color": "#1a5c1a",
   "theme_color": "#1a5c1a",
