@@ -1,0 +1,25 @@
+{
+  "name": "Dr Nature Wellness - आयुर्वेद का विज्ञान",
+  "short_name": "Dr Nature",
+  "description": "प्राकृतिक आयुर्वेदिक उपचार और स्वास्थ्य समाधान",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a5c1a",
+  "theme_color": "#1a5c1a",
+  "orientation": "portrait-primary",
+  "scope": "./",
+  "icons": [
+    {
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6e",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6e",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
