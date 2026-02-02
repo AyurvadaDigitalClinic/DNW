@@ -690,6 +690,12 @@
         // Force install on mobile - show fullscreen install prompt
         function forceInstallOnMobile() {
             if (isMobile() && !isStandalone()) {
+                console.log('Mobile device detected, not in standalone mode - showing install screen');
+                
+                // Get logo source
+                const logoImg = document.querySelector('.logo-container img');
+                const logoSrc = logoImg ? logoImg.src : './icon-192.png';
+                
                 // Create overlay
                 const overlay = document.createElement('div');
                 overlay.id = 'installOverlay';
@@ -707,13 +713,15 @@
                     justify-content: center;
                     padding: 20px;
                     text-align: center;
+                    overflow-y: auto;
                 `;
 
                 overlay.innerHTML = `
-                    <div style="max-width: 400px;">
-                        <img src="${document.querySelector('.logo-svg').src}" 
-                             style="width: 120px; height: 120px; margin-bottom: 30px; border-radius: 50%;" 
-                             alt="DNW Logo">
+                    <div style="max-width: 400px; width: 100%;">
+                        <img src="${logoSrc}" 
+                             style="width: 120px; height: 120px; margin-bottom: 30px; border-radius: 50%; display: block; margin-left: auto; margin-right: auto;" 
+                             alt="DNW Logo"
+                             onerror="this.style.display='none'">
                         <h1 style="color: #d4a520; font-size: 28px; margin-bottom: 15px; font-weight: 700;">
                             📲 DNW-आयुर्वेद
                         </h1>
@@ -725,7 +733,7 @@
                             <p style="color: #f5f5dc; font-size: 16px; margin-bottom: 15px;">
                                 📱 <strong>कैसे Install करें:</strong>
                             </p>
-                            <ol style="color: #f5f5dc; font-size: 14px; text-align: left; line-height: 2;">
+                            <ol style="color: #f5f5dc; font-size: 14px; text-align: left; line-height: 2; padding-left: 25px;">
                                 <li>Menu (⋮) खोलें</li>
                                 <li>"Add to Home screen" चुनें</li>
                                 <li>या Address bar में (⊕) icon पर click करें</li>
@@ -741,7 +749,9 @@
                                        font-size: 18px; 
                                        font-weight: 700; 
                                        cursor: pointer;
-                                       box-shadow: 0 4px 15px rgba(212, 165, 32, 0.4);">
+                                       box-shadow: 0 4px 15px rgba(212, 165, 32, 0.4);
+                                       width: 100%;
+                                       max-width: 300px;">
                             ✅ Install किया? यहाँ Click करें
                         </button>
                     </div>
@@ -750,18 +760,26 @@
                 document.body.appendChild(overlay);
 
                 // Hide main content
-                document.querySelector('.header').style.display = 'none';
-                document.querySelector('.main').style.display = 'none';
-                if (document.querySelector('.footer')) {
-                    document.querySelector('.footer').style.display = 'none';
-                }
+                const header = document.querySelector('.header');
+                const main = document.querySelector('.main');
+                const footer = document.querySelector('.footer');
+                
+                if (header) header.style.display = 'none';
+                if (main) main.style.display = 'none';
+                if (footer) footer.style.display = 'none';
+                
+                console.log('Install overlay shown');
+            } else {
+                console.log('Not showing install screen - either desktop or already installed');
             }
         }
 
-        // Run install check on page load
-        window.addEventListener('load', () => {
+        // Run install check after DOM is fully loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', forceInstallOnMobile);
+        } else {
             forceInstallOnMobile();
-        });
+        }
 
         // Capture beforeinstallprompt event
         window.addEventListener('beforeinstallprompt', (e) => {
