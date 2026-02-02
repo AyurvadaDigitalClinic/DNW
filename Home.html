@@ -217,6 +217,84 @@
             padding-bottom: 40px;
         }
 
+        /* Iframe Overlay for Login/Registration Success */
+        .iframe-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(26, 92, 26, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .overlay-message {
+            background: linear-gradient(135deg, #1a5c1a, #2d7a2d);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            border: 3px solid #d4a520;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .overlay-message h3 {
+            color: #d4a520;
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .overlay-message p {
+            color: #f5f5dc;
+            font-size: 16px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .overlay-btn {
+            background: linear-gradient(to right, #d4a520, #f4c430);
+            color: #1a5c1a;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(212, 165, 32, 0.4);
+            width: 100%;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .overlay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 165, 32, 0.6);
+        }
+
+        .overlay-btn-secondary {
+            background: transparent;
+            color: #f5f5dc;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .overlay-btn-secondary:hover {
+            border-color: #d4a520;
+            color: #d4a520;
+        }
+
         @media (min-width: 768px) {
             .main {
                 padding-top: 80px;
@@ -612,10 +690,26 @@
             <iframe src="https://ayurvadadigitalclinic.github.io/DNW/Patient_Info" title="परामर्श"></iframe>
         </div>
         <div id="registration" class="content-section">
-            <iframe src="https://drnaturewellness.com/userpages/UserPreRegistration.aspx" title="DNW Registration"></iframe>
+            <iframe id="registrationFrame" src="https://drnaturewellness.com/userpages/UserPreRegistration.aspx" title="DNW Registration" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
+            <div class="iframe-overlay" id="regOverlay" style="display: none;">
+                <div class="overlay-message">
+                    <h3>🎉 Registration Successful!</h3>
+                    <p>आपका registration पूर्ण हो गया है।</p>
+                    <button onclick="closeOverlayAndNavigate('login')" class="overlay-btn">Login करने के लिए यहाँ Click करें</button>
+                    <button onclick="closeOverlayAndNavigate('home')" class="overlay-btn-secondary">Home पर जाएं</button>
+                </div>
+            </div>
         </div>
         <div id="login" class="content-section">
-            <iframe src="https://drnaturewellness.com/stlogin.aspx" title="DNW Login"></iframe>
+            <iframe id="loginFrame" src="https://drnaturewellness.com/stlogin.aspx" title="DNW Login" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
+            <div class="iframe-overlay" id="loginOverlay" style="display: none;">
+                <div class="overlay-message">
+                    <h3>✅ Login Successful!</h3>
+                    <p>आप successfully login हो गए हैं।</p>
+                    <button onclick="openDashboardExternal()" class="overlay-btn">Dashboard खोलें</button>
+                    <button onclick="closeOverlayAndNavigate('home')" class="overlay-btn-secondary">Home पर जाएं</button>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -1066,6 +1160,74 @@
         window.openInstalledApp = function() {
             // Reload page - if installed, will open in standalone mode
             window.location.reload();
+        };
+
+        // Monitor iframe URL changes for login/registration
+        let registrationFrameLoaded = false;
+        let loginFrameLoaded = false;
+
+        // Check iframe URL periodically (only works for same-origin)
+        setInterval(() => {
+            try {
+                const regSection = document.getElementById('registration');
+                const loginSection = document.getElementById('login');
+
+                // Simple time-based detection after form submission
+                // Show overlay after 5 seconds on login/registration pages
+                if (regSection && regSection.classList.contains('active')) {
+                    if (!registrationFrameLoaded) {
+                        setTimeout(() => {
+                            // Check if still on registration page
+                            if (regSection.classList.contains('active')) {
+                                const userConfirm = confirm('क्या आपका Registration सफल हो गया?\n\n"OK" - हाँ, Login करें\n"Cancel" - नहीं, अभी form भर रहा हूँ');
+                                if (userConfirm) {
+                                    document.getElementById('regOverlay').style.display = 'flex';
+                                }
+                            }
+                        }, 10000); // After 10 seconds
+                        registrationFrameLoaded = true;
+                    }
+                }
+
+                if (loginSection && loginSection.classList.contains('active')) {
+                    if (!loginFrameLoaded) {
+                        setTimeout(() => {
+                            // Check if still on login page
+                            if (loginSection.classList.contains('active')) {
+                                const userConfirm = confirm('क्या आप successfully Login हो गए?\n\n"OK" - हाँ, Dashboard खोलें\n"Cancel" - नहीं, अभी login कर रहा हूँ');
+                                if (userConfirm) {
+                                    document.getElementById('loginOverlay').style.display = 'flex';
+                                }
+                            }
+                        }, 10000); // After 10 seconds
+                        loginFrameLoaded = true;
+                    }
+                }
+            } catch (error) {
+                // Ignore errors
+            }
+        }, 3000);
+
+        // Close overlay and navigate
+        window.closeOverlayAndNavigate = function(section) {
+            // Hide overlays
+            const regOverlay = document.getElementById('regOverlay');
+            const loginOverlay = document.getElementById('loginOverlay');
+            if (regOverlay) regOverlay.style.display = 'none';
+            if (loginOverlay) loginOverlay.style.display = 'none';
+
+            // Reset flags
+            registrationFrameLoaded = false;
+            loginFrameLoaded = false;
+
+            // Navigate to section
+            navigate(section);
+        };
+
+        // Open dashboard in external window
+        window.openDashboardExternal = function() {
+            // Open drnaturewellness dashboard in same window
+            window.location.href = 'https://drnaturewellness.com/';
         };
 
         // Run install check after DOM is fully loaded
