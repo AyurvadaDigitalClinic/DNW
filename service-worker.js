@@ -2,7 +2,7 @@
 const CACHE_NAME = 'dnw-ayurveda-v1';
 const urlsToCache = [
   './',
-  './Home.html',
+  './index.html',
   './manifest.json'
 ];
 
