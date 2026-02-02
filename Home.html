@@ -795,82 +795,125 @@
             const button = document.getElementById('installButton');
             const instructions = document.getElementById('installInstructions');
             const progressContainer = document.getElementById('progressContainer');
-            const progressBar = document.getElementById('progressBar');
-            const progressText = document.getElementById('progressText');
-            const progressStep = document.getElementById('progressStep');
             
-            // Hide button and instructions
+            // Hide button and initial instructions
             button.style.display = 'none';
             instructions.style.display = 'none';
             
-            // Show progress
+            // Show detailed install guide
             progressContainer.style.display = 'block';
-            
-            // Simulate installation progress
-            let progress = 0;
-            const steps = [
-                { progress: 20, text: '📦 App तैयार हो रहा है...' },
-                { progress: 40, text: '⬇️ Files download हो रही हैं...' },
-                { progress: 60, text: '🔧 App install हो रहा है...' },
-                { progress: 80, text: '✨ लगभग हो गया...' },
-                { progress: 100, text: '✅ Installation पूर्ण!' }
-            ];
-            
-            let currentStep = 0;
-            
-            const progressInterval = setInterval(() => {
-                if (currentStep < steps.length) {
-                    progressBar.style.width = steps[currentStep].progress + '%';
-                    progressStep.textContent = steps[currentStep].text;
+            progressContainer.innerHTML = `
+                <div style="background: rgba(212, 165, 32, 0.15); padding: 25px; border-radius: 15px; border: 2px solid #d4a520;">
+                    <p style="color: #d4a520; font-size: 20px; margin-bottom: 20px; font-weight: 700; text-align: center;">
+                        📱 App Install करें
+                    </p>
                     
-                    if (steps[currentStep].progress === 100) {
-                        progressText.textContent = '🎉 Installation सफल!';
-                        progressText.style.color = '#d4a520';
-                        
-                        // Show "Open" button after 1 second
-                        setTimeout(() => {
-                            progressContainer.innerHTML = `
-                                <div style="background: rgba(212, 165, 32, 0.2); padding: 30px; border-radius: 15px; border: 2px solid #d4a520;">
-                                    <p style="color: #d4a520; font-size: 24px; margin-bottom: 15px; font-weight: 700;">
-                                        ✅ App Successfully Installed!
-                                    </p>
-                                    <p style="color: #f5f5dc; font-size: 16px; margin-bottom: 25px; line-height: 1.6;">
-                                        DNW-आयुर्वेद आपके Home Screen पर add हो गया है।<br>
-                                        अब app को खोलने के लिए नीचे click करें।
-                                    </p>
-                                    <button onclick="openInstalledApp()" 
-                                            style="background: linear-gradient(to right, #d4a520, #f4c430); 
-                                                   color: #1a5c1a; 
-                                                   border: none; 
-                                                   padding: 18px 50px; 
-                                                   border-radius: 50px; 
-                                                   font-size: 20px; 
-                                                   font-weight: 700; 
-                                                   cursor: pointer;
-                                                   box-shadow: 0 6px 20px rgba(212, 165, 32, 0.5);
-                                                   width: 100%;
-                                                   max-width: 300px;
-                                                   animation: pulse 2s infinite;">
-                                        🚀 App खोलें
-                                    </button>
-                                    <style>
-                                        @keyframes pulse {
-                                            0%, 100% { transform: scale(1); }
-                                            50% { transform: scale(1.05); }
-                                        }
-                                    </style>
-                                </div>
-                            `;
-                        }, 1000);
-                        
-                        clearInterval(progressInterval);
-                    }
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <p style="color: #f5f5dc; font-size: 15px; font-weight: 600; margin-bottom: 15px;">
+                            🔹 Step 1: Browser Menu खोलें
+                        </p>
+                        <p style="color: #f5f5dc; font-size: 14px; line-height: 1.8;">
+                            • Screen के top-right corner में<br>
+                            • तीन dots (⋮) पर click करें
+                        </p>
+                    </div>
                     
-                    currentStep++;
-                } else {
-                    clearInterval(progressInterval);
-                }
-            }, 800); // Each step takes 800ms
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                        <p style="color: #f5f5dc; font-size: 15px; font-weight: 600; margin-bottom: 15px;">
+                            🔹 Step 2: Install Option चुनें
+                        </p>
+                        <p style="color: #f5f5dc; font-size: 14px; line-height: 1.8;">
+                            • "Add to Home screen" देखें<br>
+                            • या "Install app" option<br>
+                            • उस पर click करें
+                        </p>
+                    </div>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                        <p style="color: #f5f5dc; font-size: 15px; font-weight: 600; margin-bottom: 15px;">
+                            🔹 Step 3: Install Confirm करें
+                        </p>
+                        <p style="color: #f5f5dc; font-size: 14px; line-height: 1.8;">
+                            • "Add" या "Install" button दबाएं<br>
+                            • Home screen पर icon दिखेगा<br>
+                            • उस icon से app खोलें
+                        </p>
+                    </div>
+                    
+                    <p style="color: #d4a520; font-size: 13px; text-align: center; margin-bottom: 20px; font-weight: 600;">
+                        💡 या Address bar में ⊕ (plus) icon देखें
+                    </p>
+                    
+                    <button onclick="checkInstallAndOpen()" 
+                            style="background: linear-gradient(to right, #d4a520, #f4c430); 
+                                   color: #1a5c1a; 
+                                   border: none; 
+                                   padding: 15px 40px; 
+                                   border-radius: 50px; 
+                                   font-size: 17px; 
+                                   font-weight: 700; 
+                                   cursor: pointer;
+                                   box-shadow: 0 4px 15px rgba(212, 165, 32, 0.4);
+                                   width: 100%;
+                                   max-width: 300px;
+                                   margin: 0 auto;
+                                   display: block;">
+                        ✅ Install हो गया? यहाँ Click करें
+                    </button>
+                </div>
+            `;
+        };
+
+        // Check if installed and guide to open
+        window.checkInstallAndOpen = function() {
+            const progressContainer = document.getElementById('progressContainer');
+            
+            progressContainer.innerHTML = `
+                <div style="background: rgba(212, 165, 32, 0.2); padding: 30px; border-radius: 15px; border: 2px solid #d4a520;">
+                    <p style="color: #d4a520; font-size: 24px; margin-bottom: 20px; font-weight: 700; text-align: center;">
+                        🎉 बहुत बढ़िया!
+                    </p>
+                    <p style="color: #f5f5dc; font-size: 16px; margin-bottom: 25px; line-height: 1.8; text-align: center;">
+                        अब <strong>Home Screen</strong> पर जाएं<br>
+                        और <strong>"DNW-आयुर्वेद"</strong> icon<br>
+                        पर click करके app खोलें
+                    </p>
+                    
+                    <div style="background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+                        <p style="color: #d4a520; font-size: 15px; font-weight: 600; margin-bottom: 12px; text-align: center;">
+                            📱 App कैसे खोलें:
+                        </p>
+                        <p style="color: #f5f5dc; font-size: 14px; line-height: 2; text-align: left;">
+                            1️⃣ Home button दबाएं<br>
+                            2️⃣ "DNW-आयुर्वेद" icon ढूंढें<br>
+                            3️⃣ Icon पर click करें<br>
+                            4️⃣ App fullscreen में खुलेगा ✨
+                        </p>
+                    </div>
+                    
+                    <p style="color: #f5f5dc; font-size: 13px; text-align: center; margin-bottom: 20px; font-style: italic;">
+                        ⚠️ Browser में app fullscreen नहीं खुलता<br>
+                        Home screen icon से ही खोलें
+                    </p>
+                    
+                    <button onclick="window.location.reload()" 
+                            style="background: linear-gradient(to right, #d4a520, #f4c430); 
+                                   color: #1a5c1a; 
+                                   border: none; 
+                                   padding: 15px 40px; 
+                                   border-radius: 50px; 
+                                   font-size: 17px; 
+                                   font-weight: 700; 
+                                   cursor: pointer;
+                                   box-shadow: 0 4px 15px rgba(212, 165, 32, 0.4);
+                                   width: 100%;
+                                   max-width: 280px;
+                                   margin: 0 auto;
+                                   display: block;">
+                        🔄 Page Refresh करें
+                    </button>
+                </div>
+            `;
         };
 
         // Open installed app function
