@@ -856,6 +856,279 @@
             display: inline-block;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
+
+        /* Image Upload Section Styles */
+        .image-upload-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+        }
+
+        .image-upload-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .image-upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .image-count {
+            font-size: 14px;
+            color: white;
+            font-weight: 600;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        .images-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .image-preview-card {
+            position: relative;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: move;
+        }
+
+        .image-preview-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-preview-card.drag-over {
+            border: 3px dashed #667eea;
+            background: #f0f4ff;
+        }
+
+        .page-number-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-preview-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .image-controls {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px;
+            background: #f5f5f5;
+        }
+
+        .image-control-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: transform 0.2s;
+        }
+
+        .image-control-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .image-control-btn.move {
+            color: #9C27B0;
+            cursor: grab;
+        }
+
+        .image-control-btn.move:active {
+            cursor: grabbing;
+        }
+
+        .image-control-btn.delete {
+            color: #f44336;
+        }
+
+        .image-control-btn.rotate {
+            color: #2196F3;
+        }
+
+        .image-control-btn.edit {
+            color: #4CAF50;
+        }
+
+        /* Image Editor Modal */
+        .image-editor-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-editor-modal.active {
+            display: flex;
+        }
+
+        .image-editor-content {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .image-editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .image-editor-header h3 {
+            margin: 0;
+            color: #667eea;
+        }
+
+        .close-editor-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .image-editor-canvas-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 400px;
+        }
+
+        #editorCanvas {
+            max-width: 100%;
+            max-height: 60vh;
+            border: 2px solid #ddd;
+            cursor: crosshair;
+        }
+
+        .image-editor-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .editor-tool-btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .editor-tool-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+
+        .editor-tool-btn.active {
+            background: #4CAF50;
+        }
+
+        .text-input-container {
+            display: none;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .text-input-container.active {
+            display: flex;
+        }
+
+        .text-input-container input {
+            flex: 1;
+            min-width: 200px;
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .save-editor-btn {
+            padding: 12px 30px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .save-editor-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -1197,6 +1470,23 @@
                     </div>
                 </div>
 
+                <!-- Medical Images/Documents Section -->
+                <div class="section">
+                    <div class="section-title">📸 Medical Images/Documents | चिकित्सा छवियाँ/दस्तावेज़</div>
+                    <div class="form-group">
+                        <label>Upload or Scan Medical Reports/Prescriptions</label>
+                        <div class="image-upload-container">
+                            <input type="file" id="imageInput" accept="image/*" capture="environment" multiple style="display: none;">
+                            <button type="button" class="image-upload-btn" onclick="document.getElementById('imageInput').click()">
+                                <span style="font-size: 24px;">📷</span>
+                                <span>Scan/Upload Images</span>
+                            </button>
+                            <div class="image-count" id="imageCount">0 images attached</div>
+                        </div>
+                        <div class="images-preview-grid" id="imagesPreviewGrid"></div>
+                    </div>
+                </div>
+
                 <!-- Investigation -->
                 
                 <!-- PDF Language Selection -->
@@ -1246,6 +1536,45 @@
 
     <div id="successMessage" class="success-message">
         ✅ Success!
+    </div>
+
+    <!-- Image Editor Modal -->
+    <div id="imageEditorModal" class="image-editor-modal">
+        <div class="image-editor-content">
+            <div class="image-editor-header">
+                <h3>✏️ Edit Image | छवि संपादित करें</h3>
+                <button class="close-editor-btn" onclick="closeImageEditor()">✖ Close</button>
+            </div>
+            
+            <div class="image-editor-canvas-container">
+                <canvas id="editorCanvas"></canvas>
+            </div>
+            
+            <div class="image-editor-tools">
+                <button class="editor-tool-btn" onclick="rotateImage(-90)">↶ Rotate Left</button>
+                <button class="editor-tool-btn" onclick="rotateImage(90)">↷ Rotate Right</button>
+                <button class="editor-tool-btn" onclick="flipImage('horizontal')">⇄ Flip H</button>
+                <button class="editor-tool-btn" onclick="flipImage('vertical')">⇅ Flip V</button>
+                <button class="editor-tool-btn" id="cropBtn" onclick="toggleCrop()">✂️ Crop</button>
+                <button class="editor-tool-btn" id="drawBtn" onclick="enableDraw()">✏️ Draw</button>
+                <button class="editor-tool-btn" id="textBtn" onclick="toggleTextInput()">📝 Add Text</button>
+                <button class="editor-tool-btn" onclick="resetImage()">🔄 Reset</button>
+            </div>
+            
+            <div class="text-input-container" id="textInputContainer">
+                <input type="text" id="textInput" placeholder="Enter text to add on image...">
+                <input type="color" id="textColor" value="#000000">
+                <select id="textSize">
+                    <option value="16">Small</option>
+                    <option value="24" selected>Medium</option>
+                    <option value="32">Large</option>
+                    <option value="48">Extra Large</option>
+                </select>
+                <button class="editor-tool-btn" onclick="addText()">Add Text</button>
+            </div>
+            
+            <button class="save-editor-btn" onclick="saveEditedImage()">💾 Save Changes</button>
+        </div>
     </div>
 
     <script>
@@ -2182,6 +2511,32 @@
             doc.setTextColor(100);
             doc.text('Generated on: ' + new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}), pageWidth/2, pageHeight - 10, { align: 'center' });
             
+            // Add scanned images as separate full A4 pages
+            if (uploadedImages.length > 0) {
+                for (let i = 0; i < uploadedImages.length; i++) {
+                    doc.addPage();
+                    
+                    try {
+                        const img = new Image();
+                        img.src = uploadedImages[i].edited;
+                        
+                        // Calculate dimensions to fit A4 page while maintaining aspect ratio
+                        const imgWidth = pageWidth - 20; // Leave margins
+                        const imgHeight = pageHeight - 20;
+                        
+                        // Add image to fill the page
+                        doc.addImage(uploadedImages[i].edited, 'PNG', 10, 10, imgWidth, imgHeight);
+                        
+                        // Add page number at bottom
+                        doc.setFontSize(10);
+                        doc.setTextColor(100);
+                        doc.text(`Scanned Document ${i + 1} of ${uploadedImages.length}`, pageWidth/2, pageHeight - 5, { align: 'center' });
+                    } catch (err) {
+                        console.error('Error adding scanned image page:', err);
+                    }
+                }
+            }
+            
             const filename = `${data.dnwId}_${data.name}_${data.mobile}.pdf`;
             doc.save(filename);
         }
@@ -2456,6 +2811,7 @@
                         ${data.onMedicines || '-'}
                     </p>
                     
+                    
                     <p style="text-align:center;font-size:10px;color:#666;margin-top:20px;">
                         Generated on: ${new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'})}
                     </p>
@@ -2504,6 +2860,29 @@
                 } else {
                     // Single page
                     pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                }
+                
+                // Add scanned images as separate full A4 pages
+                if (uploadedImages.length > 0) {
+                    for (let i = 0; i < uploadedImages.length; i++) {
+                        pdf.addPage();
+                        
+                        try {
+                            // Add image to fill the page with margins
+                            const pageW = 210; // A4 width
+                            const pageH = 297; // A4 height
+                            const margin = 10;
+                            
+                            pdf.addImage(uploadedImages[i].edited, 'PNG', margin, margin, pageW - 2*margin, pageH - 2*margin);
+                            
+                            // Add page number at bottom
+                            pdf.setFontSize(10);
+                            pdf.setTextColor(100);
+                            pdf.text(`स्कैन दस्तावेज़ ${i + 1} / ${uploadedImages.length}`, pageW/2, pageH - 5, { align: 'center' });
+                        } catch (err) {
+                            console.error('Error adding scanned image page:', err);
+                        }
+                    }
                 }
                 
                 // Clean up
@@ -2923,6 +3302,7 @@
                         ${data.onMedicines || '-'}
                     </p>
                     
+                    
                     <p style="text-align:center;font-size:10px;color:#666;margin-top:20px;">
                         Generated on: ${new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'})}
                     </p>
@@ -2971,6 +3351,28 @@
                     pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
                 }
                 
+                // Add scanned images as separate full A4 pages
+                if (uploadedImages.length > 0) {
+                    for (let i = 0; i < uploadedImages.length; i++) {
+                        pdf.addPage();
+                        
+                        try {
+                            const pageW = 210; // A4 width
+                            const pageH = 297; // A4 height
+                            const margin = 10;
+                            
+                            pdf.addImage(uploadedImages[i].edited, 'PNG', margin, margin, pageW - 2*margin, pageH - 2*margin);
+                            
+                            // Add page number at bottom
+                            pdf.setFontSize(10);
+                            pdf.setTextColor(100);
+                            pdf.text(`स्कैन दस्तावेज़ ${i + 1} / ${uploadedImages.length}`, pageW/2, pageH - 5, { align: 'center' });
+                        } catch (err) {
+                            console.error('Error adding scanned image page:', err);
+                        }
+                    }
+                }
+                
                 // Clean up
                 document.body.removeChild(pdfContainer);
                 
@@ -2991,6 +3393,430 @@
                 return await generateHindiPDFBlob(data);
             } else {
                 return await generateEnglishPDFBlob(data);
+            }
+        }
+
+        // ============================================
+        // IMAGE HANDLING & EDITING FUNCTIONALITY
+        // ============================================
+        
+        let uploadedImages = [];
+        let currentEditingIndex = -1;
+        let editorCanvas, editorCtx;
+        let currentImage = new Image();
+        let imageHistory = [];
+        let currentRotation = 0;
+        let cropMode = false;
+        let cropStart = null;
+        let cropEnd = null;
+        let drawMode = false;
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+
+        // Initialize canvas
+        document.addEventListener('DOMContentLoaded', function() {
+            editorCanvas = document.getElementById('editorCanvas');
+            editorCtx = editorCanvas.getContext('2d');
+            
+            // Canvas mouse events for drawing and cropping
+            editorCanvas.addEventListener('mousedown', handleCanvasMouseDown);
+            editorCanvas.addEventListener('mousemove', handleCanvasMouseMove);
+            editorCanvas.addEventListener('mouseup', handleCanvasMouseUp);
+        });
+
+        // Handle file input change
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        uploadedImages.push({
+                            original: event.target.result,
+                            edited: event.target.result,
+                            rotation: 0,
+                            name: file.name
+                        });
+                        updateImagesPreview();
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Reset input
+            e.target.value = '';
+        });
+
+        // Update images preview grid
+        function updateImagesPreview() {
+            const grid = document.getElementById('imagesPreviewGrid');
+            const count = document.getElementById('imageCount');
+            
+            count.textContent = `${uploadedImages.length} image${uploadedImages.length !== 1 ? 's' : ''} attached`;
+            
+            grid.innerHTML = '';
+            
+            uploadedImages.forEach((img, index) => {
+                const card = document.createElement('div');
+                card.className = 'image-preview-card';
+                card.draggable = true;
+                card.dataset.index = index;
+                
+                card.innerHTML = `
+                    <div class="page-number-badge">${index + 1}</div>
+                    <img src="${img.edited}" alt="Image ${index + 1}" onclick="openImageEditor(${index})">
+                    <div class="image-controls">
+                        <button class="image-control-btn move" title="Drag to reorder">↕️</button>
+                        <button class="image-control-btn rotate" onclick="quickRotate(${index})" title="Rotate">🔄</button>
+                        <button class="image-control-btn edit" onclick="openImageEditor(${index})" title="Edit">✏️</button>
+                        <button class="image-control-btn delete" onclick="deleteImage(${index})" title="Delete">🗑️</button>
+                    </div>
+                `;
+                
+                // Drag and drop events
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragover', handleDragOver);
+                card.addEventListener('drop', handleDrop);
+                card.addEventListener('dragenter', handleDragEnter);
+                card.addEventListener('dragleave', handleDragLeave);
+                card.addEventListener('dragend', handleDragEnd);
+                
+                grid.appendChild(card);
+            });
+        }
+
+        // Drag and drop handlers for reordering
+        let draggedIndex = null;
+
+        function handleDragStart(e) {
+            draggedIndex = parseInt(this.dataset.index);
+            this.style.opacity = '0.4';
+            e.dataTransfer.effectAllowed = 'move';
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            this.classList.add('drag-over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('drag-over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+            
+            const dropIndex = parseInt(this.dataset.index);
+            
+            if (draggedIndex !== dropIndex) {
+                // Reorder array
+                const draggedItem = uploadedImages[draggedIndex];
+                uploadedImages.splice(draggedIndex, 1);
+                uploadedImages.splice(dropIndex, 0, draggedItem);
+                
+                updateImagesPreview();
+            }
+            
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+            
+            // Remove all drag-over classes
+            document.querySelectorAll('.image-preview-card').forEach(card => {
+                card.classList.remove('drag-over');
+            });
+        }
+
+        // Quick rotate (90 degrees clockwise)
+        function quickRotate(index) {
+            uploadedImages[index].rotation = (uploadedImages[index].rotation + 90) % 360;
+            
+            const img = new Image();
+            img.onload = function() {
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                
+                // Swap dimensions for 90/270 degree rotations
+                if (uploadedImages[index].rotation === 90 || uploadedImages[index].rotation === 270) {
+                    tempCanvas.width = img.height;
+                    tempCanvas.height = img.width;
+                } else {
+                    tempCanvas.width = img.width;
+                    tempCanvas.height = img.height;
+                }
+                
+                tempCtx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
+                tempCtx.rotate((uploadedImages[index].rotation * Math.PI) / 180);
+                tempCtx.drawImage(img, -img.width / 2, -img.height / 2);
+                
+                uploadedImages[index].edited = tempCanvas.toDataURL('image/png');
+                updateImagesPreview();
+            };
+            img.src = uploadedImages[index].original;
+        }
+
+        // Delete image
+        function deleteImage(index) {
+            if (confirm('Delete this image? | इस छवि को हटाएं?')) {
+                uploadedImages.splice(index, 1);
+                updateImagesPreview();
+            }
+        }
+
+        // Open image editor
+        function openImageEditor(index) {
+            currentEditingIndex = index;
+            const modal = document.getElementById('imageEditorModal');
+            modal.classList.add('active');
+            
+            currentImage = new Image();
+            currentImage.onload = function() {
+                editorCanvas.width = currentImage.width;
+                editorCanvas.height = currentImage.height;
+                editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+                editorCtx.drawImage(currentImage, 0, 0);
+                
+                // Save to history
+                imageHistory = [editorCanvas.toDataURL('image/png')];
+                currentRotation = 0;
+            };
+            currentImage.src = uploadedImages[index].edited;
+        }
+
+        // Close image editor
+        function closeImageEditor() {
+            const modal = document.getElementById('imageEditorModal');
+            modal.classList.remove('active');
+            cropMode = false;
+            drawMode = false;
+            document.getElementById('cropBtn').classList.remove('active');
+            document.getElementById('drawBtn').classList.remove('active');
+            document.getElementById('textInputContainer').classList.remove('active');
+        }
+
+        // Rotate image
+        function rotateImage(degrees) {
+            currentRotation += degrees;
+            
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            // For 90 or 270 degree rotations, swap width and height
+            if (Math.abs(degrees) === 90) {
+                tempCanvas.width = editorCanvas.height;
+                tempCanvas.height = editorCanvas.width;
+            } else {
+                tempCanvas.width = editorCanvas.width;
+                tempCanvas.height = editorCanvas.height;
+            }
+            
+            tempCtx.translate(tempCanvas.width / 2, tempCanvas.height / 2);
+            tempCtx.rotate((degrees * Math.PI) / 180);
+            tempCtx.drawImage(editorCanvas, -editorCanvas.width / 2, -editorCanvas.height / 2);
+            
+            editorCanvas.width = tempCanvas.width;
+            editorCanvas.height = tempCanvas.height;
+            editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+            editorCtx.drawImage(tempCanvas, 0, 0);
+            
+            saveToHistory();
+        }
+
+        // Flip image
+        function flipImage(direction) {
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCanvas.width = editorCanvas.width;
+            tempCanvas.height = editorCanvas.height;
+            
+            tempCtx.save();
+            
+            if (direction === 'horizontal') {
+                tempCtx.translate(tempCanvas.width, 0);
+                tempCtx.scale(-1, 1);
+            } else {
+                tempCtx.translate(0, tempCanvas.height);
+                tempCtx.scale(1, -1);
+            }
+            
+            tempCtx.drawImage(editorCanvas, 0, 0);
+            tempCtx.restore();
+            
+            editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+            editorCtx.drawImage(tempCanvas, 0, 0);
+            
+            saveToHistory();
+        }
+
+        // Toggle crop mode
+        function toggleCrop() {
+            cropMode = !cropMode;
+            drawMode = false;
+            document.getElementById('cropBtn').classList.toggle('active');
+            document.getElementById('drawBtn').classList.remove('active');
+            editorCanvas.style.cursor = cropMode ? 'crosshair' : 'default';
+        }
+
+        // Enable draw mode
+        function enableDraw() {
+            drawMode = !drawMode;
+            cropMode = false;
+            document.getElementById('drawBtn').classList.toggle('active');
+            document.getElementById('cropBtn').classList.remove('active');
+            editorCanvas.style.cursor = drawMode ? 'crosshair' : 'default';
+        }
+
+        // Toggle text input
+        function toggleTextInput() {
+            const container = document.getElementById('textInputContainer');
+            container.classList.toggle('active');
+        }
+
+        // Add text to image
+        function addText() {
+            const text = document.getElementById('textInput').value;
+            const color = document.getElementById('textColor').value;
+            const size = document.getElementById('textSize').value;
+            
+            if (!text) {
+                alert('Please enter text! | कृपया टेक्स्ट दर्ज करें!');
+                return;
+            }
+            
+            editorCtx.font = `${size}px Arial`;
+            editorCtx.fillStyle = color;
+            editorCtx.fillText(text, 50, 50);
+            
+            document.getElementById('textInput').value = '';
+            saveToHistory();
+        }
+
+        // Canvas mouse events
+        function handleCanvasMouseDown(e) {
+            const rect = editorCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            if (cropMode) {
+                cropStart = { x, y };
+            } else if (drawMode) {
+                isDrawing = true;
+                lastX = x;
+                lastY = y;
+            }
+        }
+
+        function handleCanvasMouseMove(e) {
+            const rect = editorCanvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            if (cropMode && cropStart) {
+                // Draw crop rectangle
+                const currentData = editorCtx.getImageData(0, 0, editorCanvas.width, editorCanvas.height);
+                editorCtx.putImageData(currentData, 0, 0);
+                
+                editorCtx.strokeStyle = '#00ff00';
+                editorCtx.lineWidth = 2;
+                editorCtx.strokeRect(cropStart.x, cropStart.y, x - cropStart.x, y - cropStart.y);
+            } else if (drawMode && isDrawing) {
+                editorCtx.strokeStyle = '#ff0000';
+                editorCtx.lineWidth = 3;
+                editorCtx.lineCap = 'round';
+                
+                editorCtx.beginPath();
+                editorCtx.moveTo(lastX, lastY);
+                editorCtx.lineTo(x, y);
+                editorCtx.stroke();
+                
+                lastX = x;
+                lastY = y;
+            }
+        }
+
+        function handleCanvasMouseUp(e) {
+            if (cropMode && cropStart) {
+                const rect = editorCanvas.getBoundingClientRect();
+                cropEnd = {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                };
+                
+                performCrop();
+                cropMode = false;
+                cropStart = null;
+                document.getElementById('cropBtn').classList.remove('active');
+            } else if (drawMode) {
+                isDrawing = false;
+                saveToHistory();
+            }
+        }
+
+        // Perform crop
+        function performCrop() {
+            if (!cropStart || !cropEnd) return;
+            
+            const x = Math.min(cropStart.x, cropEnd.x);
+            const y = Math.min(cropStart.y, cropEnd.y);
+            const width = Math.abs(cropEnd.x - cropStart.x);
+            const height = Math.abs(cropEnd.y - cropStart.y);
+            
+            if (width < 10 || height < 10) return;
+            
+            const imageData = editorCtx.getImageData(x, y, width, height);
+            
+            editorCanvas.width = width;
+            editorCanvas.height = height;
+            editorCtx.putImageData(imageData, 0, 0);
+            
+            saveToHistory();
+        }
+
+        // Reset image
+        function resetImage() {
+            if (confirm('Reset all changes? | सभी परिवर्तन रीसेट करें?')) {
+                currentImage.src = uploadedImages[currentEditingIndex].original;
+                currentImage.onload = function() {
+                    editorCanvas.width = currentImage.width;
+                    editorCanvas.height = currentImage.height;
+                    editorCtx.clearRect(0, 0, editorCanvas.width, editorCanvas.height);
+                    editorCtx.drawImage(currentImage, 0, 0);
+                    saveToHistory();
+                };
+            }
+        }
+
+        // Save to history
+        function saveToHistory() {
+            imageHistory.push(editorCanvas.toDataURL('image/png'));
+            if (imageHistory.length > 10) imageHistory.shift();
+        }
+
+        // Save edited image
+        function saveEditedImage() {
+            if (currentEditingIndex >= 0) {
+                uploadedImages[currentEditingIndex].edited = editorCanvas.toDataURL('image/png');
+                updateImagesPreview();
+                closeImageEditor();
+                
+                // Show success message
+                const msg = document.getElementById('successMessage');
+                msg.textContent = '✅ Image saved! | छवि सहेजी गई!';
+                msg.classList.add('active');
+                setTimeout(() => msg.classList.remove('active'), 2000);
             }
         }
     </script>
