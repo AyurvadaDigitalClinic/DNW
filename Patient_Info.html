@@ -1182,17 +1182,17 @@
                                    oninput="applyProperCase(this)">
                         </div>
                     </div>
-                    <div class="form-row" style="display: flex; gap: 10px;">
-                        <div class="form-group" style="flex: 0 0 calc(60% - 10px);">
+                    <div class="form-row" style="display: flex; gap: 5px;">
+                        <div class="form-group" style="flex: 0 0 calc(50% - 5px);">
                             <label>DOB (DD-MM-YYYY) या उम्र <span class="required">*</span></label>
                             <input type="text" id="dob" inputmode="numeric" placeholder="15-03-1990 or just 25" required 
                                    onblur="handleDOBInput()">
                         </div>
-                        <div class="form-group" style="flex: 0 0 calc(25% - 10px);">
+                        <div class="form-group" style="flex: 0 0 calc(30% - 5px);">
                             <label>हिंदी दिवस</label>
                             <input type="text" id="hindiDay" placeholder="दिन" readonly style="background: #f0f0f0; cursor: not-allowed;">
                         </div>
-                        <div class="form-group" style="flex: 0 0 calc(15% - 10px);">
+                        <div class="form-group" style="flex: 0 0 calc(20% - 5px);">
                             <label>Age <span class="required">*</span></label>
                             <input type="text" id="age" inputmode="numeric" placeholder="Age" required oninput="handleAgeInput()">
                         </div>
@@ -1610,6 +1610,11 @@
     </div>
 
     <script>
+        // ============================================
+        // GLOBAL VARIABLES - Declare at top for all functions
+        // ============================================
+        let uploadedImages = [];
+        
         // Hindi text detection function
         function hasHindiText(text) {
             if (!text) return false;
@@ -2324,49 +2329,75 @@
                 // Generate PDF and get blob
                 const pdfBlob = await generatePDFBlob(data);
                 
+                console.log('PDF Blob size:', pdfBlob.size, 'bytes');
+                console.log('PDF Blob type:', pdfBlob.type);
+                
                 // Create filename: ID_Name_Mobile.pdf
                 const filename = `${data.dnwId}_${data.name}_${data.mobile}.pdf`;
                 
-                // Create file from blob
-                const file = new File([pdfBlob], filename, { type: 'application/pdf' });
+                // Convert blob to ArrayBuffer and back to ensure complete data
+                const arrayBuffer = await pdfBlob.arrayBuffer();
+                console.log('ArrayBuffer size:', arrayBuffer.byteLength, 'bytes');
+                
+                // Create file from ArrayBuffer (more reliable)
+                const file = new File([arrayBuffer], filename, { 
+                    type: 'application/pdf',
+                    lastModified: Date.now()
+                });
+                
+                console.log('File created:', file.name, 'size:', file.size, 'type:', file.type);
+                
+                // Verify file is complete
+                if (file.size !== pdfBlob.size) {
+                    console.error('File size mismatch! Blob:', pdfBlob.size, 'File:', file.size);
+                }
                 
                 // Patient info caption/message
                 const caption = `🏥 Patient Information\n\nName: ${data.name}\nAge: ${data.age} years\nGender: ${data.gender}\nMobile: ${data.mobile}`;
                 
-                // Check if Web Share API is available (for mobile)
-                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        title: `Patient: ${data.name}`,
-                        text: caption,
-                        files: [file]
-                    });
-                    
-                    document.getElementById('successMessage').textContent = '✅ Shared Successfully!';
-                    document.getElementById('successMessage').classList.add('active');
-                    setTimeout(() => {
-                        document.getElementById('successMessage').classList.remove('active');
-                    }, 2000);
+                // Check if Web Share API with file sharing is available (works on Windows 10/11 and Mobile)
+                let canShareFile = false;
+                try {
+                    canShareFile = navigator.share && navigator.canShare && navigator.canShare({ files: [file] });
+                    console.log('Can share file:', canShareFile);
+                    console.log('Platform:', navigator.platform, 'UserAgent:', navigator.userAgent);
+                } catch (e) {
+                    console.log('canShare check failed:', e);
+                }
+                
+                if (canShareFile) {
+                    try {
+                        console.log('Attempting to share file via Web Share API...');
+                        await navigator.share({
+                            files: [file],
+                            title: `Patient: ${data.name}`,
+                            text: caption
+                        });
+                        console.log('Share completed successfully');
+                        
+                        document.getElementById('successMessage').textContent = '✅ Shared Successfully!';
+                        document.getElementById('successMessage').classList.add('active');
+                        setTimeout(() => {
+                            document.getElementById('successMessage').classList.remove('active');
+                        }, 2000);
+                    } catch (shareErr) {
+                        console.error('Share failed:', shareErr);
+                        if (shareErr.name === 'AbortError') {
+                            // User cancelled - just show message
+                            document.getElementById('successMessage').textContent = 'Share cancelled';
+                            document.getElementById('successMessage').classList.add('active');
+                            setTimeout(() => {
+                                document.getElementById('successMessage').classList.remove('active');
+                            }, 2000);
+                        } else {
+                            // Real error - try fallback
+                            downloadAndShowShareOptions(pdfBlob, filename, caption);
+                        }
+                    }
                 } else {
-                    // Fallback: Download PDF and open WhatsApp with message
-                    const url = URL.createObjectURL(pdfBlob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = filename;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                    
-                    // Open WhatsApp with formatted message
-                    setTimeout(() => {
-                        const whatsappMessage = `${caption}\n\n📄 File: ${filename}\n\nPDF has been downloaded. Please attach and send it.`;
-                        // Try WhatsApp Web first, then fall back to wa.me
-                        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                        const whatsappURL = isMobile 
-                            ? `whatsapp://send?text=${encodeURIComponent(whatsappMessage)}`
-                            : `https://web.whatsapp.com/send?text=${encodeURIComponent(whatsappMessage)}`;
-                        window.open(whatsappURL, '_blank');
-                    }, 500);
-                    
-                    alert(`📱 PDF downloaded as: ${filename}\n\n${caption}\n\nPlease attach the PDF in WhatsApp.`);
+                    // Web Share API not available - try Windows/Desktop fallback
+                    console.log('Web Share API not available, trying fallback...');
+                    downloadAndShowShareOptions(pdfBlob, filename, caption);
                 }
             } catch (error) {
                 console.error('Share error:', error);
@@ -2375,6 +2406,55 @@
             } finally {
                 document.getElementById('loading').classList.remove('active');
             }
+        }
+        
+        // Helper function to download PDF and show share options
+        async function downloadAndShowShareOptions(pdfBlob, filename, caption) {
+            // First download the PDF
+            const url = URL.createObjectURL(pdfBlob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            
+            setTimeout(() => {
+                URL.revokeObjectURL(url);
+            }, 1000);
+            
+            // Try Windows Share if available (without file - just to open share dialog)
+            if (navigator.share) {
+                try {
+                    // Try sharing just text to open Windows share dialog
+                    await navigator.share({
+                        title: 'Patient Information',
+                        text: `${caption}\n\n📄 PDF file "${filename}" has been downloaded to your Downloads folder.\n\nPlease attach it when sharing.`
+                    });
+                } catch (e) {
+                    console.log('Text share cancelled or not available:', e);
+                    // Open WhatsApp as last resort
+                    openWhatsAppWithMessage(caption, filename);
+                }
+            } else {
+                // No share API - open WhatsApp directly
+                openWhatsAppWithMessage(caption, filename);
+            }
+            
+            // Show success message
+            document.getElementById('successMessage').textContent = `✅ PDF Downloaded: ${filename}`;
+            document.getElementById('successMessage').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('successMessage').classList.remove('active');
+            }, 3000);
+        }
+        
+        // Helper function to open WhatsApp with message
+        function openWhatsAppWithMessage(caption, filename) {
+            const whatsappMessage = `${caption}\n\n📄 File: ${filename}\n\nPDF has been downloaded. Please attach and send it.`;
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const whatsappURL = isMobile 
+                ? `whatsapp://send?text=${encodeURIComponent(whatsappMessage)}`
+                : `https://web.whatsapp.com/send?text=${encodeURIComponent(whatsappMessage)}`;
+            window.open(whatsappURL, '_blank');
         }
 
         // Handle Arattai Share with PDF
@@ -2392,46 +2472,67 @@
                 // Generate PDF and get blob
                 const pdfBlob = await generatePDFBlob(data);
                 
+                console.log('Arattai - PDF Blob size:', pdfBlob.size, 'bytes');
+                
                 // Create filename: ID_Name_Mobile.pdf
                 const filename = `${data.dnwId}_${data.name}_${data.mobile}.pdf`;
                 
-                // Create file from blob
-                const file = new File([pdfBlob], filename, { type: 'application/pdf' });
+                // Convert blob to ArrayBuffer for reliable file creation
+                const arrayBuffer = await pdfBlob.arrayBuffer();
+                
+                // Create file from ArrayBuffer
+                const file = new File([arrayBuffer], filename, { 
+                    type: 'application/pdf',
+                    lastModified: Date.now()
+                });
+                
+                console.log('Arattai - File created:', file.name, 'size:', file.size);
                 
                 // Patient info caption/message
                 const caption = `🏥 Patient Information\n\nName: ${data.name}\nAge: ${data.age} years\nGender: ${data.gender}\nMobile: ${data.mobile}`;
                 
-                // Check if Web Share API is available (for mobile)
-                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    await navigator.share({
-                        title: `Patient: ${data.name}`,
-                        text: caption,
-                        files: [file]
-                    });
-                    
-                    document.getElementById('successMessage').textContent = '✅ Shared Successfully!';
-                    document.getElementById('successMessage').classList.add('active');
-                    setTimeout(() => {
-                        document.getElementById('successMessage').classList.remove('active');
-                    }, 2000);
-                } else {
-                    // Fallback: Download PDF and show Arattai message
-                    const url = URL.createObjectURL(pdfBlob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = filename;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                    
-                    // Open Arattai with formatted message
-                    setTimeout(() => {
-                        const arattaiMessage = `${caption}\n\n📄 File: ${filename}\n\nPDF has been downloaded. Please attach and send it.`;
-                        // Arattai share URL (adjust if needed)
-                        window.open(`https://arattai.com/share?text=${encodeURIComponent(arattaiMessage)}`, '_blank');
-                    }, 500);
-                    
-                    alert(`💬 PDF downloaded as: ${filename}\n\n${caption}\n\nPlease attach the PDF in Arattai.`);
+                // Check if Web Share API with file sharing is available (works on Windows 10/11 and Mobile)
+                let canShareFile = false;
+                try {
+                    canShareFile = navigator.share && navigator.canShare && navigator.canShare({ files: [file] });
+                    console.log('Arattai - Can share file:', canShareFile);
+                } catch (e) {
+                    console.log('Arattai - canShare check failed:', e);
                 }
+                
+                if (canShareFile) {
+                    try {
+                        console.log('Arattai - Attempting to share file...');
+                        await navigator.share({
+                            files: [file],
+                            title: `Patient: ${data.name}`,
+                            text: caption
+                        });
+                        console.log('Arattai - Share completed successfully');
+                        
+                        document.getElementById('successMessage').textContent = '✅ Shared Successfully!';
+                        document.getElementById('successMessage').classList.add('active');
+                        setTimeout(() => {
+                            document.getElementById('successMessage').classList.remove('active');
+                        }, 2000);
+                    } catch (shareErr) {
+                        console.error('Arattai - Share failed:', shareErr);
+                        if (shareErr.name === 'AbortError') {
+                            document.getElementById('successMessage').textContent = 'Share cancelled';
+                            document.getElementById('successMessage').classList.add('active');
+                            setTimeout(() => {
+                                document.getElementById('successMessage').classList.remove('active');
+                            }, 2000);
+                        } else {
+                            downloadAndShowShareOptions(pdfBlob, filename, caption);
+                        }
+                    }
+                } else {
+                    // Fallback: Download PDF and show share options
+                    console.log('Arattai - Web Share API not available, using fallback...');
+                    downloadAndShowShareOptions(pdfBlob, filename, caption);
+                }
+                
             } catch (error) {
                 console.error('Share error:', error);
                 alert('Could not share via Arattai. PDF will be downloaded instead.');
@@ -2631,8 +2732,11 @@
                             yPos = 10;
                         }
                         
-                        // Add image centered with proper aspect ratio
-                        doc.addImage(uploadedImages[i].edited, 'PNG', xPos, yPos, finalWidth, finalHeight);
+                        // Compress image - 95% quality, max 1600px dimension
+                        const compressedData = compressImageForPDF(img, 1600, 0.95);
+                        
+                        // Add compressed image to PDF
+                        doc.addImage(compressedData, 'JPEG', xPos, yPos, finalWidth, finalHeight);
                         
                         // Add page number at bottom
                         doc.setFontSize(10);
@@ -2646,6 +2750,34 @@
             
             const filename = `${data.dnwId}_${data.name}_${data.mobile}.pdf`;
             doc.save(filename);
+        }
+        
+        // Common function to compress image for PDF (used by all PDF generators)
+        function compressImageForPDF(img, maxDimension, quality) {
+            const canvas = document.createElement('canvas');
+            
+            // Calculate target dimensions
+            let targetWidth = img.width;
+            let targetHeight = img.height;
+            
+            if (img.width > maxDimension || img.height > maxDimension) {
+                if (img.width > img.height) {
+                    targetWidth = maxDimension;
+                    targetHeight = Math.round(img.height * (maxDimension / img.width));
+                } else {
+                    targetHeight = maxDimension;
+                    targetWidth = Math.round(img.width * (maxDimension / img.height));
+                }
+            }
+            
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+            
+            return canvas.toDataURL('image/jpeg', quality);
         }
 
         // Generate Hindi PDF using html2canvas (for perfect Hindi rendering)
@@ -3014,7 +3146,10 @@
                                 yPos = margin;
                             }
                             
-                            pdf.addImage(uploadedImages[i].edited, 'PNG', xPos, yPos, finalWidth, finalHeight);
+                            // Compress image - 95% quality, max 1600px dimension
+                            const compressedData = compressImageForPDF(img, 1600, 0.95);
+                            
+                            pdf.addImage(compressedData, 'JPEG', xPos, yPos, finalWidth, finalHeight);
                             
                             // Add page number at bottom
                             pdf.setFontSize(10);
@@ -3175,6 +3310,104 @@
             doc.setFontSize(7);
             doc.setTextColor(100);
             doc.text('Generated on: ' + new Date().toLocaleString('en-IN', {timeZone: 'Asia/Kolkata'}), pageWidth/2, pageHeight - 10, { align: 'center' });
+            
+            // Add scanned images as separate full A4 pages
+            console.log('uploadedImages count:', uploadedImages.length);
+            if (uploadedImages && uploadedImages.length > 0) {
+                for (let i = 0; i < uploadedImages.length; i++) {
+                    console.log('Adding image', i + 1, 'of', uploadedImages.length);
+                    doc.addPage();
+                    
+                    try {
+                        // Get image data
+                        const imgData = uploadedImages[i].edited || uploadedImages[i].original;
+                        console.log('Image data exists:', !!imgData, 'length:', imgData ? imgData.length : 0);
+                        
+                        if (!imgData) {
+                            console.error('No image data for index', i);
+                            continue;
+                        }
+                        
+                        // Load image to get actual dimensions
+                        const img = new Image();
+                        
+                        // Wait for image to load
+                        await new Promise((resolve, reject) => {
+                            img.onload = () => {
+                                console.log('Image loaded:', img.width, 'x', img.height);
+                                resolve();
+                            };
+                            img.onerror = (err) => {
+                                console.error('Image load error:', err);
+                                reject(err);
+                            };
+                            img.src = imgData;
+                        });
+                        
+                        const imgAspectRatio = img.width / img.height;
+                        const maxWidth = pageWidth - 20;
+                        const maxHeight = pageHeight - 30;
+                        const pageAspectRatio = maxWidth / maxHeight;
+                        
+                        let finalWidth, finalHeight, imgXPos, imgYPos;
+                        
+                        if (imgAspectRatio > pageAspectRatio) {
+                            finalWidth = maxWidth;
+                            finalHeight = maxWidth / imgAspectRatio;
+                            imgXPos = 10;
+                            imgYPos = (pageHeight - finalHeight) / 2;
+                        } else {
+                            finalHeight = maxHeight;
+                            finalWidth = maxHeight * imgAspectRatio;
+                            imgXPos = (pageWidth - finalWidth) / 2;
+                            imgYPos = 10;
+                        }
+                        
+                        // Resize and compress image for PDF - balance between quality and file size
+                        let compressedData = imgData;
+                        try {
+                            const canvas = document.createElement('canvas');
+                            
+                            // Calculate target dimensions (max 1600px on longest side for better text clarity)
+                            const maxDimension = 1600;
+                            let targetWidth = img.width;
+                            let targetHeight = img.height;
+                            
+                            if (img.width > maxDimension || img.height > maxDimension) {
+                                if (img.width > img.height) {
+                                    targetWidth = maxDimension;
+                                    targetHeight = Math.round(img.height * (maxDimension / img.width));
+                                } else {
+                                    targetHeight = maxDimension;
+                                    targetWidth = Math.round(img.width * (maxDimension / img.height));
+                                }
+                            }
+                            
+                            canvas.width = targetWidth;
+                            canvas.height = targetHeight;
+                            const ctx = canvas.getContext('2d');
+                            ctx.fillStyle = '#FFFFFF';
+                            ctx.fillRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+                            compressedData = canvas.toDataURL('image/jpeg', 0.95); // 95% quality for clear text
+                            console.log('Image compressed from', img.width, 'x', img.height, 'to', targetWidth, 'x', targetHeight);
+                        } catch (compErr) {
+                            console.log('Compression failed, using original:', compErr);
+                        }
+                        
+                        // Add image to PDF
+                        doc.addImage(compressedData, 'JPEG', imgXPos, imgYPos, finalWidth, finalHeight);
+                        console.log('Image added successfully');
+                        
+                        // Add page number
+                        doc.setFontSize(10);
+                        doc.setTextColor(100);
+                        doc.text(`Scanned Document ${i + 1} of ${uploadedImages.length}`, pageWidth/2, pageHeight - 5, { align: 'center' });
+                    } catch (err) {
+                        console.error('Error adding scanned image page:', err);
+                    }
+                }
+            }
             
             return doc.output('blob');
         }
@@ -3529,7 +3762,10 @@
                                 yPos = margin;
                             }
                             
-                            pdf.addImage(uploadedImages[i].edited, 'PNG', xPos, yPos, finalWidth, finalHeight);
+                            // Compress image - 95% quality, max 1600px dimension
+                            const compressedData = compressImageForPDF(img, 1600, 0.95);
+                            
+                            pdf.addImage(compressedData, 'JPEG', xPos, yPos, finalWidth, finalHeight);
                             
                             pdf.setFontSize(10);
                             pdf.setTextColor(100);
@@ -3542,6 +3778,104 @@
                 
                 // Clean up
                 document.body.removeChild(pdfContainer);
+                
+                // Add scanned images as separate full A4 pages
+                console.log('Hindi PDF - uploadedImages count:', uploadedImages.length);
+                if (uploadedImages && uploadedImages.length > 0) {
+                    for (let i = 0; i < uploadedImages.length; i++) {
+                        console.log('Hindi PDF - Adding image', i + 1, 'of', uploadedImages.length);
+                        pdf.addPage();
+                        
+                        try {
+                            // Get image data
+                            const imgData = uploadedImages[i].edited || uploadedImages[i].original;
+                            console.log('Hindi PDF - Image data exists:', !!imgData);
+                            
+                            if (!imgData) {
+                                console.error('Hindi PDF - No image data for index', i);
+                                continue;
+                            }
+                            
+                            // Load image to get actual dimensions
+                            const img = new Image();
+                            
+                            // Wait for image to load
+                            await new Promise((resolve, reject) => {
+                                img.onload = () => {
+                                    console.log('Hindi PDF - Image loaded:', img.width, 'x', img.height);
+                                    resolve();
+                                };
+                                img.onerror = (err) => {
+                                    console.error('Hindi PDF - Image load error:', err);
+                                    reject(err);
+                                };
+                                img.src = imgData;
+                            });
+                            
+                            const imgAspectRatio = img.width / img.height;
+                            const maxWidth = pageW - 20;
+                            const maxHeight = pageH - 30;
+                            const pageAspectRatio = maxWidth / maxHeight;
+                            
+                            let finalWidth, finalHeight, imgXPos, imgYPos;
+                            
+                            if (imgAspectRatio > pageAspectRatio) {
+                                finalWidth = maxWidth;
+                                finalHeight = maxWidth / imgAspectRatio;
+                                imgXPos = 10;
+                                imgYPos = (pageH - finalHeight) / 2;
+                            } else {
+                                finalHeight = maxHeight;
+                                finalWidth = maxHeight * imgAspectRatio;
+                                imgXPos = (pageW - finalWidth) / 2;
+                                imgYPos = 10;
+                            }
+                            
+                            // Resize and compress image for PDF - balance between quality and file size
+                            let compressedData = imgData;
+                            try {
+                                const canvas = document.createElement('canvas');
+                                
+                                // Calculate target dimensions (max 1600px on longest side for better text clarity)
+                                const maxDimension = 1600;
+                                let targetWidth = img.width;
+                                let targetHeight = img.height;
+                                
+                                if (img.width > maxDimension || img.height > maxDimension) {
+                                    if (img.width > img.height) {
+                                        targetWidth = maxDimension;
+                                        targetHeight = Math.round(img.height * (maxDimension / img.width));
+                                    } else {
+                                        targetHeight = maxDimension;
+                                        targetWidth = Math.round(img.width * (maxDimension / img.height));
+                                    }
+                                }
+                                
+                                canvas.width = targetWidth;
+                                canvas.height = targetHeight;
+                                const ctx = canvas.getContext('2d');
+                                ctx.fillStyle = '#FFFFFF';
+                                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                                ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+                                compressedData = canvas.toDataURL('image/jpeg', 0.95); // 95% quality for clear text
+                                console.log('Hindi PDF - Image compressed from', img.width, 'x', img.height, 'to', targetWidth, 'x', targetHeight);
+                            } catch (compErr) {
+                                console.log('Hindi PDF - Compression failed, using original:', compErr);
+                            }
+                            
+                            // Add image to PDF
+                            pdf.addImage(compressedData, 'JPEG', imgXPos, imgYPos, finalWidth, finalHeight);
+                            console.log('Hindi PDF - Image added successfully');
+                            
+                            // Add page number
+                            pdf.setFontSize(10);
+                            pdf.setTextColor(100);
+                            pdf.text(`स्कैन दस्तावेज़ ${i + 1} / ${uploadedImages.length}`, pageW/2, pageH - 5, { align: 'center' });
+                        } catch (err) {
+                            console.error('Error adding scanned image page:', err);
+                        }
+                    }
+                }
                 
                 // Return blob
                 return pdf.output('blob');
@@ -3567,7 +3901,7 @@
         // IMAGE HANDLING & EDITING FUNCTIONALITY
         // ============================================
         
-        let uploadedImages = [];
+        // uploadedImages is declared at the top of script
         let currentEditingIndex = -1;
         let editorCanvas, editorCtx;
         let currentImage = new Image();
